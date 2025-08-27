@@ -1,0 +1,8 @@
+pg.husalk.com {
+    root * /home/pguser/pg/build
+    file_server
+    encode gzip
+    try_files {path} /index.html
+    
+    reverse_proxy /api/* 127.0.0.1:5000
+}
