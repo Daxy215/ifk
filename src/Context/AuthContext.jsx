@@ -49,8 +49,10 @@ export const AuthProvider = ({ children }) => {
             headers,
         });
         
-        /*if (!res.ok) {
-            let err;
+        if (!res.ok) {
+            return null;
+            
+            /*let err;
             
             try {
                 err = await res.json();
@@ -58,8 +60,8 @@ export const AuthProvider = ({ children }) => {
                 err = { error: t('auth.requestFailed', { status: res.status }) };
             }
             
-            throw new Error(err.error || t('auth.unknownError'));
-        }*/
+            throw new Error(err.error || t('auth.unknownError'));*/
+        }
         
         return res.json();
     };

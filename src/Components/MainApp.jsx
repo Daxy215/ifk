@@ -574,6 +574,8 @@ const MainApp = () => {
             
             const employees = await apiFetch("/api/employees", {method: "GET"});
             
+            if(!employees) return;
+            
             console.log("Employees;", employees);
             
             setEmployees(employees);
