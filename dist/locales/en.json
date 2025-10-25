@@ -1,0 +1,73 @@
+{
+  "auth": {
+    "requestFailed": "Request failed: {{status}}",
+    "unknownError": "Unknown API error",
+    "loginFailed": "Login failed",
+    "registerFailed": "Registration failed",
+    "registerLoginFailed": "Registration succeeded but login failed",
+    "networkError": "Network error. Please try again.",
+    "logoutFailed": "Server logout failed, ignoring",
+    "uploadFailed": "Attachment upload failed"
+  },
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loading": "Loading...",
+    "noAccount": "Don't have an account?"
+  },
+  "register": {
+    "title": "Create New Account",
+    "username": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "submit": "Register",
+    "loading": "Creating account...",
+    "alreadyHaveAccount": "Already have an account?",
+    "login": "Login",
+    "success": "Account created successfully! Please login.",
+    "passwordMismatch": "Passwords do not match"
+  },
+  "dashboard": {
+    "title": "Dashboard"
+  },
+  "projects": {
+    "title": "Projects"
+  },
+  "employees": {
+    "title": "Employees"
+  },
+  "clients": {
+    "__comment":"Details",
+    "backToClients": "Back to clients",
+    "clientProjects": "Client Projects",
+    "projectName": "Project Name",
+    "projectType": "Project Type",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "pending": "Pending",
+    "noProjects": "No projects for this client.",
+    "na": "N/A",
+    
+    "__comment":"View",
+    "manageClients": "Manage Clients",
+    "newClient": "New Client",
+    "searchClient": "Search for a client...",
+    "clientName": "Client/Company Name",
+    "email": "Email",
+    "phone": "Phone",
+    "contactOfficer": "Contact Officer",
+    "actions": "Actions",
+    "edit": "Edit"
+  },
+  "tasks": {
+    "title": "Tasks"
+  },
+  "status": {
+    "active": "Active",
+    "delayed": "Delayed",
+    "review": "Completed - For Review",
+    "completed": "Completed"
+  }
+}

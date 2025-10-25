@@ -13,14 +13,9 @@ Server/node_modules/
 # testing
 coverage/
 
-# production
-build/
-dist/
-
 # docs   
 *.docx
 *.sql
-Caddyfile
 CaddyfileC
 
 # misc
