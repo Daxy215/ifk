@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     
     const getCsrfToken = async() => {
         try {
-            const res = await fetch(`http://localhost:5000/api/csrf-token`, { credentials: "include" });
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/csrf-token`, { credentials: "include" });
             const j = await res.json();
             
             setCsrfToken(j.csrfToken);
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
             headers['Content-Type'] = 'application/json';
         }
         
-        const res = await fetch('http://localhost:5000' + url, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}` + url, {
             ...options,
             credentials: 'include',
             headers,
