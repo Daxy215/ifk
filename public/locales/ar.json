@@ -1,0 +1,73 @@
+{
+  "auth": {
+    "requestFailed": "فشل الطلب: {{status}}",
+    "unknownError": "خطأ غير معروف في API",
+    "loginFailed": "فشل تسجيل الدخول",
+    "registerFailed": "فشل إنشاء الحساب",
+    "registerLoginFailed": "تم إنشاء الحساب بنجاح لكن فشل تسجيل الدخول",
+    "networkError": "خطأ في الشبكة. يرجى المحاولة مرة أخرى.",
+    "logoutFailed": "فشل تسجيل الخروج من الخادم، سيتم التجاهل",
+    "uploadFailed": "فشل رفع المرفقات"
+  },
+  "login": {
+    "title": "تسجيل الدخول",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "loading": "جاري التحميل...",
+    "noAccount": "ليس لديك حساب؟"
+  },
+  "register": {
+    "title": "إنشاء حساب جديد",
+    "username": "الاسم",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "submit": "إنشاء حساب",
+    "loading": "جاري إنشاء الحساب...",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "login": "تسجيل الدخول",
+    "success": "تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول",
+    "passwordMismatch": "كلمات المرور غير متطابقة"
+  },
+  "dashboard": {
+    "title": "لوحة التحكم"
+  },
+  "projects": {
+    "title": "المشاريع"
+  },
+  "employees": {
+    "title": "الموظفين"
+  },
+  "clients": {
+    "__comment":"Details",
+    "backToClients": "العودة إلى العملاء",
+    "clientProjects": "مشاريع العميل",
+    "projectName": "اسم المشروع",
+    "projectType": "نوع المشروع",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "pending": "قيد النظر",
+    "noProjects": "لا توجد مشاريع لهذا العميل.",
+    "na": "N/A",
+    
+    "__comment":"Views",
+    "manageClients": "إدارة العملاء",
+    "newClient": "عميل جديد",
+    "searchClient": "ابحث عن عميل...",
+    "clientName": "اسم العميل/الشركة",
+    "email": "الإيميل",
+    "phone": "رقم الهاتف",
+    "contactOfficer": "مسؤول الاتصال",
+    "actions": "الإجراءات",
+    "edit": "تعديل"
+  },
+  "tasks": {
+    "title": "المهام"
+  },
+  "status": {
+    "active": "نشطة",
+    "delayed": "متأخرة",
+    "review": "مكتملة - للمراجعة",
+    "completed": "منتهية"
+  }
+}

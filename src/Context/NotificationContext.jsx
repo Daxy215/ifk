@@ -8,12 +8,12 @@ export const NotificationProvider = ({ children }) => {
         message: "",
         error: false,
     });
-
+    
     const showNotification = (message, error = false) => {
         setNotification({ show: true, message, error });
         setTimeout(() => setNotification({ show: false, message: "", error: false }), 3000);
     };
-
+    
     return (
         <NotificationContext.Provider value={{ showNotification }}>
             {children}

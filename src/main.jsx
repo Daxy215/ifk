@@ -1,16 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+import './index.css';
+import "./i18n/i18n";
+
+import App from './App';
+
 import { NotificationProvider } from "./Context/NotificationContext";
+import { AuthProvider } from "./Context/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
-        <NotificationProvider>
-            <App />
-        </NotificationProvider>
+        <AuthProvider>
+            <NotificationProvider>
+                <App />
+            </NotificationProvider>
+        </AuthProvider>
     </React.StrictMode>
 );
 

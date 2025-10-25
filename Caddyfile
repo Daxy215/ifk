@@ -1,8 +1,20 @@
-pg.husalk.com {
-    root * /home/pguser/pg/build
-    file_server
-    encode gzip
-    try_files {path} /index.html
-    
-    reverse_proxy /api/* 127.0.0.1:5000
+localhost:80 {
+	root * /home/pguser/pg/ifk-project-management/dist
+	encode gzip
+
+	handle /api/* {
+		request_body {
+			max_size 100MB
+		}
+
+		reverse_proxy 127.0.0.1:5000 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	handle {
+		try_files {path} /index.html
+		file_server
+	}
 }
