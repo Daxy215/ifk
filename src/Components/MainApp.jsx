@@ -326,6 +326,8 @@ const MainApp = () => {
                 method: "GET",
             });
             
+            if(!res) return;
+            
             console.log("got;", res);
             
             const data = await res;
@@ -558,6 +560,8 @@ const MainApp = () => {
             
             const tasks = await apiFetch(`/api/tasks?page=${page}&limit=${limit}`, {method: "GET"});
             
+            if(!tasks) return;
+            
             console.log("Tasks;", tasks);
             
             setTasks(tasks.data);
@@ -590,6 +594,8 @@ const MainApp = () => {
             if(!isAuthenticated) return;
             
             const clients = await apiFetch("/api/clients", {method: "GET"});
+
+            if(!clients) return;
             
             setClients(clients);
         }
