@@ -49,39 +49,18 @@ export const AuthProvider = ({ children }) => {
             headers,
         });
         
-        if (!res.ok) {
-            return null;
-            
-            /*let err;
-            
-            try {
-                err = await res.json();
-            } catch {
-                err = { error: t('auth.requestFailed', { status: res.status }) };
-            }
-            
-            throw new Error(err.error || t('auth.unknownError'));*/
-        }
-        
-        return res.json();
+        const data = await res.json().catch(() => null);
+        return { ok: res.ok, status: res.status, data };
     };
     
-    async function fetchMe(token) {
+    async function fetchMe() {
         try {
-            const res = await apiFetch(`/api/me`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            const j = await res.json();
-
-            if (j.authenticated) {
-                setUser(j.user);
-                setPermissions(j.permissions || []);
-                setRoles(j.roles || []);
+            const res = await apiFetch(`/api/me`, {method: 'GET'});
+            
+            if (res.authenticated) {
+                setUser(res.user);
+                setPermissions(res.permissions || []);
+                setRoles(res.roles || []);
                 setIsAuthenticated(true);
             } else {
                 setUser(null);
@@ -97,45 +76,28 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
         }
     }
-
+    
     useEffect(() => {
-        /*const token = localStorage.getItem('token');
-        const userData = localStorage.getItem('user');*/
-
         async function init() {
-            const token = await getCsrfToken();
-            await fetchMe(token);
+            await fetchMe();
         }
 
         init();
-
-        /*if (token && userData) {
-            setUser(JSON.parse(userData));
-            setIsAuthenticated(true);
-        }
-        
-        setIsLoading(false);*/
     }, []);
-
+    
     const login = async (credentials) => {
-        const tkn = csrfToken || await getCsrfToken();
-
         try {
             const response = await apiFetch('/api/login', {
                 method: 'POST',
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'CSRF-Token': tkn,
-                },
                 body: JSON.stringify(credentials),
             });
-
+            
             if (response.ok) {
-                const newToken = await getCsrfToken();
-                await fetchMe(newToken);
-
+                await fetchMe();
+                
                 setIsAuthenticated(true);
+                
                 return { success: true };
             } else {
                 const error = await response.json();
@@ -145,18 +107,13 @@ export const AuthProvider = ({ children }) => {
             return { success: false, error: t('auth.networkError') };
         }
     };
-
+    
     const register = async (userData) => {
         const tkn = csrfToken || await getCsrfToken();
         
         try {
             const response = await apiFetch('/api/register', {
                 method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'CSRF-Token': tkn,
-                },
                 body: JSON.stringify(userData),
             });
             
@@ -177,52 +134,51 @@ export const AuthProvider = ({ children }) => {
             return { success: false, error: t('auth.networkError') };
         }
     };
-
+    
     const logout = async () => {
         try {
             await apiFetch('/api/logout', {
                 method: 'POST',
-                credentials: 'include',
             });
         } catch (e) {
             console.warn(t('auth.logoutFailed'));
         }
-
+        
         setUser(null);
         setPermissions([]);
         setRoles([]);
         setIsAuthenticated(false);
     };
-
+    
     const uploadAttachments = async (files, { projectId, taskId }) => {
         if (!files || files.length === 0) return [];
-
+        
         const uploaded = [];
-
+        
         for (const file of files) {
             const formData = new FormData();
             formData.append("attachment", file);
-
+            
             if (projectId) formData.append("projectId", projectId);
             if (taskId) formData.append("taskId", taskId);
-
+            
             formData.append("name", file.name);
             formData.append("type", file.type);
-
+            
             const res = await apiFetch("/api/attachments", {
                 method: "POST",
                 body: formData,
             });
-
+            
             if (!res.ok) throw new Error(t('auth.uploadFailed'));
-
+            
             const data = await res;
             uploaded.push(data.attachment);
         }
-
+        
         return uploaded;
     };
-
+    
     const value = {
         user,
         roles,
@@ -236,6 +192,6 @@ export const AuthProvider = ({ children }) => {
         register,
         logout,
     };
-
+    
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
