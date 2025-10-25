@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 
 import { useAuth } from '../../Context/AuthContext';
@@ -81,9 +82,9 @@ const Login = () => {
                 </form>
                 <p className="text-center mt-4">
                     {t("login.noAccount")}{" "}
-                    <a href="/register" className="text-blue-600 hover:underline">
+                    <Link to="/register" className="text-blue-600 hover:underline">
                         {t("register.title")}
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>

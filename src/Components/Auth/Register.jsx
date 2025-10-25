@@ -1,4 +1,6 @@
 ﻿import React, { useState } from 'react';
+import {Link} from "react-router-dom";
+
 import { useAuth } from '../../Context/AuthContext';
 import { useNotification } from '../../Context/NotificationContext';
 import { useTranslation } from 'react-i18next';
@@ -112,9 +114,9 @@ const Register = () => {
                 
                 <p className="text-center mt-4">
                     {t('register.alreadyHaveAccount')}{' '}
-                    <a href="/login" className="text-blue-600 hover:underline">
+                    <Link to="/login" className="text-blue-600 hover:underline">
                         {t('register.login')}
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>
