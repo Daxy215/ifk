@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
             headers,
         });
         
-        if (!res.ok) {
+        /*if (!res.ok) {
             let err;
             
             try {
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
             }
             
             throw new Error(err.error || t('auth.unknownError'));
-        }
+        }*/
         
         return res.json();
     };
