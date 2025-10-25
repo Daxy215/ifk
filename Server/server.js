@@ -57,9 +57,12 @@ app.use(helmet({
     hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
     xContentTypeOptions: true,
     frameguard: { action: 'deny' },
-    crossOriginEmbedderPolicy: true,
+    /*crossOriginEmbedderPolicy: true,
     crossOriginOpenerPolicy: { policy: 'same-origin' },
-    crossOriginResourcePolicy: { policy: 'same-origin' },
+    crossOriginResourcePolicy: { policy: 'same-origin' },*/
+    crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: false,
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
     dnsPrefetchControl: { allow: false },
 }));
 
@@ -68,7 +71,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(cookieParser());
 
-const allowedOrigin = [CLIENT_ORIGIN, "http://localhost:3000"];
+const allowedOrigin = CLIENT_ORIGIN;
 app.use(cors({
     origin: allowedOrigin,
     credentials: true,
