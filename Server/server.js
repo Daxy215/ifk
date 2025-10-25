@@ -1,5 +1,6 @@
 ﻿//require('dotenv').config({ path: '../.env' });
-require('dotenv').config({ path: '/home/pguser/pg/ifk-project-management/.env' });
+//require('dotenv').config({ path: '/home/pguser/pg/ifk-project-management/.env' });
+
 const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
