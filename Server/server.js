@@ -83,7 +83,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 let sslOptions = false;
-const sameSite = 'lax';
+const sameSite = 'none';
 const secure = true;
 
 if (!DB_CA_CERT_PATH) {
