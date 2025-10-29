@@ -269,16 +269,18 @@ const MainApp = () => {
             body: JSON.stringify(clientData),
         });
         
-        setClients(prev => [created, ...prev]);
+        setClients(prev => [created.data, ...prev]);
         setShowNewClientModal(false);
     };
     
     const handleUpdateClient = async (updatedClientData) => {
-        const updated = await apiFetch(`/api/clients/${clientToEdit.client_id}`, {
+        const res = await apiFetch(`/api/clients/${clientToEdit.client_id}`, {
             method: "PUT",
             body: JSON.stringify(updatedClientData),
         });
-
+        
+        const updated = res.data;
+        
         setClients(prev => prev.map(c => c.client_id === updated.client_id ? updated : c));
         setShowEditClientModal(false);
         setClientToEdit(null);
@@ -600,7 +602,7 @@ const MainApp = () => {
             
             const res = await apiFetch("/api/clients", {method: "GET"});
             
-            if(!res) return;
+            if(!res.ok) return;
             
             const clients = res.data;
             

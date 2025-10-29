@@ -7,6 +7,9 @@ export default ({ mode }) => {
     
     return defineConfig({
         plugins: [react()],
+        build: {
+            sourcemap: true,
+        },
         server: {
             port: parseInt(env.VITE_PORT) || 3000,
             proxy: {
