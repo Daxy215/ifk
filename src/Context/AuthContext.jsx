@@ -57,10 +57,12 @@ export const AuthProvider = ({ children }) => {
         try {
             const res = await apiFetch(`/api/me`, {method: 'GET'});
             
-            if (res.authenticated) {
-                setUser(res.user);
-                setPermissions(res.permissions || []);
-                setRoles(res.roles || []);
+            const data = res.data;
+            
+            if (data.authenticated) {
+                setUser(data.user);
+                setPermissions(data.permissions || []);
+                setRoles(data.roles || []);
                 setIsAuthenticated(true);
             } else {
                 setUser(null);
@@ -169,7 +171,7 @@ export const AuthProvider = ({ children }) => {
             
             if (!res.ok) throw new Error(t('auth.uploadFailed'));
             
-            uploaded.push(res.attachment);
+            uploaded.push(res.data.attachment);
         }
         
         return uploaded;

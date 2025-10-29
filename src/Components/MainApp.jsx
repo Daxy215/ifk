@@ -327,19 +327,19 @@ const MainApp = () => {
                 method: "GET",
             });
             
-            if(!res) return;
+            if(!res.ok) return;
             
-            console.log("got;", res);
+            const projects = res.data;
             
-            const data = await res;
+            console.log("projects;", projects);
             
             if (pageNum === 1) {
-                setProjects(data.data);
+                setProjects(projects);
             } else {
-                setProjects((prev) => [...prev, ...data.data]);
+                setProjects((prev) => [...prev, ...projects.data]);
             }
             
-            setPagination(data.pagination);
+            setPagination(projects.pagination);
         } catch (err) {
            console.error(err);
         }
@@ -559,9 +559,11 @@ const MainApp = () => {
         async function loadTasks() {
             if (!isAuthenticated) return;
             
-            const tasks = await apiFetch(`/api/tasks?page=${page}&limit=${limit}`, {method: "GET"});
+            const res = await apiFetch(`/api/tasks?page=${page}&limit=${limit}`, {method: "GET"});
             
-            if(!tasks) return;
+            if(!res.ok) return;
+            
+            const tasks = res.data;
             
             console.log("Tasks;", tasks);
             
@@ -577,9 +579,11 @@ const MainApp = () => {
         async function loadEmployees() {
             if (!isAuthenticated) return;
             
-            const employees = await apiFetch("/api/employees", {method: "GET"});
+            const res = await apiFetch("/api/employees", {method: "GET"});
             
-            if(!employees) return;
+            if(!res.ok) return;
+            
+            const employees = res.data;
             
             console.log("Employees;", employees);
             
@@ -594,9 +598,11 @@ const MainApp = () => {
         async function loadClients() {
             if(!isAuthenticated) return;
             
-            const clients = await apiFetch("/api/clients", {method: "GET"});
+            const res = await apiFetch("/api/clients", {method: "GET"});
             
-            if(!clients) return;
+            if(!res) return;
+            
+            const clients = res.data;
             
             setClients(clients);
         }
