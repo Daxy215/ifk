@@ -55,7 +55,7 @@ const Register = () => {
     };
     
     return (
-        <div dir="rtl" className="font-sans bg-gray-100 center-vh">
+        <div className="font-sans bg-gray-100 center-vh">
             <div className="bg-white register-card">
                 <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">{t('register.title')}</h2>
                 <form onSubmit={handleSubmit}>

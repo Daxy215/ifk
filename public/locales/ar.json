@@ -11,8 +11,11 @@
   },
   "login": {
     "title": "تسجيل الدخول",
+    "success": "تم تسجيل الدخول بنجاح!",
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
+    "submitButton": "تسجيل الدخول",
+    "demoButton":  "Demo",
     "loading": "جاري التحميل...",
     "noAccount": "ليس لديك حساب؟"
   },

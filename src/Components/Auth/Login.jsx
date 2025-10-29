@@ -13,23 +13,29 @@ const Login = () => {
         password: '',
     });
     
-    const [isLoading, setIsLoading] = useState(false);
     const { login } = useAuth();
     const { showNotification } = useNotification();
     
+    const loginAsDemo = async () => {
+        const result = await login({ email: "demo@gmail.com", password: "demo" });
+        
+        if (result.success) {
+            showNotification(t("login.success"));
+        } else {
+            showNotification(result.error, true);
+        }
+    }
+    
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
+        e.preventDefault()
         
         const result = await login(credentials);
         
         if (result.success) {
-            showNotification('تم تسجيل الدخول بنجاح!');
+            showNotification(t("login.success"));
         } else {
             showNotification(result.error, true);
         }
-        
-        setIsLoading(false);
     };
     
     const handleChange = (e) => {
@@ -40,7 +46,7 @@ const Login = () => {
     };
     
     return (
-        <div dir="rtl" className="font-sans bg-gray-100 center-vh">
+        <div className="font-sans bg-gray-100 center-vh">
             <div className="bg-white login-card">
                 <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
                     {t("login.title")}
@@ -75,13 +81,19 @@ const Login = () => {
                     <button
                         type="submit"
                         className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        disabled={isLoading}
                     >
-                        {isLoading ? t("login.loading") : t("login.title")}
+                        {t("login.submitButton")}
+                    </button>
+                    <button
+                        onClick={() => loginAsDemo()}
+                        className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        {t("login.demoButton")}
                     </button>
                 </form>
                 <p className="text-center mt-4">
-                    {t("login.noAccount")}{" "}
+                    {t("login.noAccount")}
+                    
                     <Link to="/register" className="text-blue-600 hover:underline">
                         {t("register.title")}
                     </Link>
@@ -89,7 +101,7 @@ const Login = () => {
             </div>
         </div>
         
-        /*<div dir="rtl" className="font-sans bg-gray-100 min-h-screen flex items-center justify-center">
+        /*<div className="font-sans bg-gray-100 min-h-screen flex items-center justify-center">
             <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
                 <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">تسجيل الدخول</h2>
                 <form onSubmit={handleSubmit}>

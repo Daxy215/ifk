@@ -11,8 +11,11 @@
   },
   "login": {
     "title": "Login",
+    "success": "Logged in successfully",
     "email": "Email",
     "password": "Password",
+    "submitButton": "Login",
+    "demoButton":  "Demo",
     "loading": "Loading...",
     "noAccount": "Don't have an account?"
   },

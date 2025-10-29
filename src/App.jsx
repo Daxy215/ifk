@@ -16,15 +16,19 @@ function App() {
     
     //let isAuthenticated = true;
     
+    // Update page direction based on language
     useEffect(() => {
         // Set HTML direction based on current language
+        
+        // Only Arabic and English will ever exist,
+        // so no need for further checks
         document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
-        console.log(document.documentElement.dir);
+        //console.log(document.documentElement.dir);
     }, [i18n.language]);
     
-    if (isLoading) {
+    /*if (isLoading) {
         return <div className="loading">Loading...</div>;
-    }
+    }*/
     
     return (
         <div className="App">

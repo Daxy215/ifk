@@ -10,12 +10,12 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const { t } = useTranslation();
     
-    const [user, setUser] = useState(null);
-    const [permissions, setPermissions] = useState([]);
-    const [roles, setRoles] = useState([]);
+    const [user                   , setUser           ] = useState(null );
+    const [permissions      , setPermissions    ] = useState([]   );
+    const [roles            , setRoles          ] = useState([]   );
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [csrfToken, setCsrfToken]           = useState(null);
+    const [isLoading      , setIsLoading      ] = useState(true );
+    const [csrfToken              , setCsrfToken      ] = useState(null );
     
     const getCsrfToken = async() => {
         try {
@@ -89,7 +89,6 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await apiFetch('/api/login', {
                 method: 'POST',
-                credentials: 'include',
                 body: JSON.stringify(credentials),
             });
             
@@ -109,8 +108,6 @@ export const AuthProvider = ({ children }) => {
     };
     
     const register = async (userData) => {
-        const tkn = csrfToken || await getCsrfToken();
-        
         try {
             const response = await apiFetch('/api/register', {
                 method: 'POST',
@@ -172,8 +169,7 @@ export const AuthProvider = ({ children }) => {
             
             if (!res.ok) throw new Error(t('auth.uploadFailed'));
             
-            const data = await res;
-            uploaded.push(data.attachment);
+            uploaded.push(res.attachment);
         }
         
         return uploaded;

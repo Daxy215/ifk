@@ -1,7 +1,7 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
-import { Briefcase, Users, Building } from 'lucide-react';
+﻿import React, {useEffect, useMemo, useState} from 'react';
+import {Briefcase, Building, Users} from 'lucide-react';
 
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 // rename to Dashboard!
 import ProjectDashboard from './Projects/ProjectDashboard';
@@ -23,7 +23,7 @@ import EditClientModal from './Modals/EditClientModal';
 import ActivateCaseModal from './Modals/ActivateCaseModal';
 import AddTaskAttachmentModal from './Modals/AddTaskAttachmentModal';
 
-import { useAuth } from '../Context/AuthContext';
+import {useAuth} from '../Context/AuthContext';
 
 /*const initialProjects = [
     { id: 1, clientId: 1, type: 'قضية', number: '1234567', name: 'قضية تجارية هامة تتعلق بنزاع على علامة تجارية دولية.', assigneeId: 1, status: 'قيد النظر', tasks: [1, 2], closedAt: null, attachments: [{name: 'عقد التأسيس.pdf', type: 'document'}, {name: 'ملاحظات الاجتماع الأول', type: 'note'}] },
@@ -94,17 +94,18 @@ const MainApp = () => {
     const [projectFilter, setProjectFilter] = useState('active');
     const [taskFilter, setTaskFilter] = useState({ assignee: 'all', status: 'all' });
     
-    // TODO; Make this request from server
+    // TODO; Make this request from server (Maybe?)
     const selectedProject = useMemo(() => projects.find(p => p.project_id === selectedProjectId), [projects, selectedProjectId]);
     
     const selectedProjectTasks = useMemo(() => {
-        const filtered = tasks.filter(t => t.project_id === selectedProjectId);
-        return filtered;
+        return tasks.filter(t => t.project_id === selectedProjectId);
     }, [tasks, selectedProjectId]);
     
     const selectedEmployee = useMemo(() => employees.find(e => e.employee_id === selectedEmployeeId), [employees, selectedEmployeeId]);
     const selectedClient = useMemo(() => clients.find(c => c.client_id === selectedClientId), [clients, selectedClientId]);
     
+    // TODO; Copy this for Tasks
+    // TODO; Rename to 'projectsPage' or smth?
     const [page, setPage] = useState(1);
     const [limit] = useState(10);
     const [pagination, setPagination] = useState(null);
@@ -285,11 +286,11 @@ const MainApp = () => {
     
     const handleAddTaskAttachment = async (files) => {
         if (!taskToAttachToId) return;
-
+        
         const uploaded = await uploadAttachments(files, { taskId: taskToAttachToId });
-
+        
         console.log("UPLOADED;", uploaded);
-
+        
         setTasks(prev =>
             prev.map(t =>
                 t.task_id === taskToAttachToId
@@ -314,10 +315,10 @@ const MainApp = () => {
     
     const handleEditEmployee = (employeeId) => { setEmployeeToEdit(employees.find(e => e.employee_id === employeeId)); setShowEditEmployeeModal(true); };
     const viewEmployeeDetails = (employeeId) => { setSelectedEmployeeId(employeeId); setActiveView('employeeDetails'); };
-
+    
     const handleEditClient = (clientId) => { setClientToEdit(clients.find(c => c.client_id === clientId)); setShowEditClientModal(true); };
     const viewClientDetails = (clientId) => { setSelectedClientId(clientId); setActiveView('clientDetails'); };
-
+    
     const fetchProjects = async (pageNum = 1) => {
         //setLoading(true);
         
@@ -342,7 +343,7 @@ const MainApp = () => {
         } catch (err) {
            console.error(err);
         }
-
+        
         //setLoading(false);
     };
     
@@ -594,7 +595,7 @@ const MainApp = () => {
             if(!isAuthenticated) return;
             
             const clients = await apiFetch("/api/clients", {method: "GET"});
-
+            
             if(!clients) return;
             
             setClients(clients);
@@ -604,7 +605,7 @@ const MainApp = () => {
     }, [])
     
     return (
-        <div dir="rtl" className="font-sans bg-gray-100 min-h-screen text-gray-900">
+        <div className="font-sans bg-gray-100 min-h-screen text-gray-900">
             <div className="layout">
                 
                 {/* Sidebar */}
