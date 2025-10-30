@@ -629,12 +629,12 @@ app.get('/api/tasks', requirePermission('view_site'), async (req, res) => {
     try {
         const perms = req.session.permissions || [];
         const isPriv = perms.includes('manage_users') || perms.includes('edit_content');
-
+        
         let page = parseInt(req.query.page, 10) || 1;
         let limit = parseInt(req.query.limit, 10) || 10;
         if (limit > 10) limit = 10; // safety cap
         const offset = (page - 1) * limit;
-
+        
         const params = [];
         let sql = `
           SELECT t.*,
@@ -654,14 +654,14 @@ app.get('/api/tasks', requirePermission('view_site'), async (req, res) => {
           LEFT JOIN employees e ON t.assignee_id = e.employee_id
           LEFT JOIN attachments a ON a.task_id = t.task_id
         `;
-
+        
         // WHERE t.deleted_at IS NULL
-
+        
         if (!isPriv) {
             sql += ` AND t.created_by = $1`;
             params.push(req.session.userId);
         }
-
+        
         sql += ` GROUP BY t.task_id, p.name, e.name
                  ORDER BY t.task_id DESC
                  LIMIT ${limit} OFFSET ${offset}`;

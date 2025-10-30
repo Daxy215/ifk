@@ -336,7 +336,7 @@ const MainApp = () => {
             console.log("projects;", projects);
             
             if (pageNum === 1) {
-                setProjects(projects);
+                setProjects(projects.data);
             } else {
                 setProjects((prev) => [...prev, ...projects.data]);
             }
