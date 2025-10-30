@@ -17,7 +17,7 @@ const Login = () => {
     const { showNotification } = useNotification();
     
     const loginAsDemo = async () => {
-        const result = await login({ email: "demo@gmail.com", password: "demo" });
+        const result = await login({ email: "demo@gmail.com", password: "123" });
         
         if (result.success) {
             showNotification(t("login.success"));
