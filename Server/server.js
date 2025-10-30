@@ -341,8 +341,6 @@ app.post('/api/login', loginLimiter, async (req, res, next) => {
             
             await new Promise(resolve => req.session.save(resolve));
             
-            console.log("so; ", req.session);
-            
             res.json({
                 ok: true,
                 user: { username: user.username, userId: user.user_id },
@@ -432,12 +430,12 @@ app.get('/api/projects', requirePermission('view_site'), async (req, res) => {
         const isPriv =
             req.session.permissions?.includes('manage_users') ||
             req.session.permissions?.includes('edit_content');
-
+        
         let page = parseInt(req.query.page, 10) || 1;
         let limit = parseInt(req.query.limit, 10) || 10;
         if (limit > 10) limit = 10; // safety cap
         const offset = (page - 1) * limit;
-
+        
         let sql = `
             SELECT p.*,
                    c.name AS client_name,
@@ -455,34 +453,38 @@ app.get('/api/projects', requirePermission('view_site'), async (req, res) => {
                      LEFT JOIN clients c ON p.client_id = c.client_id
                      LEFT JOIN employees e ON p.assignee_id = e.employee_id
                      LEFT JOIN attachments a ON a.project_id = p.project_id
-            WHERE p.deleted_at IS NULL
+            
         `;
-
+        
+        // WHERE p.deleted_at IS NULL
+        
         let params = [];
         if (!isPriv) {
             sql += ` AND p.assignee_id = $1`;
             params.push(req.session.userId);
         }
-
+        
         sql += ` GROUP BY p.project_id, c.name, e.name
                  ORDER BY p.project_id DESC
                  LIMIT ${limit} OFFSET ${offset}`;
-
+        
         const r = await query(sql, params);
-
+        
         let countSql = `
             SELECT COUNT(*) AS total
             FROM projects p
-            WHERE p.deleted_at IS NULL
         `;
+        
+        //  WHERE p.deleted_at IS NULL
+        
         let countParams = [];
         if (!isPriv) {
             countSql += ` AND p.assignee_id = $1`;
             countParams.push(req.session.userId);
         }
-
+        
         const countResult = await query(countSql, countParams);
-
+        
         res.json({
             data: r.rows,
             pagination: {
@@ -651,8 +653,9 @@ app.get('/api/tasks', requirePermission('view_site'), async (req, res) => {
           LEFT JOIN projects p ON t.project_id = p.project_id
           LEFT JOIN employees e ON t.assignee_id = e.employee_id
           LEFT JOIN attachments a ON a.task_id = t.task_id
-          WHERE t.deleted_at IS NULL
         `;
+
+        // WHERE t.deleted_at IS NULL
 
         if (!isPriv) {
             sql += ` AND t.created_by = $1`;
@@ -662,22 +665,24 @@ app.get('/api/tasks', requirePermission('view_site'), async (req, res) => {
         sql += ` GROUP BY t.task_id, p.name, e.name
                  ORDER BY t.task_id DESC
                  LIMIT ${limit} OFFSET ${offset}`;
-
+        
         const r = await query(sql, params);
-
+        
         let countSql = `
           SELECT COUNT(*) AS total
           FROM tasks t
-          WHERE t.deleted_at IS NULL
         `;
+        
+        //WHERE t.deleted_at IS NULL
+        
         let countParams = [];
         if (!isPriv) {
             countSql += ` AND t.created_by = $1`;
             countParams.push(req.session.userId);
         }
-
+        
         const countResult = await query(countSql, countParams);
-
+        
         res.json({
             data: r.rows,
             pagination: {
