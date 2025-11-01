@@ -145,6 +145,8 @@ const MainApp = () => {
             }),
         });
         
+        console.log("Got; ", res);
+        
         const created = res.data;
         
         let attachments = [];
