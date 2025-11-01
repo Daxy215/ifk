@@ -504,13 +504,13 @@ app.get('/api/projects', requirePermission('view_site'), async (req, res) => {
 // Add a project
 // TODO; ??
 app.post('/api/projects', requirePermission('edit_content'), async (req, res) => {
-    const { clientId, type, number, name, assigneeId, status } = req.body;
+    const { client_id, type, number, name, assignee_id, status } = req.body;
     
     const r = await query(`
         INSERT INTO projects (client_id, type, number, name, assignee_id, status)
         VALUES ($1,$2,$3,$4,$5,$6)
         RETURNING *
-    `, [clientId, type, number || null, name, assigneeId, status || 'مسودة']);
+    `, [client_id, type, number || null, name, assignee_id, status || 'مسودة']);
     
     res.json(r.rows[0]);
 });
