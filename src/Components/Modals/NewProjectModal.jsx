@@ -19,6 +19,8 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
         
         const client = await apiFetch(`/api/clients/${encodeURIComponent(clientId)}`).data;
         
+        console.log(clientInputRef, client);
+        
         if (!client || client.client_id !== clientId) {
             clientInputRef.current.setCustomValidity("الرجاء اختيار عميل صحيح");
             clientInputRef.current.reportValidity();
@@ -62,7 +64,7 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
             console.error("Failed to add client:", err);
         }
     };
-
+    
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
@@ -72,14 +74,14 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
                         <X size={24} />
                     </button>
                 </div>
-
+                
                 <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm">وصف المشروع</label>
                             <textarea name="name" required className="w-full p-2 border rounded-lg"></textarea>
                         </div>
-
+                        
                         <div>
                             <label className="block text-sm">نوع المشروع</label>
                             <select name="type" required className="w-full p-2 border rounded-lg">
@@ -95,7 +97,7 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
                             <label className="block text-sm">رقم المشروع (إن وجد)</label>
                             <input type="text" name="number" className="w-full p-2 border rounded-lg"/>
                         </div>
-
+                        
                         <div>
                             <label className="block text-sm">العميل</label>
                             <ClientSelect
@@ -114,19 +116,19 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
                                 onChange={(id) => setAssigneeId(id)}
                             />
                         </div>
-
+                        
                         <div>
                             <label className="block text-sm">مستندات مرفقة</label>
                             <input type="file" name="attachments" multiple
                                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
                         </div>
                     </div>
-
+                    
                     <div className="mt-6 flex justify-end gap-4">
                         <button type="button" onClick={() => setShowNewProjectModal(false)} className="px-4 py-2 bg-gray-200 rounded-lg">
                             إلغاء
                         </button>
-
+                        
                         <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-lg">
                             حفظ المشروع
                         </button>
