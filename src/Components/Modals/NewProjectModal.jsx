@@ -92,7 +92,7 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
                                 <option value="احتياجات مكتب">احتياجات مكتب</option>
                             </select>
                         </div>
-
+                        
                         <div>
                             <label className="block text-sm">رقم المشروع (إن وجد)</label>
                             <input type="text" name="number" className="w-full p-2 border rounded-lg"/>
