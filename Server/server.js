@@ -904,7 +904,7 @@ app.get('/api/clients/search', requirePermission('manage_users'), async (req, re
     console.log("GOt; ", req.query);
     
     if (!q || q.trim() === "") {
-        return res.json([]);
+        return;
     }
     
     try {
@@ -913,7 +913,7 @@ app.get('/api/clients/search', requirePermission('manage_users'), async (req, re
             FROM clients
             WHERE name ILIKE $1
             ORDER BY client_id DESC
-            LIMIT 20
+            LIMIT 5
         `, [`%${q}%`]);
         
         console.log(r.rows);
@@ -938,7 +938,8 @@ app.get('/api/clients/:id', requirePermission('manage_users'), async (req, res) 
         
         if (r.rows.length === 0) {
             /*return res.status(404).json({ error: "الموظف غير موجود" });*/
-            return res.json({});
+            //return res.json({});
+            return;
         }
         
         res.json(r.rows[0]);
@@ -965,7 +966,8 @@ app.put('/api/clients/:id', requirePermission('manage_users'), async (req, res) 
         `, [name, email, phone, contactOfficer, id]);
         
         if (r.rows.length === 0) {
-            return res.status(404).json({ error: "Client not found" });
+            return;
+            //return res.status(404).json({ error: "Client not found" });
         }
         
         res.json(r.rows[0]);
@@ -987,14 +989,6 @@ const storage = multer.diskStorage({
         cb(null, safeName);
     }
 });
-
-/*const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, "uploads/"),
-    filename: (req, file, cb) => {
-        const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
-        cb(null, unique + path.extname(file.originalname));
-    }
-});*/
 
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ['.png','.jpg','.jpeg','.pdf','.doc','.docx','.xlsx','.txt'];

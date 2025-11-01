@@ -43,14 +43,19 @@ export const AuthProvider = ({ children }) => {
             headers['Content-Type'] = 'application/json';
         }
         
-        const res = await fetch(`${import.meta.env.VITE_API_URL}` + url, {
-            ...options,
-            credentials: 'include',
-            headers,
-        });
-        
-        const data = await res.json().catch(() => null);
-        return { ok: res.ok, status: res.status, data };
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}` + url, {
+                ...options,
+                credentials: 'include',
+                headers,
+            });
+            
+            console.log("GOT; ", res);
+            const data = await res.json().catch(() => null);
+            return {ok: res.ok, status: res.status, data};
+        } catch(err) {
+            console.error(err);
+        }
     };
     
     async function fetchMe() {
