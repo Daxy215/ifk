@@ -1004,18 +1004,18 @@ const upload = multer({
 
 app.post('/api/attachments', ensureLoggedIn, upload.single('attachment'), async (req, res) => {
     try {
-        const { projectId, taskId, name, type } = req.body;
+        const { project_id, task_id, name, type } = req.body;
         
         if (!req.file) return res.status(400).json({ error: 'يرجى إرفاق ملف' });
-        if (!projectId && !taskId) return res.status(400).json({ error: 'يجب تحديد مشروع أو مهمة' });
+        if (!project_id && !task_id) return res.status(400).json({ error: 'يجب تحديد مشروع أو مهمة' });
         
-        if (projectId) {
-            const project = await query('SELECT * FROM projects WHERE project_id=$1', [projectId]);
+        if (project_id) {
+            const project = await query('SELECT * FROM projects WHERE project_id=$1', [project_id]);
             if (!project.rows[0]) return res.status(404).json({ error: 'المشروع غير موجود' });
         }
         
-        if (taskId) {
-            const task = await query('SELECT * FROM tasks WHERE task_id=$1', [taskId]);
+        if (task_id) {
+            const task = await query('SELECT * FROM tasks WHERE task_id=$1', [task_id]);
             if (!task.rows[0]) return res.status(404).json({ error: 'المهمة غير موجودة' });
         }
         
@@ -1023,7 +1023,7 @@ app.post('/api/attachments', ensureLoggedIn, upload.single('attachment'), async 
             INSERT INTO attachments (project_id, task_id, name, type, path)
             VALUES ($1,$2,$3,$4,$5)
                 RETURNING *
-        `, [projectId || null, taskId || null, name || req.file.originalname, type || req.file.mimetype, req.file.filename]);
+        `, [project_id || null, task_id || null, name || req.file.originalname, type || req.file.mimetype, req.file.filename]);
         
         res.json({ ok: true, attachment: r.rows[0] });
     } catch (err) {

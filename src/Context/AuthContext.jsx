@@ -154,7 +154,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
     };
     
-    const uploadAttachments = async (files, { projectId, taskId }) => {
+    const uploadAttachments = async (files, { project_id, task_id }) => {
         if (!files || files.length === 0) return [];
         
         const uploaded = [];
@@ -163,8 +163,8 @@ export const AuthProvider = ({ children }) => {
             const formData = new FormData();
             formData.append("attachment", file);
             
-            if (projectId) formData.append("projectId", projectId);
-            if (taskId) formData.append("taskId", taskId);
+            if (project_id) formData.append("project_id", project_id);
+            if (task_id) formData.append("||", task_id);
             
             formData.append("name", file.name);
             formData.append("type", file.type);

@@ -88,10 +88,10 @@ const MainApp = () => {
     const [isOpen, setIsOpen] = useState(false);
     
     // Handlers
-    const handleTaskStatusChange = async (taskId, newStatus) => {
-        console.log("Udpating task;", taskId, newStatus);
+    const handleTaskStatusChange = async (task_id, newStatus) => {
+        console.log("Udpating task;", task_id, newStatus);
         
-        const res = await apiFetch(`/api/tasks/${taskId}`, {
+        const res = await apiFetch(`/api/tasks/${task_id}`, {
             method: "PATCH",
             body: JSON.stringify({
                 status: newStatus
@@ -102,7 +102,7 @@ const MainApp = () => {
         
         setTasks(prev =>
             prev.map(t => {
-                if (t.task_id === taskId) {
+                if (t.task_id === task_id) {
                     //console.log("Found task before update:", t);
                     
                     return updated;
@@ -123,7 +123,7 @@ const MainApp = () => {
         
         let attachments = [];
         if (files && files.length > 0) {
-            attachments = await uploadAttachments(files, { taskId: created.task_id });
+            attachments = await uploadAttachments(files, { task_id: created.task_id });
         }
         
         setTasks(prev => [{ ...created, attachments }, ...prev]);
@@ -149,15 +149,15 @@ const MainApp = () => {
         
         let attachments = [];
         if (files && files.length > 0) {
-            attachments = await uploadAttachments(files, { projectId: created.project_id });
+            attachments = await uploadAttachments(files, { project_id: created.project_id });
         }
         
         setProjects(prev => [{ ...created, attachments }, ...prev]);
         setShowNewProjectModal(false);
     };
     
-    const handleEditProject = (projectId) => {
-        let project = projects.find(p => p.project_id === projectId);
+    const handleEditProject = (project_id) => {
+        let project = projects.find(p => p.project_id === project_id);
         
         setProjectToEdit(project);
         setShowEditProjectModal(true);
@@ -176,28 +176,28 @@ const MainApp = () => {
         setProjectToEdit(null);
     };
     
-    const handleActivateCase = async (projectId, caseNumber) => {
-        console.log("tranna update;", projectId);
+    const handleActivateCase = async (project_id, caseNumber) => {
+        console.log("tranna update;", project_id);
         
-        const res = await apiFetch(`/api/projects/${projectId}`, {
+        const res = await apiFetch(`/api/projects/${project_id}`, {
             method: "PUT",
             body: JSON.stringify({ type: "قضية", number: caseNumber, status: "قيد النظر" }),
         });
         
         const updated = res.data;
         
-        setProjects(prev => prev.map(p => p.project_id === projectId ? updated : p));
+        setProjects(prev => prev.map(p => p.project_id === project_id ? updated : p));
         setShowActivateCaseModal(false);
         setActivatingProjectId(null);
     };
     
-    const handleCloseProject = async (projectId) => {
-        const updated = await apiFetch(`/api/projects/${projectId}`, {
+    const handleCloseProject = async (project_id) => {
+        const updated = await apiFetch(`/api/projects/${project_id}`, {
             method: "PUT",
             body: JSON.stringify({ status: "مغلقة", closedAt: new Date().toISOString() }),
         }).data;
         
-        setProjects(prev => prev.map(p => p.project_id === projectId ? updated : p));
+        setProjects(prev => prev.map(p => p.project_id === project_id ? updated : p));
         setActiveView("dashboard");
         setSelectedProjectId(null);
     };
@@ -255,7 +255,7 @@ const MainApp = () => {
     const handleAddTaskAttachment = async (files) => {
         if (!taskToAttachToId) return;
         
-        const uploaded = await uploadAttachments(files, { taskId: taskToAttachToId });
+        const uploaded = await uploadAttachments(files, { task_id: taskToAttachToId });
         
         console.log("UPLOADED;", uploaded);
         
@@ -271,13 +271,13 @@ const MainApp = () => {
         setTaskToAttachToId(null);
     };
     
-    const openActivateModal = (projectId) => { setActivatingProjectId(projectId); setShowActivateCaseModal(true); };
-    const handleOpenAddTaskAttachmentModal = (taskId) => { setTaskToAttachToId(taskId); setShowAddTaskAttachmentModal(true); };
+    const openActivateModal = (project_id) => { setActivatingProjectId(project_id); setShowActivateCaseModal(true); };
+    const handleOpenAddTaskAttachmentModal = (task_id) => { setTaskToAttachToId(task_id); setShowAddTaskAttachmentModal(true); };
     
     const viewAttachments = (items, title) => { setAttachmentsToShow({ items, title }); setShowAttachmentsModal(true); };
     
-    const viewProjectTasks = (projectId) => {
-        setSelectedProjectId(projectId);
+    const viewProjectTasks = (project_id) => {
+        setSelectedProjectId(project_id);
         setActiveView('projectDetails');
     };
     
