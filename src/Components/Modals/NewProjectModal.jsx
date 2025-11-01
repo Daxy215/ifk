@@ -42,9 +42,10 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
         
-        data.clientId = parseInt(clientId);
-        data.clientName = client.name;
-        data.assigneeId = parseInt(assigneeId);
+        data.client_id = parseInt(clientId);
+        data.client_name = client.name;
+        data.assignee_id = parseInt(assigneeId);
+        data.assignee_name = employee.name;
         
         console.log("project Data;", data);
         

@@ -2,7 +2,7 @@
 
 import { useAuth } from "../../Context/AuthContext";
 
-export default function EmployeeSelect({ ref, defaultVal, value, onChange }) {
+export default function EmployeeSelect({ ref, defaultVal, onChange }) {
     const [query, setQuery] = useState(defaultVal || "");
     const [filteredEmployees, setFilteredEmployees] = useState([]);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
