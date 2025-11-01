@@ -105,7 +105,7 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
                 value={query}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                onInvalid={(e) => e.target.setCustomValidity("الرجاء اختيار عميل")}
+                onInvalid={(e) => e.target.setCustomValidity("الرجاء اختيار عميلss")}
                 onInput={(e) => e.target.setCustomValidity("")}
             />
             
