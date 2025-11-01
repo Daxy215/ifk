@@ -105,7 +105,7 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
                 value={query}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                onInvalid={(e) => e.target.setCustomValidity("الرجاء اختيار عميلss")}
+                onInvalid={(e) => { console.log("Value; ", value); e.target.setCustomValidity("الرجاء اختيار عميلss")}}
                 onInput={(e) => e.target.setCustomValidity("")}
             />
             
@@ -114,11 +114,9 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
                     {filteredClients.map((c, index) => (
                         <div
                             key={c.client_id}
-                            
                             className={`cursor-pointer px-3 py-3 text-gray-800 ${
                                 index === highlightedIndex ? "bg-gray-200" : "hover:bg-gray-100"
                             }`}
-                            
                             onMouseEnter={() => setHighlightedIndex(index)}
                             onClick={() => handleSelect(c)}
                         >
