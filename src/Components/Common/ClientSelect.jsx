@@ -40,7 +40,10 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
         
         try {
             const res = await apiFetch(`/api/clients/search?q=${encodeURIComponent(val)}`).data;
+            console.log(res);
+            
             const data = await res.json();
+            
             setFilteredClients(data);
         } catch (err) {
             console.error("Client search failed:", err);
