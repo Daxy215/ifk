@@ -916,6 +916,8 @@ app.get('/api/clients/search', requirePermission('manage_users'), async (req, re
             LIMIT 20
         `, [`%${q}%`]);
         
+        console.log(r.rows);
+        
         res.json(r.rows);
     } catch (err) {
         console.error("Client search failed:", err);
