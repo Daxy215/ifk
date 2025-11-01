@@ -149,6 +149,9 @@ const MainApp = () => {
         
         const created = res.data;
         
+        created.client_name = projectData.client_name;
+        created.assignee_name = projectData.assignee_name;
+        
         let attachments = [];
         if (files && files.length > 0) {
             attachments = await uploadAttachments(files, { project_id: created.project_id });
