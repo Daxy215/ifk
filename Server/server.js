@@ -918,7 +918,7 @@ app.get('/api/clients/search', requirePermission('manage_users'), async (req, re
         
         console.log(r.rows);
         
-        res.json(r.rows);
+        res.status(200).json(r.rows);
     } catch (err) {
         console.error("Client search failed:", err);
         res.status(500).json({ error: "Internal server error" });
