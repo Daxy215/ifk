@@ -99,13 +99,13 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
                         <div>
                             <label className="block text-sm">العميل</label>
                             <ClientSelect
-                                inputRef={clientInputRef}
+                                ref={clientInputRef}
                                 value={clientId}
                                 onChange={(id) => setClientId(id)}
                                 onAddNewClient={handleAddNewClient}
                             />
                         </div>
-
+                        
                         <div>
                             <label className="block text-sm">المكلف بالمشروع</label>
                             <EmployeeSelect

@@ -106,7 +106,7 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
                         <div>
                             <label className="block text-sm">العميل</label>
                             <ClientSelect
-                                inputRef={clientInputRef}
+                                ref={clientInputRef}
                                 value={projectToEdit.client_id}
                                 onChange={(id) => setClientId(id)}
                                 onAddNewClient={handleAddNewClient}
