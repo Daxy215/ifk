@@ -803,6 +803,8 @@ app.post('/api/employees', requirePermission('manage_users'), async (req, res) =
         RETURNING *
     `, [name, jobTitle, email, phone, contactOfficer]);
     
+    console.log("Got; ", r.rows[0]);
+    
     res.json(r.rows[0]);
 });
 
