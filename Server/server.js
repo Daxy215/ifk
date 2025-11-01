@@ -939,6 +939,8 @@ app.get('/api/clients/:id', requirePermission('manage_users'), async (req, res) 
         if (r.rows.length === 0) {
             /*return res.status(404).json({ error: "الموظف غير موجود" });*/
             //return res.json({});
+            console.log("Got nth... clients/:id");
+            
             return;
         }
         
