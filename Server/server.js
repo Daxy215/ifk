@@ -870,7 +870,8 @@ app.put('/api/employees/:id', requirePermission('manage_users'), async (req, res
         `, [name, jobTitle, email, phone, contactOfficer, id]);
         
         if (r.rows.length === 0) {
-            return res.status(404).json({ error: "Employee not found" });
+            return res.json({});
+            //return res.status(404).json({ error: "Employee not found" });
         }
         
         res.json(r.rows[0]);
@@ -901,8 +902,6 @@ app.post('/api/clients', requirePermission('manage_users'), async (req, res) => 
 app.get('/api/clients/search', requirePermission('manage_users'), async (req, res) => {
     const { q } = req.query;
     
-    console.log("GOt; ", req.query);
-    
     if (!q || q.trim() === "") {
         return;
     }
@@ -915,8 +914,6 @@ app.get('/api/clients/search', requirePermission('manage_users'), async (req, re
             ORDER BY client_id DESC
             LIMIT 5
         `, [`%${q}%`]);
-        
-        console.log(r.rows);
         
         res.status(200).json(r.rows);
     } catch (err) {
@@ -935,13 +932,10 @@ app.get('/api/clients/:id', requirePermission('manage_users'), async (req, res) 
             FROM clients
             WHERE client_id = $1
         `, [id]);
-        
+                
         if (r.rows.length === 0) {
             /*return res.status(404).json({ error: "الموظف غير موجود" });*/
-            //return res.json({});
-            console.log("Got nth... clients/:id");
-            
-            return;
+            return res.json({});
         }
         
         res.json(r.rows[0]);
