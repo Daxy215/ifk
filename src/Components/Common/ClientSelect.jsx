@@ -15,8 +15,8 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
         
         const fetchClient = async () => {
             try {
-                const res = await apiFetch(`/api/clients/${encodeURIComponent(value)}`).data;
-                const data = await res.json();
+                const res = await apiFetch(`/api/clients/${encodeURIComponent(value)}`);
+                const data = await res.data;
                 
                 handleSelect(data);
             } catch (err) {
@@ -42,7 +42,7 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
             const res = await apiFetch(`/api/clients/search?q=${encodeURIComponent(val)}`);
             console.log(res);
             
-            const data = await res.data.json();
+            const data = await res.data;
             
             setFilteredClients(data);
         } catch (err) {
