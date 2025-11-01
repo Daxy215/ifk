@@ -134,13 +134,14 @@ const MainApp = () => {
         const res = await apiFetch("/api/projects", {
             method: "POST",
             body: JSON.stringify({
-                clientId: projectData.clientId,
+                client_id: projectData.client_id,
                 type: projectData.type,
                 number: projectData.number,
                 name: projectData.name,
-                assigneeId: projectData.assigneeId,
+                assignee_id: projectData.assignee_id,
+                /*assignee_name: projectData.assignee_name,*/
                 status: projectData.status,
-                closedAt: projectData.closedAt
+                closed_at: projectData.closed_at
             }),
         });
         
