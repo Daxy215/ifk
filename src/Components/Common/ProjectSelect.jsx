@@ -26,7 +26,7 @@ export default function ProjectSelect({ projectRef, value, onChange }) {
         try {
             const res = await apiFetch(`/api/projects/search?q=${encodeURIComponent(q)}`);
 
-            const data = await res;
+            const data = await res.data;
 
             setFilteredProjects(data);
         } catch (err) {

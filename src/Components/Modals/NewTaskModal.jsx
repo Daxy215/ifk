@@ -8,51 +8,51 @@ import ProjectSelect from '../Common/ProjectSelect'
 
 const NewTaskModal = ({setShowNewTaskModal, handleAddNewTask}) => {
     const { apiFetch } = useAuth();
-
+    
     const projectInputRef  = React.useRef(null);
     const [projectNumber, setProjectNumber] = React.useState("");
     const [selectedProjectId, setSelectedProjectId] = React.useState(0);
-
+    
     const employeeInputRef = React.useRef(null);
     const [assigneeId, setAssigneeId] = React.useState("");
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const project = await apiFetch(`/api/projects/${encodeURIComponent(selectedProjectId)}`,  {method: "GET"});
-
+        
+        const project = await apiFetch(`/api/projects/${encodeURIComponent(selectedProjectId)}`, {method: "GET"}).data;
+        
         const projectExists = project && project.project_id === selectedProjectId;
-
+        
         if (!projectExists) {
             projectInputRef.current.setCustomValidity("الرجاء اختيار مشروع صحيح");
             projectInputRef.current.reportValidity();
-
+            
             return;
         }
-
-        const employee = await apiFetch(`/api/employees/${encodeURIComponent(assigneeId)}`,  {method: "GET"});
-
+        
+        const employee = await apiFetch(`/api/employees/${encodeURIComponent(assigneeId)}`, {method: "GET"}).data;
+        
         const employeeExists = employee && employee.employee_id === assigneeId;
-
+        
         if (!employeeExists) {
             employeeInputRef.current.setCustomValidity("الرجاء اختيار موظف صحيح");
             employeeInputRef.current.reportValidity();
-
+            
             return;
         }
-
+        
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
-
+        
         data.duration = parseInt(data.duration);
         data.assignee_id = parseInt(assigneeId);
         data.project_id = parseInt(selectedProjectId);
-
+        
         const attachments = formData.getAll("attachments");
-
+        
         handleAddNewTask(data, attachments);
     };
-
+    
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">

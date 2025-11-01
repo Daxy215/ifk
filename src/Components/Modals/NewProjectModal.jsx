@@ -17,7 +17,7 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const client = await apiFetch(`/api/clients/${encodeURIComponent(clientId)}`).then((r) => r.json());
+        const client = await apiFetch(`/api/clients/${encodeURIComponent(clientId)}`).data.then((r) => r.json());
         
         if (!client || client.client_id !== clientId) {
             clientInputRef.current.setCustomValidity("الرجاء اختيار عميل صحيح");
@@ -25,7 +25,7 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
             return;
         }
         
-        const employee = await apiFetch(`/api/employees/${encodeURIComponent(assigneeId)}`,  {method: "GET"});
+        const employee = await apiFetch(`/api/employees/${encodeURIComponent(assigneeId)}`, {method: "GET"}).data;
         
         const employeeExists = employee && employee.employee_id === assigneeId;
         
@@ -53,8 +53,8 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
             const res = await apiFetch(`/api/clients`, {
                 method: "POST",
                 body: JSON.stringify({ name }),
-            });
-
+            }).data;
+            
             const newClient = await res.json();
             setClientId(newClient.client_id);
         } catch (err) {

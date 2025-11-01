@@ -101,7 +101,7 @@ export const AuthProvider = ({ children }) => {
                 
                 return { success: true };
             } else {
-                const error = await response.json();
+                const error = await response.data.json();
                 return { success: false, error: error.message || t('auth.loginFailed') };
             }
         } catch (error) {
@@ -126,7 +126,7 @@ export const AuthProvider = ({ children }) => {
                     ? { success: true }
                     : { success: false, error: t('auth.registerLoginFailed') };
             } else {
-                const error = await response.json();
+                const error = await response.data.json();
                 return { success: false, error: error.message || t('auth.registerFailed') };
             }
         } catch (error) {

@@ -202,16 +202,12 @@ const MainApp = () => {
     };
     
     const handleAddNewEmployee = async (employeeData) => {
-        console.log("adding new emplyoyy;", employeeData);
-        
         const res = await apiFetch("/api/employees", {
             method: "POST",
             body: JSON.stringify(employeeData),
         });
         
         const created = res.data;
-        
-        console.log("Got; ", res);
         
         setEmployees(prev => [created, ...prev]);
         setShowNewEmployeeModal(false);
