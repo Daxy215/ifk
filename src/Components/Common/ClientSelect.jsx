@@ -98,15 +98,15 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
         <div className="relative w-full" ref={containerRef}>
             <input
                 type="text"
-                required
+                /*required*/
                 placeholder="ابحث عن عميل..."
                 className="w-full p-2 border rounded-lg"
                 ref={ref}
                 value={query}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                onInvalid={(e) => { console.log("Value; ", query, " ; ", e.target.value); e.target.setCustomValidity("الرجاء اختيار عميلss")}}
-                onInput={(e) => e.target.setCustomValidity("")}
+                /*onInvalid={(e) => { console.log("Value; ", query, " ; ", e.target.value); e.target.setCustomValidity("الرجاء اختيار عميلss")}}
+                onInput={(e) => e.target.setCustomValidity("")}*/
             />
             
             {filteredClients.length > 0 && (
