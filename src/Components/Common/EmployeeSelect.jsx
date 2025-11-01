@@ -15,8 +15,8 @@ export default function EmployeeSelect({ ref, defaultVal, value, onChange }) {
         
         const fetchEmployee = async () => {
             try {
-                const res = await apiFetch(`/api/employees/${encodeURIComponent(defaultVal)}`).data;
-                const data = await res.json();
+                const res = await apiFetch(`/api/employees/${encodeURIComponent(defaultVal)}`);
+                const data = await res.data;
                 
                 handleSelect(data);
             } catch (err) {
@@ -38,8 +38,8 @@ export default function EmployeeSelect({ ref, defaultVal, value, onChange }) {
         }
         
         try {
-            const res = await apiFetch(`/api/employees/search?q=${encodeURIComponent(val)}`).data;
-            const data = await res.json();
+            const res = await apiFetch(`/api/employees/search?q=${encodeURIComponent(val)}`);
+            const data = await res.data;
             
             setFilteredEmployees(data);
         } catch (err) {
