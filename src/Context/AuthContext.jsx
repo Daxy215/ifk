@@ -50,9 +50,9 @@ export const AuthProvider = ({ children }) => {
                 headers,
             });
             
-            console.log("GOT; ", res);
+            //console.log("GOT; ", res);
             const data = await res.json().catch(() => null);
-            return {ok: res.ok, status: res.status, data};
+            return { ok: res.ok, status: res.status, data };
         } catch(err) {
             console.error(err);
         }

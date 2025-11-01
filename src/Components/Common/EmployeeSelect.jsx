@@ -52,10 +52,10 @@ export default function EmployeeSelect({ ref, defaultVal, value, onChange }) {
         setQuery(employee.name);
         setFilteredEmployees([]);
     };
-
+    
     const handleKeyDown = (e) => {
         if (!filteredEmployees.length) return;
-
+        
         if (e.key === "ArrowDown") {
             e.preventDefault();
             setHighlightedIndex((prev) => (prev + 1) % filteredEmployees.length);
@@ -73,17 +73,19 @@ export default function EmployeeSelect({ ref, defaultVal, value, onChange }) {
             setFilteredEmployees([]);
         }
     };
-
+    
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (containerRef.current && !containerRef.current.contains(e.target)) {
                 setFilteredEmployees([]);
             }
         };
+        
         document.addEventListener("mousedown", handleClickOutside);
+        
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
-
+    
     return (
         <div className="relative w-full" ref={containerRef}>
             <input
@@ -98,7 +100,7 @@ export default function EmployeeSelect({ ref, defaultVal, value, onChange }) {
                 onInvalid={(e) => e.target.setCustomValidity("الرجاء اختيار موظف")}
                 onInput={(e) => e.target.setCustomValidity("")}
             />
-
+            
             {filteredEmployees.length > 0 && (
                 <div className="absolute z-10 w-full bg-white border rounded-lg mt-1 max-h-60 overflow-auto shadow-lg">
                     {filteredEmployees.map((e, index) => (

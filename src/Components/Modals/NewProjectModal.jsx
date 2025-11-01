@@ -17,11 +17,12 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const client = await apiFetch(`/api/clients/${encodeURIComponent(clientId)}`).data.then((r) => r.json());
+        const client = await apiFetch(`/api/clients/${encodeURIComponent(clientId)}`).data;
         
         if (!client || client.client_id !== clientId) {
             clientInputRef.current.setCustomValidity("الرجاء اختيار عميل صحيح");
             clientInputRef.current.reportValidity();
+            
             return;
         }
         
