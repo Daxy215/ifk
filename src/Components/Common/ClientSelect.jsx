@@ -49,7 +49,10 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
     };
     
     const handleSelect = (client) => {
+        console.log("Selected;", client);
+        
         onChange(client.client_id);
+        
         setQuery(client.name);
         setFilteredClients([]);
         setSelectedId(client.client_id);
@@ -111,9 +114,11 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
                     {filteredClients.map((c, index) => (
                         <div
                             key={c.client_id}
+                            
                             className={`cursor-pointer px-3 py-3 text-gray-800 ${
                                 index === highlightedIndex ? "bg-gray-200" : "hover:bg-gray-100"
                             }`}
+                            
                             onMouseEnter={() => setHighlightedIndex(index)}
                             onClick={() => handleSelect(c)}
                         >
