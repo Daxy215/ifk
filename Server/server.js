@@ -901,6 +901,8 @@ app.post('/api/clients', requirePermission('manage_users'), async (req, res) => 
 app.get('/api/clients/search', requirePermission('manage_users'), async (req, res) => {
     const { q } = req.query;
     
+    console.log("GOt; ", req.query);
+    
     if (!q || q.trim() === "") {
         return res.json([]);
     }
