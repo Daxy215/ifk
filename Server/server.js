@@ -790,6 +790,7 @@ app.delete('/api/tasks/:id', requirePermission('edit_content'), async (req, res)
 // Employees bs
 app.get('/api/employees', requirePermission('manage_users'), async (req, res) => {
     const r = await query('SELECT * FROM employees ORDER BY employee_id');
+    
     res.json(r.rows);
 });
 

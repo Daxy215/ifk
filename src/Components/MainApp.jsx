@@ -209,6 +209,8 @@ const MainApp = () => {
             body: JSON.stringify(employeeData),
         }).data;
         
+        console.log("Got; ", created);
+        
         setEmployees(prev => [created, ...prev]);
         setShowNewEmployeeModal(false);
     };
