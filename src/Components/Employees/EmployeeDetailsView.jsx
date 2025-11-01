@@ -10,9 +10,9 @@ const EmployeeDetailsView = ({
                              }) => {
 
     const employeeTasks = allTasksWithProjectInfo.filter(task => task.assignee_id === selectedEmployee?.employee_id);
-
+    
     const getTaskEndDate = (task) => new Date(new Date(task.created_at).getTime() + task.duration * 24 * 60 * 60 * 1000).toLocaleDateString('ar-EG');
-
+    
     return (
         <div className="p-6">
             {selectedEmployee ? (
@@ -38,7 +38,7 @@ const EmployeeDetailsView = ({
                                 <th className="px-4 py-3">الحالة</th>
                             </tr>
                             </thead>
-
+                            
                             <tbody>
                                 {employeeTasks.map(task => (
                                     <tr key={task.task_id} className="border-b hover:bg-gray-50">
@@ -49,7 +49,7 @@ const EmployeeDetailsView = ({
                                         <td className="px-4 py-3"><StatusBadge status={task.status} /></td>
                                     </tr>
                                 ))}
-
+                                
                                 {employeeTasks.length === 0 && (
                                     <tr><td colSpan="5" className="text-center py-10 text-gray-500">لا توجد مهام معينة لهذا الموظف.</td></tr>
                                 )}

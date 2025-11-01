@@ -14,6 +14,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+const TASK_STATUS = require("../Shared/Enums/TaskStatus");
 
 /*const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');*/
@@ -143,7 +144,7 @@ app.use((req, res, next) => {
         if (req.headers['x-forwarded-proto'] !== 'https') {
             return res.redirect(`https://${req.headers.host}${req.url}`);
         }
-
+        
         next();
     });
 }*/
@@ -157,7 +158,7 @@ app.use((err, req, res, next) => {
         console.log(err.code);
         return res.status(403).json({ error: 'Invalid CSRF token' });
     }
-
+    
     console.error(err.stack || err);
     res.status(500).json({ error: 'Internal Server Error' });
 });
@@ -198,13 +199,13 @@ async function query(sql, params) {
 
 async function getUserByEmail(email) {
     const r = await query('SELECT * FROM users WHERE email=$1', [email]);
-
+    
     return r.rows[0];
 }
 
 async function getUserByUsername(username) {
     const r = await query('SELECT * FROM users WHERE username=$1', [username]);
-
+    
     return r.rows[0];
 }
 
@@ -328,7 +329,7 @@ app.post('/api/login', loginLimiter, async (req, res, next) => {
     
     try {
         await query('DELETE FROM sessions WHERE sess::json->>\'userId\' = $1', [user.user_id.toString()]);
-            
+        
         req.session.regenerate(async (err) => {
             if (err) {
                 console.error(err);
@@ -360,21 +361,21 @@ app.post('/api/logout', (req, res) => {
 
 app.post('/api/reset-password', ensureLoggedIn, async (req, res) => {
     const { currentPassword, newPassword } = req.body;
-
+    
     if (!currentPassword || !newPassword) {
         return res.status(400).json({ error: 'يرجى إدخال كلمة المرور الحالية والجديدة' });
     }
-
+    
     try {
         const user = await query('SELECT user_id, password_hash FROM users WHERE user_id=$1', [req.user.user_id]);
         if (user.rowCount === 0) return res.status(404).json({ error: 'المستخدم غير موجود' });
-
+        
         const valid = await bcrypt.compare(currentPassword, user.rows[0].password_hash);
         if (!valid) return res.status(400).json({ error: 'كلمة المرور الحالية غير صحيحة' });
-
+        
         const newHash = await bcrypt.hash(newPassword, 12);
         await query('UPDATE users SET password_hash=$1 WHERE user_id=$2', [newHash, user.rows[0].user_id]);
-
+        
         res.json({ ok: true, message: 'تم تغيير كلمة المرور بنجاح' });
     } catch (err) {
         console.error(err);
@@ -384,12 +385,12 @@ app.post('/api/reset-password', ensureLoggedIn, async (req, res) => {
 
 app.get('/api/me', async (req, res) => {
     if (!req.session.userId) return res.json({ authenticated: false });
-
+    
     //const u = await query('SELECT user_id, username, email, created_at, totp_secret IS NOT NULL AS has_2fa FROM users WHERE user_id=$1', [req.session.userId]);
     const u = await query('SELECT user_id, username, email, created_at FROM users WHERE user_id=$1', [req.session.userId]);
     const perms = await getUserPermissions(req.session.userId);
     const roles = await getUserRoles(req.session.userId);
-
+    
     res.json({ authenticated: true, user: u.rows[0], permissions: perms, roles });
 });
 
@@ -504,13 +505,13 @@ app.get('/api/projects', requirePermission('view_site'), async (req, res) => {
 // TODO; ??
 app.post('/api/projects', requirePermission('edit_content'), async (req, res) => {
     const { clientId, type, number, name, assigneeId, status } = req.body;
-
+    
     const r = await query(`
         INSERT INTO projects (client_id, type, number, name, assignee_id, status)
         VALUES ($1,$2,$3,$4,$5,$6)
         RETURNING *
     `, [clientId, type, number || null, name, assigneeId, status || 'مسودة']);
-
+    
     res.json(r.rows[0]);
 });
 
@@ -518,17 +519,17 @@ app.post('/api/deleteProjects', requirePermission('edit_content'), async (req, r
     const r = await query(`
         DELETE FROM projects;
     `);
-
+    
     res.json( { ok: true } );
 })
 
 app.get('/api/projects/search', requirePermission('edit_content'), async (req, res) => {
     const { q } = req.query;
-
+    
     if (!q || q.trim() === "") {
         return res.json([]);
     }
-
+    
     try {
         const r = await query(`
             SELECT project_id, number, name, status
@@ -538,7 +539,7 @@ app.get('/api/projects/search', requirePermission('edit_content'), async (req, r
             ORDER BY project_id DESC
             LIMIT 20
         `, [`%${q}%`]);
-
+        
         res.json(r.rows);
     } catch (err) {
         console.error("Project search failed:", err);
@@ -549,19 +550,19 @@ app.get('/api/projects/search', requirePermission('edit_content'), async (req, r
 // Get project
 app.get('/api/projects/:id', requirePermission('edit_content'), async (req, res) => {
     const { id } = req.params;
-
+    
     try {
         const r = await query(`
             SELECT *
             FROM projects
             WHERE project_id=$1
         `, [id]);
-
+        
         if (r.rows.length === 0) {
             //return res.status(404).json({ error: "Project not found" });
             return res.json({});
         }
-
+        
         res.json(r.rows[0]);
     } catch (err) {
         console.error("Fetch project failed:", err);
@@ -573,30 +574,30 @@ app.get('/api/projects/:id', requirePermission('edit_content'), async (req, res)
 app.put('/api/projects/:id', requirePermission('edit_content'), async (req, res) => {
     const { id } = req.params;
     const updates = req.body;
-
+    
     const fields = [];
     const values = [];
     let i = 1;
-
+    
     for (const [key, value] of Object.entries(updates)) {
         let column = key;
         if (key === "clientId") column = "client_id";
         if (key === "assigneeId") column = "assignee_id";
         if (key === "closedAt") column = "closed_at";
-
+        
         const safeValue = (value === undefined || value === "") ? null : value;
-
+        
         fields.push(`${column}=$${i}`);
         values.push(safeValue);
         i++;
     }
-
+    
     if (fields.length === 0) {
         return res.status(400).json({ error: "No fields to update" });
     }
-
+    
     values.push(id);
-
+    
     try {
         const r = await query(`
             UPDATE projects
@@ -604,11 +605,11 @@ app.put('/api/projects/:id', requirePermission('edit_content'), async (req, res)
             WHERE project_id=$${i}
             RETURNING *
         `, values);
-
+        
         if (r.rows.length === 0) {
             return res.status(404).json({ error: "Project not found" });
         }
-
+        
         res.json(r.rows[0]);
     } catch (err) {
         console.error("Update project failed:", err);
@@ -707,43 +708,46 @@ app.get('/api/projects/:id/tasks', requirePermission('edit_content'), async (req
         WHERE t.project_id=$1
         ORDER BY t.task_id
     `, [req.params.id]);
+    
     res.json(r.rows);
 });
 
 // Add task
 app.post('/api/tasks', requirePermission('edit_content'), async (req, res) => {
     const { project_id, description, assignee_id, duration, status } = req.body;
-
+    
     const r = await query(`
         INSERT INTO tasks (project_id, description, assignee_id, duration, status)
         VALUES ($1,$2,$3,$4,$5)
         RETURNING *
-    `, [project_id, description, assignee_id || null, duration, status || 'نشطة']);
-
+    `, [project_id, description, assignee_id || null, duration, status || TaskStatus.ACTIVE]);
+    
     res.json(r.rows[0]);
 });
 
 // Update task
 app.patch('/api/tasks/:id', requirePermission('edit_content'), async (req, res) => {
     const allowedFields = ['description', 'assignee_id', 'duration', 'status', 'updated_at'];
-
+    
     const fields = [];
     const values = [];
     let i = 1;
-
+    
     for (const [key, value] of Object.entries(req.body)) {
-        if (!allowedFields.includes(key)) continue; // skip unsafe fields
+        if (!allowedFields.includes(key)) continue;
+        
         fields.push(`${key} = $${i}`);
         values.push(value);
+        
         i++;
     }
-
+    
     if (fields.length === 0) {
         return res.status(400).json({ error: 'No valid fields to update' });
     }
-
+    
     values.push(req.params.id);
-
+    
     const queryText = `
         WITH updated AS (
         UPDATE tasks t
@@ -761,14 +765,15 @@ app.patch('/api/tasks/:id', requirePermission('edit_content'), async (req, res) 
                  LEFT JOIN clients c ON p.client_id = c.client_id
                  LEFT JOIN employees e ON u.assignee_id = e.employee_id
     `;
-
+    
     try {
         const r = await query(queryText, values);
-
+        
         if (r.rows.length === 0) {
-            return res.status(404).json({ error: 'Task not found' });
+            //return res.status(404).json({ error: 'Task not found' });
+            return res.status(404).json({});
         }
-
+        
         res.json(r.rows[0]);
     } catch (err) {
         console.error(err);
@@ -790,23 +795,23 @@ app.get('/api/employees', requirePermission('manage_users'), async (req, res) =>
 
 app.post('/api/employees', requirePermission('manage_users'), async (req, res) => {
     const { name, jobTitle, email, phone, contactOfficer } = req.body;
-
+    
     const r = await query(`
         INSERT INTO employees (name, job_title, email, phone, contact_officer)
         VALUES ($1,$2,$3,$4,$5)
         RETURNING *
     `, [name, jobTitle, email, phone, contactOfficer]);
-
+    
     res.json(r.rows[0]);
 });
 
 app.get('/api/employees/search', requirePermission('manage_users'), async (req, res) => {
     const { q } = req.query;
-
+    
     if (!q || q.trim() === "") {
         return res.json([]);
     }
-
+    
     try {
         const r = await query(`
             SELECT employee_id, name
@@ -815,7 +820,7 @@ app.get('/api/employees/search', requirePermission('manage_users'), async (req, 
             ORDER BY employee_id DESC
             LIMIT 20
         `, [`%${q}%`]);
-
+        
         res.json(r.rows);
     } catch (err) {
         console.error("Employee search failed:", err);
@@ -826,19 +831,19 @@ app.get('/api/employees/search', requirePermission('manage_users'), async (req, 
 // Get employee by id
 app.get('/api/employees/:id', requirePermission('manage_users'), async (req, res) => {
     const { id } = req.params;
-
+    
     try {
         const r = await query(`
             SELECT employee_id, name, job_title, email, phone, contact_officer
             FROM employees
             WHERE employee_id = $1
         `, [id]);
-
+        
         if (r.rows.length === 0) {
             /*return res.status(404).json({ error: "الموظف غير موجود" });*/
             return res.json({});
         }
-
+        
         res.json(r.rows[0]);
     } catch (err) {
         console.error("Error fetching employee by ID:", err);
@@ -850,7 +855,7 @@ app.get('/api/employees/:id', requirePermission('manage_users'), async (req, res
 app.put('/api/employees/:id', requirePermission('manage_users'), async (req, res) => {
     const { id } = req.params;
     const { name, jobTitle, email, phone, contactOfficer } = req.body;
-
+    
     try {
         const r = await query(`
             UPDATE employees
@@ -862,11 +867,11 @@ app.put('/api/employees/:id', requirePermission('manage_users'), async (req, res
             WHERE employee_id = $6
             RETURNING *
         `, [name, jobTitle, email, phone, contactOfficer, id]);
-
+        
         if (r.rows.length === 0) {
             return res.status(404).json({ error: "Employee not found" });
         }
-
+        
         res.json(r.rows[0]);
     } catch (err) {
         console.error("Error updating employee:", err);
@@ -882,23 +887,23 @@ app.get('/api/clients', requirePermission('manage_users'), async (req, res) => {
 
 app.post('/api/clients', requirePermission('manage_users'), async (req, res) => {
     const { name, email, phone, contactOfficer } = req.body;
-
+    
     const r = await query(`
         INSERT INTO clients (name, email, phone, contact_officer)
         VALUES ($1,$2,$3,$4)
         RETURNING *
     `, [name, email, phone, contactOfficer]);
-
+    
     res.json(r.rows[0]);
 });
 
 app.get('/api/clients/search', requirePermission('manage_users'), async (req, res) => {
     const { q } = req.query;
-
+    
     if (!q || q.trim() === "") {
         return res.json([]);
     }
-
+    
     try {
         const r = await query(`
             SELECT client_id, name
@@ -907,7 +912,7 @@ app.get('/api/clients/search', requirePermission('manage_users'), async (req, re
             ORDER BY client_id DESC
             LIMIT 20
         `, [`%${q}%`]);
-
+        
         res.json(r.rows);
     } catch (err) {
         console.error("Client search failed:", err);
@@ -918,19 +923,19 @@ app.get('/api/clients/search', requirePermission('manage_users'), async (req, re
 // Get client by id
 app.get('/api/clients/:id', requirePermission('manage_users'), async (req, res) => {
     const { id } = req.params;
-
+    
     try {
         const r = await query(`
             SELECT client_id, name, email, phone, contact_officer
             FROM clients
             WHERE client_id = $1
         `, [id]);
-
+        
         if (r.rows.length === 0) {
             /*return res.status(404).json({ error: "الموظف غير موجود" });*/
             return res.json({});
         }
-
+        
         res.json(r.rows[0]);
     } catch (err) {
         console.error("Error fetching client by ID:", err);
@@ -942,7 +947,7 @@ app.get('/api/clients/:id', requirePermission('manage_users'), async (req, res) 
 app.put('/api/clients/:id', requirePermission('manage_users'), async (req, res) => {
     const { id } = req.params;
     const { name, email, phone, contactOfficer } = req.body;
-
+    
     try {
         const r = await query(`
             UPDATE clients
@@ -953,11 +958,11 @@ app.put('/api/clients/:id', requirePermission('manage_users'), async (req, res) 
             WHERE client_id = $5
             RETURNING *
         `, [name, email, phone, contactOfficer, id]);
-
+        
         if (r.rows.length === 0) {
             return res.status(404).json({ error: "Client not found" });
         }
-
+        
         res.json(r.rows[0]);
     } catch (err) {
         console.error("Error updating client:", err);
@@ -978,23 +983,21 @@ const storage = multer.diskStorage({
     }
 });
 
-/*
-const storage = multer.diskStorage({
+/*const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, "uploads/"),
     filename: (req, file, cb) => {
         const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
         cb(null, unique + path.extname(file.originalname));
     }
-});
-*/
+});*/
 
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ['.png','.jpg','.jpeg','.pdf','.doc','.docx','.xlsx','.txt'];
-
+    
     if (!allowedTypes.includes(path.extname(file.originalname).toLowerCase())) {
         return cb(new Error('نوع الملف غير مدعوم'), false);
     }
-
+    
     cb(null, true);
 };
 
@@ -1007,26 +1010,26 @@ const upload = multer({
 app.post('/api/attachments', ensureLoggedIn, upload.single('attachment'), async (req, res) => {
     try {
         const { projectId, taskId, name, type } = req.body;
-
+        
         if (!req.file) return res.status(400).json({ error: 'يرجى إرفاق ملف' });
         if (!projectId && !taskId) return res.status(400).json({ error: 'يجب تحديد مشروع أو مهمة' });
-
+        
         if (projectId) {
             const project = await query('SELECT * FROM projects WHERE project_id=$1', [projectId]);
             if (!project.rows[0]) return res.status(404).json({ error: 'المشروع غير موجود' });
         }
-
+        
         if (taskId) {
             const task = await query('SELECT * FROM tasks WHERE task_id=$1', [taskId]);
             if (!task.rows[0]) return res.status(404).json({ error: 'المهمة غير موجودة' });
         }
-
+        
         const r = await query(`
             INSERT INTO attachments (project_id, task_id, name, type, path)
             VALUES ($1,$2,$3,$4,$5)
                 RETURNING *
         `, [projectId || null, taskId || null, name || req.file.originalname, type || req.file.mimetype, req.file.filename]);
-
+        
         res.json({ ok: true, attachment: r.rows[0] });
     } catch (err) {
         console.error(err);
@@ -1039,13 +1042,13 @@ app.get('/api/attachments/:id', ensureLoggedIn, async (req, res) => {
     try {
         const r = await query('SELECT * FROM attachments WHERE attachment_id=$1', [req.params.id]);
         if (r.rows.length === 0) return res.status(404).json({ error: 'المرفق غير موجود' });
-
+        
         const file = path.join(uploadDir, r.rows[0].path);
-
+        
         console.log("Serarching for;", file);
-
+        
         if (!fs.existsSync(file)) return res.status(404).json({ error: 'الملف غير موجود على الخادم' });
-
+        
         res.sendFile(file);
     } catch (err) {
         console.error(err);

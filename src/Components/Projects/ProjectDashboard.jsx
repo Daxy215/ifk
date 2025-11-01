@@ -3,6 +3,7 @@ import { Plus, Search, Info, Star, Eye, Edit } from 'lucide-react';
 
 import CountdownTimer from '../Modals/CountdownTimer';
 import StatusBadge from '../Common/StatusBadge';
+import TaskStatus from "../../../Shared/Enums/TaskStatus";
 
 const ProjectDashboard = ({
                               tasks,
@@ -24,22 +25,22 @@ const ProjectDashboard = ({
                               filteredTasks,
                               handleTaskStatusChange
                           }) => {
-
+    
     const getProjectStatus = (project) => {
         if (project.status === 'مسودة') return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-400 text-gray-800">مسودة 📝</span>;
         if (project.status === 'مغلقة') return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">مغلقة ✅</span>;
-        const hasActiveTask = tasks.some(t => t.project_id === project.project_id && (t.status === 'نشطة' || t.status === 'متأخرة'));
+        const hasActiveTask = tasks.some(t => t.project_id === project.project_id && (t.status === TaskStatus.ACTIVE || t.status === TaskStatus.DELAYED));
         if (hasActiveTask) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-400 text-yellow-800">نشط 🟡</span>;
         return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-800 text-white">خامل ⚫</span>;
     };
-
+    
     const getProjectProgress = (project) => {
         const projectTasks = tasks.filter(t => t.project_id === project.project_id);
         if (projectTasks.length === 0) return 0;
-        const completedTasks = projectTasks.filter(t => t.status === 'منتهية').length;
+        const completedTasks = projectTasks.filter(t => t.status === TaskStatus.COMPLETED).length;
         return (completedTasks / projectTasks.length) * 100;
     };
-
+    
     return (
         <div className="p-6 space-y-8">
             { /* Projects */ }
@@ -50,7 +51,7 @@ const ProjectDashboard = ({
                         <Plus size={20} /><span>مشروع جديد</span>
                     </button>
                 </div>
-
+                
                 { /* Filtering */ }
                 <div className="flex gap-4 mb-4">
                     { /* Search bar */ }
@@ -62,7 +63,7 @@ const ProjectDashboard = ({
                                onChange={(e) => setProjectSearch(e.target.value)}
                                className="w-full pr-10 border rounded-lg" />
                     </div>
-
+                    
                     { /* Sort by */ }
                     <select value={projectFilter} onChange={e => setProjectFilter(e.target.value)} className="p-2 border rounded-lg">
                         <option value="active">كل المشاريع النشطة</option>
@@ -72,7 +73,7 @@ const ProjectDashboard = ({
                         <option value="archived">المؤرشفة</option>
                     </select>
                 </div>
-
+                
                 { /* Projects rendering */ }
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                     <table className="w-full text-sm text-right text-gray-600">
@@ -89,11 +90,11 @@ const ProjectDashboard = ({
                                 <th className="px-4 py-3">وقت الانتهاء</th>
                             </tr>
                         </thead>
-
+                        
                         <tbody>
                         {filteredProjects.map(project => {
                             const progress = getProjectProgress(project);
-
+                            
                             return (
                                 <tr key={project.project_id} className="border-b hover:bg-gray-50">
                                     <td className="px-4 py-3">{project.type}</td>
@@ -149,7 +150,7 @@ const ProjectDashboard = ({
                     </table>
                 </div>
             </div>
-
+            
             { /* Tasks */}
             <div>
                 <div className="flex justify-between items-center mb-4">
@@ -158,7 +159,7 @@ const ProjectDashboard = ({
                         <Plus size={20} /><span>مهمة جديدة</span>
                     </button>
                 </div>
-
+                
                 { /* Filtering */ }
                 <div className="flex gap-4 mb-4">
                     <div className="relative flex-grow">
@@ -169,62 +170,62 @@ const ProjectDashboard = ({
                                onChange={(e) => setTaskSearch(e.target.value)}
                                className="w-full pr-10 border rounded-lg" />
                     </div>
-
+                    
                     <select value={taskFilter.assignee} onChange={e => setTaskFilter({...taskFilter, assignee: e.target.value})} className="p-2 border rounded-lg">
-                        <option value="all">كل المكلفين</option>
+                        <option value="all">كل المكلفين</option> { /* TODO; EVERYTHING? */ }
                         {employees.map(e => <option key={e.employee_id} value={e.employee_id}>{e.name}</option>)}
                     </select>
-
+                    
                     <select value={taskFilter.status} onChange={e => setTaskFilter({...taskFilter, status: e.target.value})} className="p-2 border rounded-lg">
-                        <option value="all">كل الحالات</option>
-                        <option value="نشطة">نشطة</option>
-                        <option value="متأخرة">متأخرة</option>
-                        <option value="مكتملة - للمراجعة">للمراجعة</option>
-                        <option value="منتهية">منتهية</option>
+                        <option value={TaskStatus.ALL}>{TaskStatus.ALL}</option>
+                        <option value={TaskStatus.ACTIVE}>{TaskStatus.ACTIVE}</option>
+                        <option value={TaskStatus.DELAYED}>{TaskStatus.DELAYED}</option>
+                        <option value={TaskStatus.REVIEW}>{TaskStatus.REVIEW}</option>
+                        <option value={TaskStatus.COMPLETED}>{TaskStatus.COMPLETED}</option>
                     </select>
                 </div>
-
+                
                 { /* Tasks rendering */ }
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                     <table className="w-full text-sm text-right text-gray-600">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-100">
-                        <tr>
-                            <th className="px-4 py-3">نوع المشروع</th>
-                            <th className="px-4 py-3">رقم المشروع</th>
-                            <th className="px-4 py-3">العميل</th>
-                            <th className="px-4 py-3">وصف المهمة</th>
-                            <th className="px-4 py-3">المكلف</th>
-                            <th className="px-4 py-3">الحالة</th>
-                            <th className="px-4 py-3">الوقت المتبقي</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        {filteredTasks.map(task => (
-                            <tr key={task.task_id} className="border-b hover:bg-gray-50 cursor-pointer"
-                                onClick={() => viewProjectTasks(task.project_id)}>
-                                {/*{ (() => { console.log(task); return null; })() }*/}
-                                <td className="px-4 py-3 font-semibold">{task.projectType}</td>
-                                <td className="px-4 py-3">{task.projectNumber || 'N/A'}</td>
-                                <td className="px-4 py-3">{task.clientName}</td>
-                                <td className="px-4 py-3 text-right">
-                                    <div className="tooltip-container">
-                                        <Info size={18} className="cursor-pointer text-gray-500"/>
-                                        <div className="tooltip">{task.description}</div>
-                                    </div>
-                                </td>
-                                <td className="px-4 py-3">{task.assignee_name}</td>
-                                <td className="px-4 py-3"><StatusBadge status={task.status}/></td>
-                                <td className="px-4 py-3">
-                                <CountdownTimer
-                                        startDate={task.created_at}
-                                        durationDays={task.duration}
-                                        currentStatus={task.status}
-                                        onTaskLate={() => handleTaskStatusChange(task.task_id, 'متأخرة')}
-                                    />
-                                </td>
+                            <tr>
+                                <th className="px-4 py-3">نوع المشروع</th>
+                                <th className="px-4 py-3">رقم المشروع</th>
+                                <th className="px-4 py-3">العميل</th>
+                                <th className="px-4 py-3">وصف المهمة</th>
+                                <th className="px-4 py-3">المكلف</th>
+                                <th className="px-4 py-3">الحالة</th>
+                                <th className="px-4 py-3">الوقت المتبقي</th>
                             </tr>
-                        ))}
+                        </thead>
+                        
+                        <tbody>
+                            {filteredTasks.map(task => (
+                                <tr key={task.task_id} className="border-b hover:bg-gray-50 cursor-pointer"
+                                    onClick={() => viewProjectTasks(task.project_id)}>
+                                    {/*{ (() => { console.log(task); return null; })() }*/}
+                                    <td className="px-4 py-3 font-semibold">{task.projectType}</td>
+                                    <td className="px-4 py-3">{task.projectNumber || 'N/A'}</td>
+                                    <td className="px-4 py-3">{task.clientName}</td>
+                                    <td className="px-4 py-3 text-right">
+                                        <div className="tooltip-container">
+                                            <Info size={18} className="cursor-pointer text-gray-500"/>
+                                            <div className="tooltip">{task.description}</div>
+                                        </div>
+                                    </td>
+                                    <td className="px-4 py-3">{task.assignee_name}</td>
+                                    <td className="px-4 py-3"><StatusBadge status={task.status}/></td>
+                                    <td className="px-4 py-3">
+                                    <CountdownTimer
+                                            startDate={task.created_at}
+                                            durationDays={task.duration}
+                                            currentStatus={task.status}
+                                            onTaskLate={() => handleTaskStatusChange(task.task_id, TaskStatus.DELAYED)}
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

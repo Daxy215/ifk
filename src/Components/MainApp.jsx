@@ -24,33 +24,7 @@ import ActivateCaseModal from './Modals/ActivateCaseModal';
 import AddTaskAttachmentModal from './Modals/AddTaskAttachmentModal';
 
 import {useAuth} from '../Context/AuthContext';
-
-/*const initialProjects = [
-    { id: 1, clientId: 1, type: 'قضية', number: '1234567', name: 'قضية تجارية هامة تتعلق بنزاع على علامة تجارية دولية.', assigneeId: 1, status: 'قيد النظر', tasks: [1, 2], closedAt: null, attachments: [{name: 'عقد التأسيس.pdf', type: 'document'}, {name: 'ملاحظات الاجتماع الأول', type: 'note'}] },
-    { id: 2, clientId: 2, type: 'استشارة', number: '8765432', name: 'استشارة قانونية عاجلة حول قوانين العمل الجديدة.', assigneeId: 3, status: 'قيد النظر', tasks: [3], closedAt: null, attachments: [] },
-    { id: 3, clientId: 1, type: 'مسودة قضية', number: '', name: 'مسودة قضية عقارية بخصوص نزاع على ملكية أرض.', assigneeId: 2, status: 'مسودة', tasks: [], closedAt: null, attachments: [] },
-    { id: 4, type: 'احتياجات مكتب', number: '', name: 'تجهيز قاعة الاجتماعات الكبرى لاستقبال الوفود.', assigneeId: 4, status: 'مغلقة', tasks: [4], closedAt: new Date(), attachments: [{name: 'فاتورة الشراء', type: 'document'}] },
-    { id: 5, clientId: 2, type: 'قضية', number: '1122334', name: 'قضية عمالية للموظف السابق.', assigneeId: 1, status: 'قيد النظر', tasks: [], closedAt: null, attachments: [] },
-];
-
-const initialTasks = [
-    { id: 1, projectId: 1, description: 'تحضير مذكرة الدفاع الأولى وجمع كافة المستندات اللازمة من العميل.', assigneeId: 1, duration: 5, createdAt: new Date('2025-08-25T10:00:00'), attachments: [{name: 'مسودة المذكرة.docx', type: 'document'}], status: 'نشطة' },
-    { id: 2, projectId: 1, description: 'مراجعة مستندات الخصم وتقديم تقرير بالنتائج.',                   assigneeId: 2, duration: 1, createdAt: new Date('2025-08-23T14:00:00'), attachments: [], status: 'نشطة' },
-    { id: 3, projectId: 2, description: 'صياغة الرأي القانوني المبدئي بناءً على المعلومات المقدمة.',       assigneeId: 3, duration: 2, createdAt: new Date('2025-08-26T09:00:00'), attachments: [{name: 'ملخص الاستشارة.txt', type: 'note'}], status: 'مكتملة - للمراجعة' },
-    { id: 4, projectId: 4, description: 'شراء شاشة عرض جديدة وتركيبها في القاعة.',                       assigneeId: 4, duration: 3, createdAt: new Date('2025-08-01T11:00:00'), attachments: [], status: 'منتهية' },
-];
-
-const initialEmployees = [
-    { id: 1, name: 'أحمد محمود', jobTitle: 'محامي أول', email: 'ahmed.m@lawfirm.com', phone: '0501234567', contactOfficer: 'سكرتارية' },
-    { id: 2, name: 'فاطمة علي', jobTitle: 'محامية متدربة', email: 'fatima.a@lawfirm.com', phone: '0502345678', contactOfficer: 'سكرتارية' },
-    { id: 3, name: 'خالد سعيد', jobTitle: 'مستشار قانوني', email: 'khalid.s@lawfirm.com', phone: '0503456789', contactOfficer: 'سكرتارية' },
-    { id: 4, name: 'قسم الدعم', jobTitle: 'دعم فني', email: 'support@lawfirm.com', phone: '0123456789', contactOfficer: 'سكرتارية' },
-];
-
-const initialClients = [
-    { id: 1, name: 'شركة المقاولات الحديثة', email: 'info@mcc.com', phone: '0112345678', contactOfficer: 'مدير المشاريع' },
-    { id: 2, name: 'مؤسسة التجارة الدولية', email: 'contact@iit.com', phone: '0113456789', contactOfficer: 'المدير التنفيذي' },
-];*/
+import TaskStatus from "../../Shared/Enums/TaskStatus";
 
 const MainApp = () => {
     const { t, i18n } = useTranslation();
@@ -92,7 +66,7 @@ const MainApp = () => {
     const [employeeSearch, setEmployeeSearch] = useState('');
     const [clientSearch, setClientSearch] = useState('');
     const [projectFilter, setProjectFilter] = useState('active');
-    const [taskFilter, setTaskFilter] = useState({ assignee: 'all', status: 'all' });
+    const [taskFilter, setTaskFilter] = useState({ assignee: 'all', status: TaskStatus.ALL });
     
     // TODO; Make this request from server (Maybe?)
     const selectedProject = useMemo(() => projects.find(p => p.project_id === selectedProjectId), [projects, selectedProjectId]);
@@ -117,12 +91,14 @@ const MainApp = () => {
     const handleTaskStatusChange = async (taskId, newStatus) => {
         console.log("Udpating task;", taskId, newStatus);
         
-        const updated = await apiFetch(`/api/tasks/${taskId}`, {
+        const res = await apiFetch(`/api/tasks/${taskId}`, {
             method: "PATCH",
             body: JSON.stringify({
                 status: newStatus
             }),
         });
+        
+        const updated = res.data;
         
         setTasks(prev =>
             prev.map(t => {
@@ -138,10 +114,12 @@ const MainApp = () => {
     };
     
     const handleAddNewTask = async (taskData, files) => {
-        const created = await apiFetch("/api/tasks", {
+        const res = await apiFetch("/api/tasks", {
             method: "POST",
             body: JSON.stringify({ ...taskData }),
         });
+        
+        const created = res.data;
         
         let attachments = [];
         if (files && files.length > 0) {
@@ -152,31 +130,8 @@ const MainApp = () => {
         setShowNewTaskModal(false);
     };
     
-    /*const handleAddNewTask = (taskData, files) => {
-        const newAttachments = Array.from(files).map(file => ({ name: file.name, type: 'document' }));
-        const projectNumber = parseInt(taskData.projectNumber, 10);
-        delete taskData.projectNumber;
-
-        const project = projects.find(p => p.number == projectNumber);
-        const projectId = project ? project.id : null;
-
-        setTasks([
-            ...tasks,
-            {
-                id: Date.now(),
-                projectId: projectId,
-                ...taskData,
-                createdAt: new Date(),
-                attachments: newAttachments,
-                status: 'نشطة'
-            }
-        ]);
-
-        setShowNewTaskModal(false);
-    };*/
-    
     const handleAddNewProject = async (projectData, files) => {
-        const created = await apiFetch("/api/projects", {
+        const res = await apiFetch("/api/projects", {
             method: "POST",
             body: JSON.stringify({
                 clientId: projectData.clientId,
@@ -188,6 +143,8 @@ const MainApp = () => {
                 closedAt: projectData.closedAt
             }),
         });
+        
+        const created = res.data;
         
         let attachments = [];
         if (files && files.length > 0) {
@@ -206,10 +163,12 @@ const MainApp = () => {
     };
     
     const handleUpdateProject = async (updatedProjectData) => {
-        const updated = await apiFetch(`/api/projects/${projectToEdit.project_id}`, {
+        const res = await apiFetch(`/api/projects/${projectToEdit.project_id}`, {
             method: "PUT",
             body: JSON.stringify(updatedProjectData),
         });
+        
+        const updated = res.data;
         
         setProjects(prev => prev.map(p => p.project_id === updated.project_id ? updated : p));
         setShowEditProjectModal(false);
@@ -219,10 +178,12 @@ const MainApp = () => {
     const handleActivateCase = async (projectId, caseNumber) => {
         console.log("tranna update;", projectId);
         
-        const updated = await apiFetch(`/api/projects/${projectId}`, {
+        const res = await apiFetch(`/api/projects/${projectId}`, {
             method: "PUT",
             body: JSON.stringify({ type: "قضية", number: caseNumber, status: "قيد النظر" }),
         });
+        
+        const updated = res.data;
         
         setProjects(prev => prev.map(p => p.project_id === projectId ? updated : p));
         setShowActivateCaseModal(false);
@@ -233,7 +194,7 @@ const MainApp = () => {
         const updated = await apiFetch(`/api/projects/${projectId}`, {
             method: "PUT",
             body: JSON.stringify({ status: "مغلقة", closedAt: new Date().toISOString() }),
-        });
+        }).data;
         
         setProjects(prev => prev.map(p => p.project_id === projectId ? updated : p));
         setActiveView("dashboard");
@@ -246,17 +207,19 @@ const MainApp = () => {
         const created = await apiFetch("/api/employees", {
             method: "POST",
             body: JSON.stringify(employeeData),
-        });
+        }).data;
         
         setEmployees(prev => [created, ...prev]);
         setShowNewEmployeeModal(false);
     };
     
     const handleUpdateEmployee = async (updatedEmployeeData) => {
-        const updated = await apiFetch(`/api/employees/${employeeToEdit.employee_id}`, {
+        const res = await apiFetch(`/api/employees/${employeeToEdit.employee_id}`, {
             method: "PUT",
             body: JSON.stringify(updatedEmployeeData),
         });
+        
+        const updated = res.data;
         
         setEmployees(prev => prev.map(e => e.employee_id === updated.employee_id ? updated : e));
         setShowEditEmployeeModal(false);
@@ -264,10 +227,12 @@ const MainApp = () => {
     };
     
     const handleAddNewClient = async (clientData) => {
-        const created = await apiFetch("/api/clients", {
+        const res = await apiFetch("/api/clients", {
             method: "POST",
             body: JSON.stringify(clientData),
         });
+        
+        const created = res.data;
         
         setClients(prev => [created.data, ...prev]);
         setShowNewClientModal(false);
@@ -352,69 +317,11 @@ const MainApp = () => {
     const loadMore = () => {
         if (pagination && page < pagination.totalPages) {
             const nextPage = page + 1;
+            
             setPage(nextPage);
             fetchProjects(nextPage);
         }
     };
-    
-    /*const handleTaskStatusChange = (taskId, newStatus) => {
-        setTasks(prevTasks => {
-            const updated = prevTasks.map(t =>
-                t.id === taskId ? { ...t, status: newStatus } : t
-            );
-
-            return updated;
-        });
-    };
-
-    const handleAddNewTask = (taskData, files) => {
-        const newAttachments = Array.from(files).map(file => ({ name: file.name, type: 'document' }));
-        const projectNumber = parseInt(taskData.projectNumber, 10);
-        delete taskData.projectNumber;
-
-        const project = projects.find(p => p.number == projectNumber);
-        const projectId = project ? project.id : null;
-
-        setTasks([
-            ...tasks,
-            {
-                id: Date.now(),
-                projectId: projectId,
-                ...taskData,
-                createdAt: new Date(),
-                attachments: newAttachments,
-                status: 'نشطة'
-            }
-        ]);
-
-        setShowNewTaskModal(false);
-    };
-
-    const handleAddNewProject = (projectData, files) => {
-        const newAttachments = Array.from(files).map(file => ({ name: file.name, type: 'document' }));
-        // projectData.type === 'مسودة قضية' ? 'مسودة' : 'قيد النظر'
-        setProjects([...projects, { id: Date.now(), ...projectData, status: !projectData.number ?'مسودة' : 'مسودة قضية', tasks: [], closedAt: null, attachments: newAttachments }]);
-        setShowNewProjectModal(false);
-    };
-
-    const handleEditProject = (projectId) => { setProjectToEdit(projects.find(p => p.id === projectId)); setShowEditProjectModal(true); };
-    const handleUpdateProject = (updatedProjectData) => { setProjects(projects.map(p => p.id === projectToEdit.id ? { ...p, ...updatedProjectData } : p)); setShowEditProjectModal(false); setProjectToEdit(null); };
-    const handleActivateCase = (projectId, caseNumber) => { setProjects(projects.map(p => p.id === projectId ? { ...p, type: 'قضية', number: caseNumber, status: 'قيد النظر' } : p)); setShowActivateCaseModal(false); setActivatingProjectId(null); };
-    const handleCloseProject = (projectId) => { setProjects(projects.map(p => p.id === projectId ? { ...p, status: 'مغلقة', closedAt: new Date() } : p)); setActiveView('dashboard'); setSelectedProjectId(null); };
-    const openActivateModal = (projectId) => { setActivatingProjectId(projectId); setShowActivateCaseModal(true); };
-    const viewAttachments = (items, title) => { setAttachmentsToShow({ items, title }); setShowAttachmentsModal(true); };
-    const viewProjectTasks = (projectId) => { setSelectedProjectId(projectId); setActiveView('projectDetails'); };
-    const handleAddNewEmployee = (employeeData) => { setEmployees([...employees, { id: Date.now(), ...employeeData }]); setShowNewEmployeeModal(false); };
-    const handleEditEmployee = (employeeId) => { setEmployeeToEdit(employees.find(e => e.id === employeeId)); setShowEditEmployeeModal(true); };
-    const handleUpdateEmployee = (updatedEmployeeData) => { setEmployees(employees.map(e => e.id === employeeToEdit.id ? { ...e, ...updatedEmployeeData } : e)); setShowEditEmployeeModal(false); setEmployeeToEdit(null); };
-    const viewEmployeeDetails = (employeeId) => { setSelectedEmployeeId(employeeId); setActiveView('employeeDetails'); };
-    const handleAddNewClient = (clientData) => { setClients([...clients, { id: Date.now(), ...clientData }]); setShowNewClientModal(false); };
-    const handleEditClient = (clientId) => { setClientToEdit(clients.find(c => c.id === clientId)); setShowEditClientModal(true); };
-    const handleUpdateClient = (updatedClientData) => { setClients(clients.map(c => c.id === clientToEdit.id ? { ...c, ...updatedClientData } : c)); setShowEditClientModal(false); setClientToEdit(null); };
-    const viewClientDetails = (clientId) => { setSelectedClientId(clientId); setActiveView('clientDetails'); };
-    const handleOpenAddTaskAttachmentModal = (taskId) => { setTaskToAttachToId(taskId); setShowAddTaskAttachmentModal(true); };
-    const handleAddTaskAttachment = (files) => { if (!taskToAttachToId) return; const newAttachments = Array.from(files).map(file => ({ name: file.name, type: 'document' })); setTasks(tasks.map(task => task.id === taskToAttachToId ? { ...task, attachments: [...task.attachments, ...newAttachments] } : task)); setShowAddTaskAttachmentModal(false); setTaskToAttachToId(null); };
-*/
     
     const filteredProjects = useMemo(() => {
         return projects
@@ -422,13 +329,13 @@ const MainApp = () => {
                 //const assignee = employees.find(e => e.employee_id === p.assignee_id);
                 const projectTasks = tasks.filter(t => t.project_id === p.project_id);
                 const hasActiveTask = projectTasks.some(
-                    t => t.status === 'نشطة' || t.status === 'متأخرة'
+                    t => t.status === TaskStatus.ACTIVE || t.status === TaskStatus.DELAYED
                 );
                 
                 return {
                     ...p,
                     taskCount: projectTasks.length,
-                    activeTaskCount: projectTasks.filter(t => t.status === 'نشطة').length,
+                    activeTaskCount: projectTasks.filter(t => t.status === TaskStatus.ACTIVE).length,
                     hasActiveTask,
                 };
             })
@@ -469,7 +376,7 @@ const MainApp = () => {
         return allTasksWithProjectInfo.filter(task => {
             const searchMatch = !taskSearch || task.projectName?.toLowerCase().includes(taskSearch.toLowerCase()) || task.projectNumber?.includes(taskSearch) || task.clientName.toLowerCase().includes(taskSearch.toLowerCase());
             const assigneeMatch = taskFilter.assignee === 'all' || task.assignee_id == taskFilter.assignee;
-            const statusMatch = taskFilter.status === 'all' && task.status !== 'منتهية' || task.status === taskFilter.status;
+            const statusMatch = taskFilter.status === TaskStatus.ALL && task.status !== TaskStatus.COMPLETED || task.status === taskFilter.status;
             return searchMatch && assigneeMatch && statusMatch;
         });
     }, [allTasksWithProjectInfo, taskSearch, taskFilter]);

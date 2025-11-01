@@ -18,7 +18,7 @@ const EmployeesView = ({
                     <Plus size={20} /><span>موظف جديد</span>
                 </button>
             </div>
-
+            
             <div className="relative mb-4">
                 <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                 <input type="text"
@@ -27,7 +27,7 @@ const EmployeesView = ({
                        onChange={(e) => setEmployeeSearch(e.target.value)}
                        className="w-full pr-10 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
             </div>
-
+            
             <div className="bg-white p-4 rounded-lg shadow-sm">
                 <table className="w-full text-sm text-right text-gray-600">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -40,7 +40,7 @@ const EmployeesView = ({
                             <th className="px-4 py-3">الإجراءات</th>
                         </tr>
                     </thead>
-
+                    
                     <tbody>
                         {filteredEmployees.map(emp => (
                             <tr key={emp.employee_id} className="border-b hover:bg-gray-50">

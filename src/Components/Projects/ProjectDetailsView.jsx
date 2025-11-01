@@ -2,6 +2,7 @@
 import { ArrowRight, CheckCircle, Plus, FileText, Info, Paperclip } from 'lucide-react';
 import CountdownTimer from '../Modals/CountdownTimer';
 import StatusBadge from '../Common/StatusBadge';
+import TaskStatus from "../../../Shared/Enums/TaskStatus";
 
 const ProjectDetailsView = ({
                                 selectedProject,
@@ -14,9 +15,8 @@ const ProjectDetailsView = ({
                                 handleTaskStatusChange,
                                 handleOpenAddTaskAttachmentModal
                             }) => {
-
-    const isProjectClosable = selectedProject && selectedProjectTasks.length > 0 && selectedProjectTasks.every(t => t.status === 'منتهية');
-
+    const isProjectClosable = selectedProject && selectedProjectTasks.length > 0 && selectedProjectTasks.every(t => t.status === TaskStatus.COMPLETED);
+    
     return (
         <div className="p-6">
             {selectedProject ? (
@@ -24,20 +24,21 @@ const ProjectDetailsView = ({
                     <button onClick={() => { setActiveView('dashboard'); setSelectedProjectId(null); }} className="flex items-center gap-2 mb-6 text-sm text-blue-600 hover:underline">
                         <ArrowRight size={16} /><span>العودة إلى المشاريع</span>
                     </button>
-
+                    
                     <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
                         <div className="flex flex-wrap justify-between items-center gap-4">
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-800">{selectedProject.name}</h2>
                                 <p className="text-gray-500">{selectedProject.type} {selectedProject.number && `- ${selectedProject.number}`}</p>
                             </div>
+                            
                             <div className="flex gap-2">
                                 {isProjectClosable && (
                                     <button onClick={() => handleCloseProject(selectedProject.project_id)} className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
                                         <CheckCircle size={20} /><span>إغلاق المشروع</span>
                                     </button>
                                 )}
-
+                                
                                 {selectedProject.status !== 'مغلقة' && (
                                     <button onClick={() => setShowNewTaskModal(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                                         <Plus size={20} /><span>مهمة جديدة</span>
@@ -45,6 +46,7 @@ const ProjectDetailsView = ({
                                 )}
                             </div>
                         </div>
+                        
                         {/*<div className="border-t my-4"></div>*/}
                         <div>
                             <h4 className="font-semibold mb-2">مرفقات المشروع</h4>
@@ -63,7 +65,7 @@ const ProjectDetailsView = ({
                                 ) : (
                                     <p className="text-xs text-gray-500">لا توجد مرفقات.</p>
                                 )}
-
+                                
                                 {/* Task attachments */}
                                 {selectedProjectTasks.map(task =>
                                     task.attachments && task.attachments.length > 0
@@ -82,6 +84,7 @@ const ProjectDetailsView = ({
                             </div>
                         </div>
                     </div>
+                    
                     <div className="bg-white p-4 rounded-lg shadow-sm">
                         <table className="w-full text-sm text-right text-gray-600">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -93,7 +96,7 @@ const ProjectDetailsView = ({
                                     <th className="px-4 py-3">الإجراءات</th>
                                 </tr>
                             </thead>
-
+                            
                             <tbody>
                                 {selectedProjectTasks.map(task => (
                                     <tr key={task.task_id} className="border-b hover:bg-gray-50">
@@ -104,15 +107,15 @@ const ProjectDetailsView = ({
                                             <CountdownTimer
                                                 startDate={task.created_at}
                                                 durationDays={task.duration}
-                                                onTaskLate={() => handleTaskStatusChange(task.task_id, 'متأخرة')}
+                                                onTaskLate={() => handleTaskStatusChange(task.task_id, TaskStatus.DELAYED)}
                                             />
                                         </td>
-
+                                        
                                         <td className="px-4 py-3 flex items-center gap-2">
-                                            {task.status === 'نشطة' || task.status === 'متأخرة' ? (
-                                                <button onClick={() => handleTaskStatusChange(task.task_id, 'مكتملة - للمراجعة')} className="text-xs bg-green-500 text-white px-3 py-1 rounded-md">إنهاء المهمة</button>
-                                            ) : task.status === 'مكتملة - للمراجعة' ? (
-                                                <button onClick={() => handleTaskStatusChange(task.task_id, 'منتهية')} className="text-xs bg-indigo-500 text-white px-3 py-1 rounded-md">تأكيد الإنهاء</button>
+                                            {task.status === TaskStatus.ACTIVE || task.status === TaskStatus.DELAYED ? (
+                                                <button onClick={() => handleTaskStatusChange(task.task_id, TaskStatus.REVIEW)} className="text-xs bg-green-500 text-white px-3 py-1 rounded-md">إنهاء المهمة</button>
+                                            ) : task.status === TaskStatus.REVIEW ? (
+                                                <button onClick={() => handleTaskStatusChange(task.task_id, TaskStatus.COMPLETED)} className="text-xs bg-indigo-500 text-white px-3 py-1 rounded-md">تأكيد الإنهاء</button>
                                             ) : null}
                                             <button onClick={() => handleOpenAddTaskAttachmentModal(task.task_id)} className="p-2 text-gray-500 hover:text-blue-600" title="إضافة مرفق">
                                                 <Paperclip size={16} />
@@ -120,6 +123,7 @@ const ProjectDetailsView = ({
                                         </td>
                                     </tr>
                                 ))}
+                                
                                 {selectedProjectTasks.length === 0 && (
                                     <tr><td colSpan="5" className="text-center py-10 text-gray-500">لا توجد مهام لهذا المشروع.</td></tr>
                                 )}
