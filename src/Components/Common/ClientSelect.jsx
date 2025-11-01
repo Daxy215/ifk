@@ -49,8 +49,6 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
     };
     
     const handleSelect = (client) => {
-        console.log("Selected;", client);
-        
         onChange(client.client_id);
         
         setQuery(client.name);

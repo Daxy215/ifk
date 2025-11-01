@@ -19,7 +19,7 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
         
         const client = await apiFetch(`/api/clients/${encodeURIComponent(clientId)}`).data;
         
-        console.log(clientInputRef, client);
+        console.log(clientInputRef, clientId, client);
         
         if (!client || client.client_id !== clientId) {
             clientInputRef.current.setCustomValidity("الرجاء اختيار عميل صحيح");
