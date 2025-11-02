@@ -19,7 +19,8 @@ const NewTaskModal = ({setShowNewTaskModal, handleAddNewTask}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const project = await apiFetch(`/api/projects/${encodeURIComponent(selectedProjectId)}`, {method: "GET"}).data;
+        const resP = await apiFetch(`/api/projects/${encodeURIComponent(selectedProjectId)}`, {method: "GET"});
+        const project = await resP.data;
         
         const projectExists = project && project.project_id === selectedProjectId;
         
@@ -30,7 +31,8 @@ const NewTaskModal = ({setShowNewTaskModal, handleAddNewTask}) => {
             return;
         }
         
-        const employee = await apiFetch(`/api/employees/${encodeURIComponent(assigneeId)}`, {method: "GET"}).data;
+        const resE = await apiFetch(`/api/employees/${encodeURIComponent(assigneeId)}`, {method: "GET"});
+        const employee = await resE.data;
         
         const employeeExists = employee && employee.employee_id === assigneeId;
         

@@ -4,45 +4,44 @@ import { useAuth } from '../../Context/AuthContext';
 
 export default function ProjectSelect({ projectRef, value, onChange }) {
     const { apiFetch } = useAuth();
-
+    
     const [projectNumber, setProjectNumber] = useState(value || "");
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
     const containerRef = useRef(null);
-
+    
     const handleInputChange = async (e) => {
         const val = e.target.value;
-
+        
         setProjectNumber(val);
         setHighlightedIndex(-1);
-
+        
         if (!val) {
             setFilteredProjects([]);
             return;
         }
-
+        
         const q = val.toLowerCase();
-
+        
         try {
             const res = await apiFetch(`/api/projects/search?q=${encodeURIComponent(q)}`);
-
             const data = await res.data;
-
+            
             setFilteredProjects(data);
         } catch (err) {
             console.error("Project search failed:", err);
         }
     };
-
+    
     const handleSelect = (project) => {
         setProjectNumber(project.number);
         onChange(project.project_id);
         setFilteredProjects([]);
     };
-
+    
     const handleKeyDown = (e) => {
         if (!filteredProjects.length) return;
-
+        
         if (e.key === "ArrowDown") {
             e.preventDefault();
             setHighlightedIndex((prev) => (prev + 1) % filteredProjects.length);
@@ -60,25 +59,25 @@ export default function ProjectSelect({ projectRef, value, onChange }) {
             setFilteredProjects([]);
         }
     };
-
+    
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (containerRef.current && !containerRef.current.contains(e.target)) {
                 setFilteredProjects([]);
             }
         };
-
+        
         document.addEventListener("mousedown", handleClickOutside);
-
+        
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
-
+    
     return (
         <div>
             <label className="block text-sm">رقم المشروع</label>
             <div className="relative w-full" ref={containerRef}>
                 <input
-                    required
+                    /*required*/
                     type="text"
                     name="projectNumber"
                     className="w-full p-2 border rounded-lg"
@@ -90,10 +89,10 @@ export default function ProjectSelect({ projectRef, value, onChange }) {
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                     pattern="^[0-9]{7}$"
-                    /*onInvalid={(e) => e.target.setCustomValidity("الرجاء اختيار مشروع")}*/
-                    onInput={(e) => e.target.setCustomValidity("")}
+                    /*onInvalid={(e) => e.target.setCustomValidity("الرجاء اختيار مشروع")}
+                    onInput={(e) => e.target.setCustomValidity("")}*/
                 />
-
+                
                 {filteredProjects.length > 0 && (
                     <div className="absolute mt-1 w-full bg-white border rounded-lg shadow-md z-50 max-h-60 overflow-y-auto">
                         {filteredProjects.map((p, index) => (
