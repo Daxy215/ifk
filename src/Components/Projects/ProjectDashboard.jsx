@@ -3,7 +3,7 @@ import { Plus, Search, Info, Star, Eye, Edit } from 'lucide-react';
 
 import CountdownTimer from '../Modals/CountdownTimer';
 import StatusBadge from '../Common/StatusBadge';
-import TaskStatus from "../../../Shared/Enums/TaskStatus";
+import TaskStatus from '@/Components/Common/TaskStatus';
 
 const ProjectDashboard = ({
                               tasks,

@@ -6,4 +6,4 @@ const TaskStatus = Object.freeze({
     COMPLETED: 'COMPLETED', // منتهية
 });
 
-module.exports = TaskStatus;
+export default TaskStatus;

@@ -1,4 +1,4 @@
-﻿//require('dotenv').config({ path: '../.env' });
+﻿require('dotenv').config({ path: '../.env' });
 //require('dotenv').config({ path: '/home/pguser/pg/ifk-project-management/.env' });
 
 const express = require('express');
@@ -716,11 +716,15 @@ app.get('/api/projects/:id/tasks', requirePermission('edit_content'), async (req
 app.post('/api/tasks', requirePermission('edit_content'), async (req, res) => {
     const { project_id, description, assignee_id, duration, status } = req.body;
     
+    const stat = status || TaskStatus.ACTIVE;
+    
+    console.log("Stat; ", stat);
+    
     const r = await query(`
         INSERT INTO tasks (project_id, description, assignee_id, duration, status)
         VALUES ($1,$2,$3,$4,$5)
         RETURNING *
-    `, [project_id, description, assignee_id || null, duration, status || TaskStatus.ACTIVE]);
+    `, [project_id, description, assignee_id || null, duration, stat]);
     
     res.json(r.rows[0]);
 });

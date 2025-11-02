@@ -24,7 +24,7 @@ import ActivateCaseModal from './Modals/ActivateCaseModal';
 import AddTaskAttachmentModal from './Modals/AddTaskAttachmentModal';
 
 import {useAuth} from '../Context/AuthContext';
-import TaskStatus from "../../Shared/Enums/TaskStatus";
+import TaskStatus from '@/Components/Common/TaskStatus';
 
 const MainApp = () => {
     const { t, i18n } = useTranslation();
