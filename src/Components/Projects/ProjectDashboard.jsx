@@ -136,7 +136,10 @@ const ProjectDashboard = ({
                                                 <Star size={18}/>
                                             </button>
                                         )}
-                                        <button onClick={() => viewProjectTasks(project.project_id)}
+                                        <button onClick={() => {
+                                            console.log("Tranna view; ", project);
+                                            viewProjectTasks(project.project_id);
+                                        }}
                                                 className="p-2 text-gray-500 hover:text-green-600" title="عرض المهام">
                                             <Eye size={18}/>
                                         </button>

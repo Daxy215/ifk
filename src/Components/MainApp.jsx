@@ -286,6 +286,8 @@ const MainApp = () => {
     const viewAttachments = (items, title) => { setAttachmentsToShow({ items, title }); setShowAttachmentsModal(true); };
     
     const viewProjectTasks = (project_id) => {
+        console.log("Viewing; ", project_id);
+        
         setSelectedProjectId(project_id);
         setActiveView('projectDetails');
     };
