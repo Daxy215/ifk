@@ -69,7 +69,10 @@ const MainApp = () => {
     const [taskFilter, setTaskFilter] = useState({ assignee: 'all', status: TaskStatus.ALL });
     
     // TODO; Make this request from server (Maybe?)
-    const selectedProject = useMemo(() => projects.find(p => p.project_id === selectedProjectId), [projects, selectedProjectId]);
+    const selectedProject = useMemo(() => projects.find(p => {
+        console.log("P;", p);
+        p.project_id === selectedProjectId;
+    }), [projects, selectedProjectId]);
     
     const selectedProjectTasks = useMemo(() => {
         return tasks.filter(t => t.project_id === selectedProjectId);
@@ -128,8 +131,6 @@ const MainApp = () => {
         if (files && files.length > 0) {
             attachments = await uploadAttachments(files, { task_id: created.task_id });
         }
-        
-        console.log("Adding;", created);
         
         setTasks(prev => [{ ...created, attachments }, ...prev]);
         setShowNewTaskModal(false);
