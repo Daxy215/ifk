@@ -70,7 +70,7 @@ const MainApp = () => {
     
     // TODO; Make this request from server (Maybe?)
     const selectedProject = useMemo(() => projects.find(p => {
-        console.log("P;", p);
+        console.log("P;", p, selectedProjectId);
         return p.project_id === selectedProjectId;
     }), [projects, selectedProjectId]);
     
