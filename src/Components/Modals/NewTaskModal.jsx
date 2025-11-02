@@ -22,6 +22,8 @@ const NewTaskModal = ({setShowNewTaskModal, handleAddNewTask}) => {
         const resP = await apiFetch(`/api/projects/${encodeURIComponent(selectedProjectId)}`, {method: "GET"});
         const project = await resP.data;
         
+        console.log(resP, selectedProjectId);
+        
         const projectExists = project && project.project_id === selectedProjectId;
         
         if (!projectExists) {
