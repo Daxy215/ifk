@@ -160,8 +160,6 @@ export const AuthProvider = ({ children }) => {
         const uploaded = [];
         
         for (const file of files) {
-            console.log("Tranna sending; ", file);
-            
             if(file.size === 0) continue;
             
             const formData = new FormData();

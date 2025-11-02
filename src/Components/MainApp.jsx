@@ -119,9 +119,9 @@ const MainApp = () => {
             body: JSON.stringify({ ...taskData }),
         });
         
-        console.log("New task;", res);
-        
         const created = res.data;
+        
+        created.assignee_name = taskData.assignee_name;
         
         let attachments = [];
         if (files && files.length > 0) {
