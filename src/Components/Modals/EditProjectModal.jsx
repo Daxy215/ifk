@@ -43,9 +43,9 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
         
-        data.clientId = parseInt(clientId);
-        data.client_name = client.name;
-        data.assigneeId = parseInt(assigneeId);
+        data.client_id = parseInt(clientId);
+        //data.client_name = client.name;
+        data.assignee_id = parseInt(assigneeId);
         
         handleUpdateProject(data);
     };
