@@ -201,10 +201,11 @@ const MainApp = () => {
     };
     
     const handleCloseProject = async (project_id) => {
-        const updated = await apiFetch(`/api/projects/${project_id}`, {
+        const res = await apiFetch(`/api/projects/${project_id}`, {
             method: "PUT",
             body: JSON.stringify({ status: "مغلقة", closedAt: new Date().toISOString() }),
-        }).data;
+        });
+        const updated = await res.data;
         
         setProjects(prev => prev.map(p => p.project_id === project_id ? updated : p));
         setActiveView("dashboard");

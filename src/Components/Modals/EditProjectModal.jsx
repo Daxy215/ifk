@@ -18,7 +18,8 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const client = await apiFetch(`/api/clients/${encodeURIComponent(clientId)}`).data.then((r) => r.json());
+        const resC = await apiFetch(`/api/clients/${encodeURIComponent(clientId)}`);
+        const client = await resC.data;
         
         if (!client || client.client_id !== clientId) {
             clientInputRef.current.setCustomValidity("الرجاء اختيار عميل صحيح");
@@ -27,7 +28,8 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
             return;
         }
         
-        const employee = await apiFetch(`/api/employees/${encodeURIComponent(assigneeId)}`, {method: "GET"}).data;
+        const resE = await apiFetch(`/api/employees/${encodeURIComponent(assigneeId)}`, {method: "GET"});
+        const employee = resE.data;
         
         const employeeExists = employee && employee.employee_id === assigneeId;
         
@@ -42,7 +44,7 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
         const data = Object.fromEntries(formData.entries());
         
         data.clientId = parseInt(clientId);
-        data.client_name = cli-ent.name;
+        data.client_name = client.name;
         data.assigneeId = parseInt(assigneeId);
         
         handleUpdateProject(data);

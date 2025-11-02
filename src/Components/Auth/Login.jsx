@@ -93,8 +93,7 @@ const Login = () => {
                     </button>
                 </form>
                 <p className="text-center mt-4">
-                    {t("login.noAccount")}
-                    
+                    {t("login.noAccount")}{' '}
                     <Link to="/register" className="text-blue-600 hover:underline">
                         {t("register.title")}
                     </Link>

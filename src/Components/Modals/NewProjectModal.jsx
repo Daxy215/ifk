@@ -57,9 +57,10 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
             const res = await apiFetch(`/api/clients`, {
                 method: "POST",
                 body: JSON.stringify({ name }),
-            }).data;
+            });
             
-            const newClient = await res.json();
+            const newClient = await res.data;
+            
             setClientId(newClient.client_id);
         } catch (err) {
             console.error("Failed to add client:", err);
