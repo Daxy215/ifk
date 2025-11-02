@@ -119,6 +119,8 @@ const MainApp = () => {
             body: JSON.stringify({ ...taskData }),
         });
         
+        console.log("New task;", res);
+        
         const created = res.data;
         
         let attachments = [];
@@ -144,8 +146,6 @@ const MainApp = () => {
                 closed_at: projectData.closed_at
             }),
         });
-        
-        console.log("Got; ", res);
         
         const created = res.data;
         
