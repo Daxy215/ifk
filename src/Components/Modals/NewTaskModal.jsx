@@ -49,6 +49,7 @@ const NewTaskModal = ({setShowNewTaskModal, handleAddNewTask}) => {
         data.duration = parseInt(data.duration);
         data.assignee_id = parseInt(assigneeId);
         data.assignee_name = employee.name;
+        data.client_name   = project.client_name;
         data.project_id = parseInt(selectedProjectId);
         
         const attachments = formData.getAll("attachments");

@@ -122,11 +122,14 @@ const MainApp = () => {
         const created = res.data;
         
         created.assignee_name = taskData.assignee_name;
+        created.client_name   = taskData.client_name;
         
         let attachments = [];
         if (files && files.length > 0) {
             attachments = await uploadAttachments(files, { task_id: created.task_id });
         }
+        
+        console.log("Adding;", created);
         
         setTasks(prev => [{ ...created, attachments }, ...prev]);
         setShowNewTaskModal(false);
