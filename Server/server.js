@@ -510,7 +510,7 @@ app.post('/api/projects', requirePermission('edit_content'), async (req, res) =>
         INSERT INTO projects (client_id, type, number, name, assignee_id, status)
         VALUES ($1,$2,$3,$4,$5,$6)
         RETURNING *
-    `, [client_id, type, number || null, name, assignee_id, status || 'مسودة']);
+    `, [client_id, type, number || null, name, assignee_id, status || 'DRAFT']);
     
     res.json(r.rows[0]);
 });
@@ -531,10 +531,11 @@ app.get('/api/projects/search', requirePermission('edit_content'), async (req, r
     }
     
     try {
+        // TOOD; USE ENUM INSTEAD OF 'CLOSED' 
         const r = await query(`
             SELECT project_id, number, name, status
             FROM projects
-            WHERE status != 'مغلقة'
+            WHERE status != 'CLOSED'
               AND number ILIKE $1
             ORDER BY project_id DESC
             LIMIT 20

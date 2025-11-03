@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle, Plus, FileText, Info, Paperclip } from 'lucide
 import CountdownTimer from '../Modals/CountdownTimer';
 import StatusBadge from '../Common/StatusBadge';
 import TaskStatus from '@/Components/Common/TaskStatus';
+import ProjectStatus from "../Common/ProjectStatus";
 
 const ProjectDetailsView = ({
                                 selectedProject,
@@ -39,7 +40,7 @@ const ProjectDetailsView = ({
                                     </button>
                                 )}
                                 
-                                {selectedProject.status !== 'مغلقة' && (
+                                {selectedProject.status !== ProjectStatus.CLOSED && (
                                     <button onClick={() => setShowNewTaskModal(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                                         <Plus size={20} /><span>مهمة جديدة</span>
                                     </button>

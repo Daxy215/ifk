@@ -1,4 +1,7 @@
 {
+  "common": {
+    "Unknown": "غير محدد"
+  },
   "auth": {
     "requestFailed": "فشل الطلب: {{status}}",
     "unknownError": "خطأ غير معروف في API",
@@ -42,7 +45,7 @@
     "title": "الموظفين"
   },
   "clients": {
-    "__comment":"Details",
+    "__comment": "Details",
     "backToClients": "العودة إلى العملاء",
     "clientProjects": "مشاريع العميل",
     "projectName": "اسم المشروع",
@@ -53,7 +56,7 @@
     "noProjects": "لا توجد مشاريع لهذا العميل.",
     "na": "N/A",
     
-    "__comment":"Views",
+    "__comment": "Views",
     "manageClients": "إدارة العملاء",
     "newClient": "عميل جديد",
     "searchClient": "ابحث عن عميل...",
@@ -65,12 +68,12 @@
     "edit": "تعديل"
   },
   "tasks": {
-    "title": "المهام"
-  },
-  "status": {
-    "active": "نشطة",
-    "delayed": "متأخرة",
-    "review": "مكتملة - للمراجعة",
-    "completed": "منتهية"
+    "title": "المهام",
+    "status": {
+      "active": "نشطة",
+      "delayed": "متأخرة",
+      "review": "مكتملة - للمراجعة",
+      "completed": "منتهية"
+    }
   }
 }

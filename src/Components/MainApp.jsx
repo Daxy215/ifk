@@ -25,6 +25,7 @@ import AddTaskAttachmentModal from './Modals/AddTaskAttachmentModal';
 
 import {useAuth} from '../Context/AuthContext';
 import TaskStatus from '@/Components/Common/TaskStatus';
+import ProjectStatus from "./Common/ProjectStatus";
 
 const MainApp = () => {
     const { t, i18n } = useTranslation();
@@ -206,7 +207,7 @@ const MainApp = () => {
     const handleCloseProject = async (project_id) => {
         const res = await apiFetch(`/api/projects/${project_id}`, {
             method: "PUT",
-            body: JSON.stringify({ status: "مغلقة", closedAt: new Date().toISOString() }),
+            body: JSON.stringify({ status: ProjectStatus.CLOSED, closedAt: new Date().toISOString() }),
         });
         
         const updated = await res.data;
@@ -362,9 +363,9 @@ const MainApp = () => {
                 p.clientName.toLowerCase().includes(projectSearch.toLowerCase())
             )
             .filter(p => {
-                if (projectFilter === 'archived') return p.status === 'مغلقة';
-                if (projectFilter === 'active') return p.status !== 'مغلقة';
-                if (projectFilter === 'draft') return p.status === 'مسودة';
+                if (projectFilter === 'archived') return p.status === ProjectStatus.CLOSED;
+                if (projectFilter === 'active') return p.status !== ProjectStatus.CLOSED;
+                if (projectFilter === 'draft') return p.status === ProjectStatus.DRAFT;
                 if (projectFilter === 'active_yellow') return p.status === 'قيد النظر' && p.hasActiveTask;
                 if (projectFilter === 'inactive_black') return p.status === 'قيد النظر' && !p.hasActiveTask;
                 

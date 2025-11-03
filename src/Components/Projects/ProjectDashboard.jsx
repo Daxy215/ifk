@@ -4,6 +4,9 @@ import { Plus, Search, Info, Star, Eye, Edit } from 'lucide-react';
 import CountdownTimer from '../Modals/CountdownTimer';
 import StatusBadge from '../Common/StatusBadge';
 import TaskStatus from '@/Components/Common/TaskStatus';
+import ProjectStatus from "../Common/ProjectStatus";
+
+import { t } from "i18next";
 
 const ProjectDashboard = ({
                               tasks,
@@ -27,8 +30,8 @@ const ProjectDashboard = ({
                           }) => {
     
     const getProjectStatus = (project) => {
-        if (project.status === 'مسودة') return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-400 text-gray-800">مسودة 📝</span>;
-        if (project.status === 'مغلقة') return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">مغلقة ✅</span>;
+        if (project.status === ProjectStatus.DRAFT) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-400 text-gray-800">مسودة 📝</span>;
+        if (project.status === ProjectStatus.CLOSED) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">مغلقة ✅</span>;
         const hasActiveTask = tasks.some(t => t.project_id === project.project_id && (t.status === TaskStatus.ACTIVE || t.status === TaskStatus.DELAYED));
         if (hasActiveTask) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-400 text-yellow-800">نشط 🟡</span>;
         return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-800 text-white">خامل ⚫</span>;
@@ -37,6 +40,7 @@ const ProjectDashboard = ({
     const getProjectProgress = (project) => {
         const projectTasks = tasks.filter(t => t.project_id === project.project_id);
         if (projectTasks.length === 0) return 0;
+        
         const completedTasks = projectTasks.filter(t => t.status === TaskStatus.COMPLETED).length;
         return (completedTasks / projectTasks.length) * 100;
     };
@@ -98,8 +102,8 @@ const ProjectDashboard = ({
                             return (
                                 <tr key={project.project_id} className="border-b hover:bg-gray-50">
                                     <td className="px-4 py-3">{project.type}</td>
-                                    <td className="px-4 py-3">{project.number || 'N/A'}</td>
-                                    <td className="px-4 py-3">{project.client_name || 'N/A'}</td>
+                                    <td className="px-4 py-3">{project.number || t('common.unknown')}</td>
+                                    <td className="px-4 py-3">{project.client_name || t('common.unknown')}</td>
                                     <td className="px-2.5 py-3 flex items-center gap-2">
                                         <div className="tooltip-container">
                                             <Info size={18} className="cursor-pointer text-gray-500"/>
@@ -108,7 +112,7 @@ const ProjectDashboard = ({
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-4 py-3">{project.assignee_name || 'غير محدد'}</td>
+                                    <td className="px-4 py-3">{project.assignee_name || t('common.unknown')}</td>
                                     <td className="px-4 py-3">{getProjectStatus(project)}</td>
                                     <td className="px-4 py-3">
                                         <div className="w-full bg-gray-200 rounded-full h-2.5">
@@ -212,7 +216,7 @@ const ProjectDashboard = ({
                                     onClick={() => viewProjectTasks(task.project_id)}>
                                     {/*{ (() => { console.log(task); return null; })() }*/}
                                     <td className="px-4 py-3 font-semibold">{task.projectType}</td>
-                                    <td className="px-4 py-3">{task.projectNumber || 'N/A'}</td>
+                                    <td className="px-4 py-3">{task.projectNumber || t('common.unknown')}</td>
                                     <td className="px-4 py-3">{task.clientName}</td>
                                     <td className="px-4 py-3 text-right">
                                         <div className="tooltip-container">

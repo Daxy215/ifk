@@ -1,4 +1,7 @@
 {
+  "common": {
+    "Unknown": "N/A"
+  },
   "auth": {
     "requestFailed": "Request failed: {{status}}",
     "unknownError": "Unknown API error",
@@ -65,12 +68,12 @@
     "edit": "Edit"
   },
   "tasks": {
-    "title": "Tasks"
-  },
-  "status": {
-    "active": "Active",
-    "delayed": "Delayed",
-    "review": "Completed - For Review",
-    "completed": "Completed"
+    "title": "Tasks",
+    "status": {
+      "active": "Active",
+      "delayed": "Delayed",
+      "review": "Completed - For Review",
+      "completed": "Completed"
+    }
   }
 }
