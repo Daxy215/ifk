@@ -135,7 +135,9 @@ const ProjectDashboard = ({
                                                     title="تفعيل القضية">
                                                 <Star size={18}/>
                                             </button>
-                                        ) && (
+                                        )}
+                                        
+                                        {project.number && (
                                             <button onClick={() => viewProjectTasks(project.project_id)}
                                                     className="p-2 text-gray-500 hover:text-green-600" title="عرض المهام">
                                                 <Eye size={18}/>
