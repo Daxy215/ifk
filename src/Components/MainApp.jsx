@@ -70,7 +70,7 @@ const MainApp = () => {
     
     // TODO; Make this request from server (Maybe?)
     const selectedProject = useMemo(() => projects.find(p => {
-        console.log("P;", p, selectedProjectId);
+        //console.log("P;", p, selectedProjectId);
         return p.project_id === selectedProjectId;
     }), [projects, selectedProjectId]);
     
@@ -180,6 +180,8 @@ const MainApp = () => {
         
         const updated = res.data;
         
+        console.log("Updating to; ", updated);
+        
         setProjects(prev => prev.map(p => p.project_id === updated.project_id ? updated : p));
         setShowEditProjectModal(false);
         setProjectToEdit(null);
@@ -205,6 +207,7 @@ const MainApp = () => {
             method: "PUT",
             body: JSON.stringify({ status: "مغلقة", closedAt: new Date().toISOString() }),
         });
+        
         const updated = await res.data;
         
         setProjects(prev => prev.map(p => p.project_id === project_id ? updated : p));
@@ -293,8 +296,8 @@ const MainApp = () => {
         setActiveView('projectDetails');
     };
     
-    const handleEditEmployee = (employeeId) => { setEmployeeToEdit(employees.find(e => e.employee_id === employeeId)); setShowEditEmployeeModal(true); };
-    const viewEmployeeDetails = (employeeId) => { setSelectedEmployeeId(employeeId); setActiveView('employeeDetails'); };
+    const handleEditEmployee = (employee_id) => { setEmployeeToEdit(employees.find(e => e.employee_id === employee_id)); setShowEditEmployeeModal(true); };
+    const viewEmployeeDetails = (employee_id) => { setSelectedEmployeeId(employee_id); setActiveView('employeeDetails'); };
     
     const handleEditClient = (clientId) => { setClientToEdit(clients.find(c => c.client_id === clientId)); setShowEditClientModal(true); };
     const viewClientDetails = (clientId) => { setSelectedClientId(clientId); setActiveView('clientDetails'); };
@@ -571,7 +574,7 @@ const MainApp = () => {
             
             {showNewEmployeeModal &&
                 <NewEmployeeModal setShowNewEmployeeModal={setShowNewEmployeeModal}
-                                                       handleAddNewEmployee={handleAddNewEmployee}/>}
+                                  handleAddNewEmployee={handleAddNewEmployee}/>}
             
             {showEditEmployeeModal && employeeToEdit &&
                 <EditEmployeeModal setShowEditEmployeeModal={setShowEditEmployeeModal}
@@ -586,7 +589,7 @@ const MainApp = () => {
             
             {showNewProjectModal &&
                 <NewProjectModal setShowNewProjectModal={setShowNewProjectModal}
-                                                     handleAddNewProject={handleAddNewProject} employees={employees}/>}
+                                 handleAddNewProject={handleAddNewProject} employees={employees}/>}
             
             {showEditProjectModal && projectToEdit &&
                 <EditProjectModal setShowEditProjectModal={setShowEditProjectModal}
@@ -595,8 +598,8 @@ const MainApp = () => {
             
             {showActivateCaseModal &&
                 <ActivateCaseModal setShowActivateCaseModal={setShowActivateCaseModal}
-                                                         handleActivateCase={handleActivateCase}
-                                                         activatingProjectId={activatingProjectId}/>}
+                                   handleActivateCase={handleActivateCase}
+                                   activatingProjectId={activatingProjectId}/>}
             
             {showNewTaskModal &&
                 <NewTaskModal setShowNewTaskModal={setShowNewTaskModal} handleAddNewTask={handleAddNewTask}
