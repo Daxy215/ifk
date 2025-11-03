@@ -180,6 +180,9 @@ const MainApp = () => {
         
         const updated = res.data;
         
+        updated.assignee_name = employees.find((e) => e.employee_id === updated.assignee_id).name;
+        updated.client_name   = clients  .find((c) => c.client_id   === updated.client_id  ).name;
+        
         console.log("Updating to; ", updated);
         
         setProjects(prev => prev.map(p => p.project_id === updated.project_id ? updated : p));
