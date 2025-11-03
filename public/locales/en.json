@@ -1,6 +1,6 @@
 {
   "common": {
-    "Unknown": "N/A"
+    "unknown": "N/A"
   },
   "auth": {
     "requestFailed": "Request failed: {{status}}",
