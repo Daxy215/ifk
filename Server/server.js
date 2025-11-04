@@ -58,16 +58,16 @@ app.use(helmet({
     hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
     xContentTypeOptions: true,
     frameguard: { action: 'deny' },
-    /*crossOriginEmbedderPolicy: true,
+    crossOriginEmbedderPolicy: true,
     crossOriginOpenerPolicy: { policy: 'same-origin' },
-    crossOriginResourcePolicy: { policy: 'same-origin' },*/
+    crossOriginResourcePolicy: { policy: 'same-origin' },
+    /*crossOriginResourcePolicy: { policy: 'cross-origin' },*/
     crossOriginEmbedderPolicy: false,
     crossOriginOpenerPolicy: false,
-    crossOriginResourcePolicy: { policy: 'cross-origin' },
     dnsPrefetchControl: { allow: false },
 }));
 
-app.use(express.json( { limit: '50mb', strict: true } ));
+app.use(express.json(      { limit: '50mb', strict  : true }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(cookieParser());
@@ -79,15 +79,15 @@ app.use(cors({
 }));
 
 const limiter = rateLimit({
-    windowMs: 60 * 1000,  // 1 minute
-    max: 500,             // max requests per IP
+    windowMs: 60 * 1000,   // 1 minute
+    max: 500,              // max requests per IP
     standardHeaders: true,
     legacyHeaders: false,
 });
 app.use(limiter);
 
 let sslOptions = false;
-const sameSite = 'none';
+const sameSite = 'strict';
 const secure = true;
 
 if (!DB_CA_CERT_PATH) {
@@ -116,19 +116,18 @@ app.use(session({
         httpOnly: true,
         secure,
         sameSite,
-        /*domain: CLIENT_ORIGIN,*/
+        domain: CLIENT_ORIGIN,
         maxAge: 24 * 60 * 60 * 1000, // 1 day
     }
 }));
 
 const csrfProtection = csurf({
-    /*cookie: {
+    cookie: {
         httpOnly: true,
         secure,
         sameSite,
-        /!*domain: CLIENT_ORIGIN,*!/
-    }*/
-    cookie: false
+        domain: CLIENT_ORIGIN,
+    }
 });
 app.use(csrfProtection);
 
@@ -199,6 +198,7 @@ async function getUserRoles(userId) {
 
 function ensureLoggedIn(req, res, next) {
     if (!req.session.userId) return res.status(401).json({ error: 'Unauthorized' });
+    
     next();
 }
 
@@ -372,19 +372,19 @@ app.get('/api/site-content', requirePermission('view_site'), (req, res) => {
         JOIN roles r ON r.role_id = ur.role_id
         WHERE r.role_name = 'pending'
       `);
-
+    
     res.json({ users: r.rows });
 });*/
 
 /*app.post('/api/admin/approve', requirePermission('manage_users'), async (req, res) => {
     const { userId, role } = req.body;
-
+    
     if (!userId || !role) return res.status(400).json({ error: 'Missing fields' });
     const roleRow = await query('SELECT role_id FROM roles WHERE role_name=$1', [role]);
-
+    
     if (roleRow.rowCount === 0) return res.status(400).json({ error: 'Invalid role' });
     await query('INSERT INTO user_roles (user_id, role_id) VALUES ($1,$2) ON CONFLICT DO NOTHING', [userId, roleRow.rows[0].role_id]);
-
+    
     res.json({ ok: true });
 });*/
 
@@ -684,8 +684,6 @@ app.post('/api/tasks', requirePermission('edit_content'), async (req, res) => {
     
     const stat = status || TaskStatus.ACTIVE;
     
-    console.log("Stat; ", stat);
-    
     const r = await query(`
         INSERT INTO tasks (project_id, description, assignee_id, duration, status)
         VALUES ($1,$2,$3,$4,$5)
@@ -754,6 +752,7 @@ app.patch('/api/tasks/:id', requirePermission('edit_content'), async (req, res) 
 // Delete task
 app.delete('/api/tasks/:id', requirePermission('edit_content'), async (req, res) => {
     await query('DELETE FROM tasks WHERE task_id=$1', [req.params.id]);
+    
     res.json({ ok: true });
 });
 
@@ -854,6 +853,7 @@ app.put('/api/employees/:id', requirePermission('manage_users'), async (req, res
 // Clients bs
 app.get('/api/clients', requirePermission('manage_users'), async (req, res) => {
     const r = await query('SELECT * FROM clients ORDER BY client_id');
+    
     res.json(r.rows);
 });
 
@@ -902,7 +902,7 @@ app.get('/api/clients/:id', requirePermission('manage_users'), async (req, res) 
             FROM clients
             WHERE client_id = $1
         `, [id]);
-                
+        
         if (r.rows.length === 0) {
             /*return res.status(404).json({ error: "الموظف غير موجود" });*/
             return res.json({});
@@ -1037,9 +1037,6 @@ app.delete('/api/attachments/:id', requirePermission('edit_content'), async (req
     }
 });
 
-/*app.listen(VITE_SERVER_PORT, "127.0.0.1",() => {
-    console.log(`Running at http://127.0.0.1:${VITE_SERVER_PORT}`)
-});*/
 app.listen(VITE_SERVER_PORT, "0.0.0.0",() => {
     console.log(`Running at http://127.0.0.1:${VITE_SERVER_PORT}`)
 });
