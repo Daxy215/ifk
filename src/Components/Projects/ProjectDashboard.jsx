@@ -128,7 +128,7 @@ const ProjectDashboard = ({
                                     <td className="px-4 py-3">
                                         {project.closed_at ? <CountdownTimer
                                             startDate={project.closed_at}
-                                        /> : 'غير متاح'}
+                                        /> : t('common.unknown')}
                                     </td>
                                     
                                     { /* Buttons */ }
