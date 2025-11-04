@@ -1,4 +1,4 @@
-﻿require('dotenv').config({ path: '../.env' });
+﻿//require('dotenv').config({ path: '../.env' });
 //require('dotenv').config({ path: '/home/pguser/pg/ifk-project-management/.env' });
 
 const express = require('express');
@@ -71,6 +71,8 @@ app.use(express.json(      { limit: '50mb', strict  : true }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(cookieParser());
+
+console.log(CLIENT_ORIGIN);
 
 const allowedOrigin = CLIENT_ORIGIN;
 app.use(cors({
