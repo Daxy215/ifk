@@ -194,7 +194,7 @@ const MainApp = () => {
         
         const res = await apiFetch(`/api/projects/${project_id}`, {
             method: "PUT",
-            body: JSON.stringify({ type: "قضية", number: caseNumber, status: "قيد النظر" }),
+            body: JSON.stringify({ type: "قضية", number: caseNumber, status: ProjectStatus.UNDER_REVIEW }),
         });
         
         const updated = res.data;
@@ -366,8 +366,8 @@ const MainApp = () => {
                 if (projectFilter === 'archived') return p.status === ProjectStatus.CLOSED;
                 if (projectFilter === 'active') return p.status !== ProjectStatus.CLOSED;
                 if (projectFilter === 'draft') return p.status === ProjectStatus.DRAFT;
-                if (projectFilter === 'active_yellow') return p.status === 'قيد النظر' && p.hasActiveTask;
-                if (projectFilter === 'inactive_black') return p.status === 'قيد النظر' && !p.hasActiveTask;
+                if (projectFilter === 'active_yellow') return p.status === ProjectStatus.UNDER_REVIEW && p.hasActiveTask;
+                if (projectFilter === 'inactive_black') return p.status === ProjectStatus.UNDER_REVIEW && !p.hasActiveTask;
                 
                 return true;
             });
