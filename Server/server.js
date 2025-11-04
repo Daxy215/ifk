@@ -122,12 +122,13 @@ app.use(session({
 }));
 
 const csrfProtection = csurf({
-    cookie: {
+    /*cookie: {
         httpOnly: true,
         secure,
         sameSite,
-        /*domain: CLIENT_ORIGIN,*/
-    }
+        /!*domain: CLIENT_ORIGIN,*!/
+    }*/
+    cookie: false
 });
 app.use(csrfProtection);
 
@@ -138,16 +139,6 @@ app.use((req, res, next) => {
     
     next();
 });
-
-/*if (NODE_ENV === 'production') {
-    app.use((req, res, next) => {
-        if (req.headers['x-forwarded-proto'] !== 'https') {
-            return res.redirect(`https://${req.headers.host}${req.url}`);
-        }
-        
-        next();
-    });
-}*/
 
 app.get("/api/csrf-token", (req, res) => {
     res.json({ csrfToken: req.csrfToken() });
