@@ -26,9 +26,9 @@ function App() {
         //console.log(document.documentElement.dir);
     }, [i18n.language]);
     
-    /*if (isLoading) {
+    if (isLoading) {
         return <div className="loading">Loading...</div>;
-    }*/
+    }
     
     return (
         <div className="App">

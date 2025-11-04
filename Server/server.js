@@ -155,39 +155,13 @@ app.get("/api/csrf-token", (req, res) => {
 
 app.use((err, req, res, next) => {
     if (err.code === 'EBADCSRFTOKEN') {
-        console.log(err.code);
+        console.log(err);
         return res.status(403).json({ error: 'Invalid CSRF token' });
     }
     
     console.error(err.stack || err);
     res.status(500).json({ error: 'Internal Server Error' });
 });
-
-/*app.use(helmet());
-app.use(express.json());
-app.use(cookieParser());
-
-const allowedOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
-app.use(cors({ origin: allowedOrigin, credentials: true }));
-
-const limiter = rateLimit({ windowMs: 60 * 1000, max: 100 });
-app.use(limiter);
-
-const pool = new pg.Pool({ connectionString: DB_CONNECTION_STRING });
-
-app.use(session({
-    store: new PgSession({ pool, tableName: 'session' }),
-    name: 'sid',
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        httpOnly: true,
-        secure: NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 24 * 60 * 60 * 1000
-    }
-}));*/
 
 async function query(sql, params) {
     const client = await pool.connect();
