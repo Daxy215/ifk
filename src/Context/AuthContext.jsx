@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }) => {
                 
                 return { success: true };
             } else {
-                const error = await response.data;
+                const error = await response.data.error;
                 return { success: false, error: error.message || t('auth.loginFailed') };
             }
         } catch (error) {
