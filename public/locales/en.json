@@ -38,6 +38,7 @@
   "dashboard": {
     "title": "Dashboard"
   },
+  
   "projects": {
     "title": "Projects"
   },
@@ -75,5 +76,11 @@
       "review": "Completed - For Review",
       "completed": "Completed"
     }
+  },
+  "sidebar": {
+    "title": "Management System",
+    "dashboard": "Dashboard",
+    "employees": "Employees",
+    "clients": "Clients"
   }
 }
