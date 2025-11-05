@@ -106,10 +106,11 @@ export const AuthProvider = ({ children }) => {
                 
                 return { success: true };
             } else {
-                const error = await response.data.json();
+                const error = await response.data;
                 return { success: false, error: error.message || t('auth.loginFailed') };
             }
         } catch (error) {
+            console.log(error);
             return { success: false, error: t('auth.networkError') };
         }
     };
