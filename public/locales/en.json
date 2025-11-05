@@ -38,9 +38,54 @@
   "dashboard": {
     "title": "Dashboard"
   },
-  
   "projects": {
-    "title": "Projects"
+    "listTitle": "Project List",
+    "newProject": "New Project",
+    "searchPlaceholder": "Search for a project...",
+    "filterActive": "All Active Projects",
+    "filterActiveYellow": "Active 🟡",
+    "filterInactiveBlack": "Inactive ⚫",
+    "filterDraft": "Draft 📝",
+    "filterArchived": "Archived",
+    "colType": "Project Type",
+    "colNumber": "Project Number",
+    "colClient": "Client",
+    "colDescription": "Project Description",
+    "colAssignee": "Assignee",
+    "colStatus": "Status",
+    "colProgress": "Progress",
+    "colStart": "Start Time",
+    "colEnd": "End Time",
+    "activate": "Activate Case",
+    "viewTasks": "View Tasks",
+    "editProject": "Edit Project",
+    
+    "status": {
+      "active": "Active 🟡",
+      "draft": "Draft 📝",
+      "closed": "Closed ✅",
+      "idle": "Idle ⚫"
+    }
+  },
+  "tasks": {
+    "allTasks": "All Tasks",
+    "newTask": "New Task",
+    "searchPlaceholder": "Search for a task...",
+    "filterAllAssignees": "All Assignees",
+    "colType": "Project Type",
+    "colNumber": "Project Number",
+    "colClient": "Client",
+    "colDescription": "Task Description",
+    "colAssignee": "Assignee",
+    "colStatus": "Status",
+    "colTimeRemaining": "Time Remaining",
+    
+    "status": {
+      "active": "Active",
+      "delayed": "Delayed",
+      "review": "Completed - For Review",
+      "completed": "Completed"
+    }
   },
   "employees": {
     "title": "Employees"
@@ -67,15 +112,6 @@
     "contactOfficer": "Contact Officer",
     "actions": "Actions",
     "edit": "Edit"
-  },
-  "tasks": {
-    "title": "Tasks",
-    "status": {
-      "active": "Active",
-      "delayed": "Delayed",
-      "review": "Completed - For Review",
-      "completed": "Completed"
-    }
   },
   "sidebar": {
     "title": "Management System",

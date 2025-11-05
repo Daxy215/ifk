@@ -552,7 +552,7 @@ const MainApp = () => {
                                 size={20}/><span>{t('sidebar.dashboard')}</span></a>
                             <a href="#" onClick={() => { setActiveView('employees'); setIsOpen(false); }}
                                className={`flex items-center gap-3 px-4 py-3 my-2 rounded-lg transition-colors ${activeView.includes('employee') ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-200'}`}><Users
-                                size={20}/><span>{t('sidebar.employess')}</span></a>
+                                size={20}/><span>{t('sidebar.employees')}</span></a>
                             <a href="#" onClick={() => { setActiveView('clients'); setIsOpen(false); }}
                                className={`flex items-center gap-3 px-4 py-3 my-2 rounded-lg transition-colors ${activeView.includes('client') ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-200'}`}><Building
                                 size={20}/><span>{t('sidebar.clients')}</span></a>

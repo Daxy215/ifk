@@ -28,77 +28,77 @@ const ProjectDashboard = ({
                               filteredTasks,
                               handleTaskStatusChange
                           }) => {
-    
+
     const getProjectStatus = (project) => {
-        if (project.status === ProjectStatus.DRAFT) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-400 text-gray-800">مسودة 📝</span>;
-        if (project.status === ProjectStatus.CLOSED) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">مغلقة ✅</span>;
+        if (project.status === ProjectStatus.DRAFT) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-400 text-gray-800">{t("projects.statusDraft")}</span>;
+        if (project.status === ProjectStatus.CLOSED) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">{t("projects.statusClosed")}</span>;
         const hasActiveTask = tasks.some(t => t.project_id === project.project_id && (t.status === TaskStatus.ACTIVE || t.status === TaskStatus.DELAYED));
-        if (hasActiveTask) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-400 text-yellow-800">نشط 🟡</span>;
-        return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-800 text-white">خامل ⚫</span>;
+        if (hasActiveTask) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-400 text-yellow-800">{t("projects.statusActive")}</span>;
+        return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-800 text-white">{t("projects.statusIdle")}</span>;
     };
-    
+
     const getProjectProgress = (project) => {
         const projectTasks = tasks.filter(t => t.project_id === project.project_id);
         if (projectTasks.length === 0) return 0;
-        
+
         const completedTasks = projectTasks.filter(t => t.status === TaskStatus.COMPLETED).length;
         return (completedTasks / projectTasks.length) * 100;
     };
-    
+
     return (
         <div className="p-6 space-y-8">
             { /* Projects */ }
             <div>
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold text-gray-800">قائمة المشاريع</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">{t("projects.listTitle")}</h2>
                     <button onClick={() => setShowNewProjectModal(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                        <Plus size={20} /><span>مشروع جديد</span>
+                        <Plus size={20} /><span>{t("projects.newProject")}</span>
                     </button>
                 </div>
-                
+
                 { /* Filtering */ }
                 <div className="flex gap-4 mb-4">
                     { /* Search bar */ }
                     <div className="relative flex-grow">
                         <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                         <input type="text"
-                               placeholder="ابحث عن مشروع..."
+                               placeholder={t("projects.searchPlaceholder")}
                                value={projectSearch}
                                onChange={(e) => setProjectSearch(e.target.value)}
                                className="w-full pr-10 border rounded-lg" />
                     </div>
-                    
+
                     { /* Sort by */ }
                     <select value={projectFilter} onChange={e => setProjectFilter(e.target.value)} className="p-2 border rounded-lg">
-                        <option value="active">كل المشاريع النشطة</option>
-                        <option value="active_yellow">نشط 🟡</option>
-                        <option value="inactive_black">خامل ⚫</option>
-                        <option value="draft">مسودة 📝</option>
-                        <option value="archived">المؤرشفة</option>
+                        <option value="active">{t("projects.filterActive")}</option>
+                        <option value="active_yellow">{t("projects.filterActiveYellow")}</option>
+                        <option value="inactive_black">{t("projects.filterInactiveBlack")}</option>
+                        <option value="draft">{t("projects.filterDraft")}</option>
+                        <option value="archived">{t("projects.filterArchived")}</option>
                     </select>
                 </div>
-                
+
                 { /* Projects rendering */ }
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                     <table className="w-full text-sm text-right text-gray-600">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th className="px-4 py-3">نوع المشروع</th>
-                                <th className="px-4 py-3">رقم المشروع</th>
-                                <th className="px-4 py-3">العميل</th>
-                                <th className="px-4 py-3">وصف المشروع</th>
-                                <th className="px-4 py-3">المكلف</th>
-                                <th className="px-4 py-3">الحالة</th>
-                                <th className="px-4 py-3">التقدم</th>
-                                <th className="px-4 py-3">وقت البدء</th>
-                                <th className="px-4 py-3">وقت الانتهاء</th>
-                            </tr>
+                        <tr>
+                            <th className="px-4 py-3">{t("projects.colType")}</th>
+                            <th className="px-4 py-3">{t("projects.colNumber")}</th>
+                            <th className="px-4 py-3">{t("projects.colClient")}</th>
+                            <th className="px-4 py-3">{t("projects.colDescription")}</th>
+                            <th className="px-4 py-3">{t("projects.colAssignee")}</th>
+                            <th className="px-4 py-3">{t("projects.colStatus")}</th>
+                            <th className="px-4 py-3">{t("projects.colProgress")}</th>
+                            <th className="px-4 py-3">{t("projects.colStart")}</th>
+                            <th className="px-4 py-3">{t("projects.colEnd")}</th>
+                        </tr>
                         </thead>
-                        
+
                         <tbody>
                         {filteredProjects.map(project => {
                             const progress = getProjectProgress(project);
-                            
+
                             return (
                                 <tr key={project.project_id} className="border-b hover:bg-gray-50">
                                     <td className="px-4 py-3">{project.type}</td>
@@ -130,26 +130,26 @@ const ProjectDashboard = ({
                                             startDate={project.closed_at}
                                         /> : t('common.unknown')}
                                     </td>
-                                    
+
                                     { /* Buttons */ }
                                     <td className="px-4 py-3 flex items-center gap-2">
                                         {!project.number && (
                                             <button onClick={() => openActivateModal(project.project_id)}
                                                     className="p-2 text-gray-500 hover:text-yellow-500"
-                                                    title="تفعيل القضية">
+                                                    title={t("projects.activate")}>
                                                 <Star size={18}/>
                                             </button>
                                         )}
-                                        
+
                                         {project.number && (
                                             <button onClick={() => viewProjectTasks(project.project_id)}
-                                                    className="p-2 text-gray-500 hover:text-green-600" title="عرض المهام">
+                                                    className="p-2 text-gray-500 hover:text-green-600" title={t("projects.viewTasks")}>
                                                 <Eye size={18}/>
                                             </button>
                                         )}
-                                        
+
                                         <button onClick={() => handleEditProject(project.project_id)}
-                                                className="p-2 text-gray-500 hover:text-blue-600" title="تعديل المشروع">
+                                                className="p-2 text-gray-500 hover:text-blue-600" title={t("projects.editProject")}>
                                             <Edit size={18}/>
                                         </button>
                                     </td>
@@ -160,32 +160,32 @@ const ProjectDashboard = ({
                     </table>
                 </div>
             </div>
-            
+
             { /* Tasks */}
             <div>
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold text-gray-800">جميع المهام</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">{t("tasks.allTasks")}</h2>
                     <button onClick={() => setShowNewTaskModal(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                        <Plus size={20} /><span>مهمة جديدة</span>
+                        <Plus size={20} /><span>{t("tasks.newTask")}</span>
                     </button>
                 </div>
-                
+
                 { /* Filtering */ }
                 <div className="flex gap-4 mb-4">
                     <div className="relative flex-grow">
                         <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                         <input type="text"
-                               placeholder="ابحث عن مهمة..."
+                               placeholder={t("tasks.searchPlaceholder")}
                                value={taskSearch}
                                onChange={(e) => setTaskSearch(e.target.value)}
                                className="w-full pr-10 border rounded-lg" />
                     </div>
-                    
+
                     <select value={taskFilter.assignee} onChange={e => setTaskFilter({...taskFilter, assignee: e.target.value})} className="p-2 border rounded-lg">
-                        <option value="all">كل المكلفين</option> { /* TODO; EVERYTHING? */ }
+                        <option value="all">{t("tasks.filterAllAssignees")}</option> { /* TODO; EVERYTHING? */ }
                         {employees.map(e => <option key={e.employee_id} value={e.employee_id}>{e.name}</option>)}
                     </select>
-                    
+
                     <select value={taskFilter.status} onChange={e => setTaskFilter({...taskFilter, status: e.target.value})} className="p-2 border rounded-lg">
                         <option value={TaskStatus.ALL}>{TaskStatus.ALL}</option>
                         <option value={TaskStatus.ACTIVE}>{TaskStatus.ACTIVE}</option>
@@ -194,48 +194,48 @@ const ProjectDashboard = ({
                         <option value={TaskStatus.COMPLETED}>{TaskStatus.COMPLETED}</option>
                     </select>
                 </div>
-                
+
                 { /* Tasks rendering */ }
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                     <table className="w-full text-sm text-right text-gray-600">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-100">
-                            <tr>
-                                <th className="px-4 py-3">نوع المشروع</th>
-                                <th className="px-4 py-3">رقم المشروع</th>
-                                <th className="px-4 py-3">العميل</th>
-                                <th className="px-4 py-3">وصف المهمة</th>
-                                <th className="px-4 py-3">المكلف</th>
-                                <th className="px-4 py-3">الحالة</th>
-                                <th className="px-4 py-3">الوقت المتبقي</th>
-                            </tr>
+                        <tr>
+                            <th className="px-4 py-3">{t("tasks.colType")}</th>
+                            <th className="px-4 py-3">{t("tasks.colNumber")}</th>
+                            <th className="px-4 py-3">{t("tasks.colClient")}</th>
+                            <th className="px-4 py-3">{t("tasks.colDescription")}</th>
+                            <th className="px-4 py-3">{t("tasks.colAssignee")}</th>
+                            <th className="px-4 py-3">{t("tasks.colStatus")}</th>
+                            <th className="px-4 py-3">{t("tasks.colTimeRemaining")}</th>
+                        </tr>
                         </thead>
-                        
+
                         <tbody>
-                            {filteredTasks.map(task => (
-                                <tr key={task.task_id} className="border-b hover:bg-gray-50 cursor-pointer"
-                                    onClick={() => viewProjectTasks(task.project_id)}>
-                                    {/*{ (() => { console.log(task); return null; })() }*/}
-                                    <td className="px-4 py-3 font-semibold">{task.projectType}</td>
-                                    <td className="px-4 py-3">{task.projectNumber || t('common.unknown')}</td>
-                                    <td className="px-4 py-3">{task.clientName}</td>
-                                    <td className="px-4 py-3 text-right">
-                                        <div className="tooltip-container">
-                                            <Info size={18} className="cursor-pointer text-gray-500"/>
-                                            <div className="tooltip">{task.description}</div>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-3">{task.assignee_name}</td>
-                                    <td className="px-4 py-3"><StatusBadge status={task.status}/></td>
-                                    <td className="px-4 py-3">
+                        {filteredTasks.map(task => (
+                            <tr key={task.task_id} className="border-b hover:bg-gray-50 cursor-pointer"
+                                onClick={() => viewProjectTasks(task.project_id)}>
+                                {/*{ (() => { console.log(task); return null; })() }*/}
+                                <td className="px-4 py-3 font-semibold">{task.projectType}</td>
+                                <td className="px-4 py-3">{task.projectNumber || t('common.unknown')}</td>
+                                <td className="px-4 py-3">{task.clientName}</td>
+                                <td className="px-4 py-3 text-right">
+                                    <div className="tooltip-container">
+                                        <Info size={18} className="cursor-pointer text-gray-500"/>
+                                        <div className="tooltip">{task.description}</div>
+                                    </div>
+                                </td>
+                                <td className="px-4 py-3">{task.assignee_name}</td>
+                                <td className="px-4 py-3"><StatusBadge status={task.status}/></td>
+                                <td className="px-4 py-3">
                                     <CountdownTimer
-                                            startDate={task.created_at}
-                                            durationDays={task.duration}
-                                            currentStatus={task.status}
-                                            onTaskLate={() => handleTaskStatusChange(task.task_id, TaskStatus.DELAYED)}
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
+                                        startDate={task.created_at}
+                                        durationDays={task.duration}
+                                        currentStatus={task.status}
+                                        onTaskLate={() => handleTaskStatusChange(task.task_id, TaskStatus.DELAYED)}
+                                    />
+                                </td>
+                            </tr>
+                        ))}
                         </tbody>
                     </table>
                 </div>
