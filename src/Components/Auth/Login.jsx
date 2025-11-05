@@ -31,6 +31,8 @@ const Login = () => {
         
         const result = await login(credentials);
         
+        console.log(result);
+        
         if (result.success) {
             showNotification(t("login.success"));
         } else {
