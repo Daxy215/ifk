@@ -28,23 +28,24 @@ const ProjectDashboard = ({
                               filteredTasks,
                               handleTaskStatusChange
                           }) => {
-
+    
+    // TODO; Tf is this
     const getProjectStatus = (project) => {
-        if (project.status === ProjectStatus.DRAFT) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-400 text-gray-800">{t("projects.statusDraft")}</span>;
-        if (project.status === ProjectStatus.CLOSED) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">{t("projects.statusClosed")}</span>;
+        if (project.status === ProjectStatus.DRAFT) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-400 text-gray-800">{t("projects.draft")}</span>;
+        if (project.status === ProjectStatus.CLOSED) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">{t("projects.closed")}</span>;
         const hasActiveTask = tasks.some(t => t.project_id === project.project_id && (t.status === TaskStatus.ACTIVE || t.status === TaskStatus.DELAYED));
-        if (hasActiveTask) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-400 text-yellow-800">{t("projects.statusActive")}</span>;
-        return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-800 text-white">{t("projects.statusIdle")}</span>;
+        if (hasActiveTask) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-400 text-yellow-800">{t("projects.active")}</span>;
+        return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-800 text-white">{t("projects.idle")}</span>;
     };
-
+    
     const getProjectProgress = (project) => {
         const projectTasks = tasks.filter(t => t.project_id === project.project_id);
         if (projectTasks.length === 0) return 0;
-
+        
         const completedTasks = projectTasks.filter(t => t.status === TaskStatus.COMPLETED).length;
         return (completedTasks / projectTasks.length) * 100;
     };
-
+    
     return (
         <div className="p-6 space-y-8">
             { /* Projects */ }
@@ -55,7 +56,7 @@ const ProjectDashboard = ({
                         <Plus size={20} /><span>{t("projects.newProject")}</span>
                     </button>
                 </div>
-
+                
                 { /* Filtering */ }
                 <div className="flex gap-4 mb-4">
                     { /* Search bar */ }
@@ -67,7 +68,7 @@ const ProjectDashboard = ({
                                onChange={(e) => setProjectSearch(e.target.value)}
                                className="w-full pr-10 border rounded-lg" />
                     </div>
-
+                    
                     { /* Sort by */ }
                     <select value={projectFilter} onChange={e => setProjectFilter(e.target.value)} className="p-2 border rounded-lg">
                         <option value="active">{t("projects.filterActive")}</option>
@@ -77,7 +78,7 @@ const ProjectDashboard = ({
                         <option value="archived">{t("projects.filterArchived")}</option>
                     </select>
                 </div>
-
+                
                 { /* Projects rendering */ }
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                     <table className="w-full text-sm text-right text-gray-600">
@@ -94,11 +95,11 @@ const ProjectDashboard = ({
                             <th className="px-4 py-3">{t("projects.colEnd")}</th>
                         </tr>
                         </thead>
-
+                        
                         <tbody>
                         {filteredProjects.map(project => {
                             const progress = getProjectProgress(project);
-
+                            
                             return (
                                 <tr key={project.project_id} className="border-b hover:bg-gray-50">
                                     <td className="px-4 py-3">{project.type}</td>
@@ -130,7 +131,7 @@ const ProjectDashboard = ({
                                             startDate={project.closed_at}
                                         /> : t('common.unknown')}
                                     </td>
-
+                                    
                                     { /* Buttons */ }
                                     <td className="px-4 py-3 flex items-center gap-2">
                                         {!project.number && (
@@ -140,14 +141,14 @@ const ProjectDashboard = ({
                                                 <Star size={18}/>
                                             </button>
                                         )}
-
+                                        
                                         {project.number && (
                                             <button onClick={() => viewProjectTasks(project.project_id)}
                                                     className="p-2 text-gray-500 hover:text-green-600" title={t("projects.viewTasks")}>
                                                 <Eye size={18}/>
                                             </button>
                                         )}
-
+                                        
                                         <button onClick={() => handleEditProject(project.project_id)}
                                                 className="p-2 text-gray-500 hover:text-blue-600" title={t("projects.editProject")}>
                                             <Edit size={18}/>
@@ -160,7 +161,7 @@ const ProjectDashboard = ({
                     </table>
                 </div>
             </div>
-
+            
             { /* Tasks */}
             <div>
                 <div className="flex justify-between items-center mb-4">
@@ -169,7 +170,7 @@ const ProjectDashboard = ({
                         <Plus size={20} /><span>{t("tasks.newTask")}</span>
                     </button>
                 </div>
-
+                
                 { /* Filtering */ }
                 <div className="flex gap-4 mb-4">
                     <div className="relative flex-grow">
@@ -180,12 +181,12 @@ const ProjectDashboard = ({
                                onChange={(e) => setTaskSearch(e.target.value)}
                                className="w-full pr-10 border rounded-lg" />
                     </div>
-
+                    
                     <select value={taskFilter.assignee} onChange={e => setTaskFilter({...taskFilter, assignee: e.target.value})} className="p-2 border rounded-lg">
                         <option value="all">{t("tasks.filterAllAssignees")}</option> { /* TODO; EVERYTHING? */ }
                         {employees.map(e => <option key={e.employee_id} value={e.employee_id}>{e.name}</option>)}
                     </select>
-
+                    
                     <select value={taskFilter.status} onChange={e => setTaskFilter({...taskFilter, status: e.target.value})} className="p-2 border rounded-lg">
                         <option value={TaskStatus.ALL}>{TaskStatus.ALL}</option>
                         <option value={TaskStatus.ACTIVE}>{TaskStatus.ACTIVE}</option>
@@ -194,7 +195,7 @@ const ProjectDashboard = ({
                         <option value={TaskStatus.COMPLETED}>{TaskStatus.COMPLETED}</option>
                     </select>
                 </div>
-
+                
                 { /* Tasks rendering */ }
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                     <table className="w-full text-sm text-right text-gray-600">
