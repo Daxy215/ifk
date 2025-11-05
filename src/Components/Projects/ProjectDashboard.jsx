@@ -31,13 +31,45 @@ const ProjectDashboard = ({
     
     // TODO; Tf is this
     const getProjectStatus = (project) => {
-        if (project.status === ProjectStatus.DRAFT) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-400 text-gray-800">{t("projects.draft")}</span>;
-        if (project.status === ProjectStatus.CLOSED) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">{t("projects.closed")}</span>;
-        const hasActiveTask = tasks.some(t => t.project_id === project.project_id && (t.status === TaskStatus.ACTIVE || t.status === TaskStatus.DELAYED));
-        if (hasActiveTask) return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-400 text-yellow-800">{t("projects.active")}</span>;
-        return <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-800 text-white">{t("projects.idle")}</span>;
+        const baseClass = "px-2 py-1 text-xs font-semibold rounded-full";
+        
+        if (project.status === ProjectStatus.DRAFT) {
+            return (
+                <span className={`${baseClass} bg-gray-400 text-gray-800`}>
+                {t("projects.status.draft")}
+            </span>
+            );
+        }
+        
+        if (project.status === ProjectStatus.CLOSED) {
+            return (
+                <span className={`${baseClass} bg-green-200 text-green-800`}>
+                {t("projects.status.closed")}
+            </span>
+            );
+        }
+        
+        const hasActiveTask = tasks.some(
+            t =>
+                t.project_id === project.project_id &&
+                (t.status === TaskStatus.ACTIVE || t.status === TaskStatus.DELAYED)
+        );
+        
+        if (hasActiveTask) {
+            return (
+                <span className={`${baseClass} bg-yellow-400 text-yellow-800`}>
+                {t("projects.status.active")}
+            </span>
+            );
+        }
+        
+        return (
+            <span className={`${baseClass} bg-gray-800 text-white`}>
+            {t("projects.status.idle")}
+        </span>
+        );
     };
-    
+
     const getProjectProgress = (project) => {
         const projectTasks = tasks.filter(t => t.project_id === project.project_id);
         if (projectTasks.length === 0) return 0;
