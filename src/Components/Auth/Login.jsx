@@ -22,7 +22,7 @@ const Login = () => {
         if (result.success) {
             showNotification(t("login.success"));
         } else {
-            showNotification(result.error, true);
+            showNotification(result.data.error, true);
         }
     }
     
@@ -34,7 +34,7 @@ const Login = () => {
         if (result.success) {
             showNotification(t("login.success"));
         } else {
-            showNotification(result.error, true);
+            showNotification(result.data.error, true);
         }
     };
     

@@ -10,9 +10,9 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const { t } = useTranslation();
     
-    const [user                   , setUser           ] = useState(null );
-    const [permissions      , setPermissions    ] = useState([]   );
-    const [roles            , setRoles          ] = useState([]   );
+    /*const [user                   , setUser           ] = useState(null );*/
+    /*const [permissions      , setPermissions    ] = useState([]   );
+    const [roles            , setRoles          ] = useState([]   );*/
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading      , setIsLoading      ] = useState(true );
     const [csrfToken              , setCsrfToken      ] = useState(null );
@@ -65,20 +65,20 @@ export const AuthProvider = ({ children }) => {
             const data = res.data;
             
             if (data.authenticated) {
-                setUser(data.user);
+                /*setUser(data.user);
                 setPermissions(data.permissions || []);
-                setRoles(data.roles || []);
+                setRoles(data.roles || []);*/
                 setIsAuthenticated(true);
             } else {
-                setUser(null);
+                /*setUser(null);
                 setPermissions([]);
-                setRoles([]);
+                setRoles([]);*/
                 setIsAuthenticated(false);
             }
         } catch {
-            setUser(null);
+            /*setUser(null);
             setPermissions([]);
-            setRoles([]);
+            setRoles([]);*/
         } finally {
             setIsLoading(false);
         }
@@ -148,9 +148,9 @@ export const AuthProvider = ({ children }) => {
             console.warn(t('auth.logoutFailed'));
         }
         
-        setUser(null);
+        /*setUser(null);
         setPermissions([]);
-        setRoles([]);
+        setRoles([]);*/
         setIsAuthenticated(false);
     };
     
@@ -185,9 +185,9 @@ export const AuthProvider = ({ children }) => {
     };
     
     const value = {
-        user,
+        /*user,
         roles,
-        permissions,
+        permissions,*/
         isAuthenticated,
         isLoading,
         uploadAttachments,

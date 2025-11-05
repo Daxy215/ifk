@@ -58,6 +58,7 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
                         <X size={24} />
                     </button>
                 </div>
+                
                 <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
                         <div>
@@ -71,7 +72,7 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
                                 onInput={(e) => e.target.setCustomValidity("")}
                             ></textarea>
                         </div>
-
+                        
                         <div>
                             <label className="block text-sm">نوع المشروع</label>
                             <select
@@ -90,7 +91,7 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
                                 <option value="مسودة قضية">مسودة قضية</option>
                             </select>
                         </div>
-
+                        
                         <div>
                             <label className="block text-sm">رقم المشروع (إن وجد)</label>
                             <input
@@ -103,7 +104,7 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
                                 onInput={(e) => e.target.setCustomValidity("")}
                             />
                         </div>
-
+                        
                         <div>
                             <label className="block text-sm">العميل</label>
                             <ClientSelect
@@ -113,7 +114,7 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
                                 onAddNewClient={handleAddNewClient}
                             />
                         </div>
-
+                        
                         <div>
                             <label className="block text-sm">المكلف بالمشروع</label>
                             <EmployeeSelect
@@ -124,7 +125,7 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
                             />
                         </div>
                     </div>
-
+                    
                     <div className="mt-6 flex justify-end gap-4">
                         <button
                             type="button"
