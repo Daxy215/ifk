@@ -542,21 +542,23 @@ const MainApp = () => {
             <div className="layout">
                 
                 {/* Sidebar */}
-                <aside className={`sidebar ${isOpen ? "open" : ""}`}>
-                    <div className="p-6 text-center"><h1 className="text-2xl font-bold text-blue-600">نظام الإدارة</h1></div>
-                    
-                    <nav className="flex-grow px-4">
-                        <a href="#" onClick={() => { setActiveView('dashboard'); setIsOpen(false); }}
-                           className={`flex items-center gap-3 px-4 py-3 my-2 rounded-lg transition-colors ${activeView.includes('dashboard') || activeView.includes('project') ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-200'}`}><Briefcase
-                            size={20}/><span>لوحة التحكم</span></a>
-                        <a href="#" onClick={() => { setActiveView('employees'); setIsOpen(false); }}
-                           className={`flex items-center gap-3 px-4 py-3 my-2 rounded-lg transition-colors ${activeView.includes('employee') ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-200'}`}><Users
-                            size={20}/><span>الموظفين</span></a>
-                        <a href="#" onClick={() => { setActiveView('clients'); setIsOpen(false); }}
-                           className={`flex items-center gap-3 px-4 py-3 my-2 rounded-lg transition-colors ${activeView.includes('client') ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-200'}`}><Building
-                            size={20}/><span>العملاء</span></a>
-                    </nav>
-                </aside>
+                {false &&
+                    <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+                        <div className="p-6 text-center"><h1 className="text-2xl font-bold text-blue-600">نظام الإدارة</h1></div>
+                        
+                        <nav className="flex-grow px-4">
+                            <a href="#" onClick={() => { setActiveView('dashboard'); setIsOpen(false); }}
+                               className={`flex items-center gap-3 px-4 py-3 my-2 rounded-lg transition-colors ${activeView.includes('dashboard') || activeView.includes('project') ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-200'}`}><Briefcase
+                                size={20}/><span>لوحة التحكم</span></a>
+                            <a href="#" onClick={() => { setActiveView('employees'); setIsOpen(false); }}
+                               className={`flex items-center gap-3 px-4 py-3 my-2 rounded-lg transition-colors ${activeView.includes('employee') ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-200'}`}><Users
+                                size={20}/><span>الموظفين</span></a>
+                            <a href="#" onClick={() => { setActiveView('clients'); setIsOpen(false); }}
+                               className={`flex items-center gap-3 px-4 py-3 my-2 rounded-lg transition-colors ${activeView.includes('client') ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-200'}`}><Building
+                                size={20}/><span>العملاء</span></a>
+                        </nav>
+                    </aside>
+                }
                 
                 {/* Main content */}
                 <main className="content">
