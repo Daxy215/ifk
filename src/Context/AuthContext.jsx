@@ -99,6 +99,8 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify(credentials),
             });
             
+            console.log("So; ", response);
+            
             if (response.ok) {
                 await fetchMe();
                 
