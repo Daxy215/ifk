@@ -191,8 +191,8 @@ export const AuthProvider = ({ children }) => {
     
     const value = {
         /*user,
-        roles,
-        permissions,*/
+        roles,*/
+        permissions,
         isAuthenticated,
         isLoading,
         uploadAttachments,

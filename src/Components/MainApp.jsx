@@ -30,7 +30,7 @@ import ProjectStatus from "./Common/ProjectStatus";
 const MainApp = () => {
     const { t, i18n } = useTranslation();
     
-    const { isAuthenticated, apiFetch, uploadAttachments } = useAuth();
+    const { isAuthenticated, apiFetch, uploadAttachments, permissions } = useAuth();
     
     const [activeView, setActiveView] = useState('dashboard');
     const [projects, setProjects] = useState([]);
@@ -542,7 +542,7 @@ const MainApp = () => {
             <div className="layout">
                 
                 {/* Sidebar */}
-                {
+                {permissions.includes('manage_users') &&
                     <aside className={`sidebar ${isOpen ? "open" : ""}`}>
                         <div className="p-6 text-center"><h1 className="text-2xl font-bold text-blue-600">{t('sidebar.title')}</h1></div>
                         
