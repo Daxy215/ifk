@@ -10,9 +10,9 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const { t } = useTranslation();
     
-    /*const [user                   , setUser           ] = useState(null );*/
-    /*const [permissions      , setPermissions    ] = useState([]   );
-    const [roles            , setRoles          ] = useState([]   );*/
+    //const [user, setUser ] = useState(null);
+    const [permissions, setPermissions] = useState([]);
+    //const [roles, setRoles] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading      , setIsLoading      ] = useState(true );
     const [csrfToken              , setCsrfToken      ] = useState(null );
@@ -64,9 +64,11 @@ export const AuthProvider = ({ children }) => {
             
             const data = res.data;
             
+            console.log(data);
+            
             if (data.authenticated) {
-                /*setUser(data.user);
                 setPermissions(data.permissions || []);
+                /*setUser(data.user);
                 setRoles(data.roles || []);*/
                 setIsAuthenticated(true);
             } else {
