@@ -1036,7 +1036,7 @@ app.delete('/api/attachments/:id', requirePermission('edit_content'), async (req
 
 app.use(express.static(path.join(__dirname, "../dist")));
 
-app.get("*", (req, res) => {
+app.get("/*", (req, res) => {
     if (!req.path.startsWith('/api')) {
         res.sendFile(path.join(__dirname, '../dist/index.html'));
     } else {
