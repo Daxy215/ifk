@@ -25,7 +25,7 @@ import AddTaskAttachmentModal from './Modals/AddTaskAttachmentModal';
 
 import {useAuth} from '../Context/AuthContext';
 import TaskStatus from '@/Components/Common/TaskStatus';
-import ProjectStatus from "./Common/ProjectStatus";
+import ProjectStatus from "./Common/Enums/ProjectStatus";
 
 const MainApp = () => {
     const { t, i18n } = useTranslation();
@@ -194,7 +194,7 @@ const MainApp = () => {
         
         const res = await apiFetch(`/api/projects/${project_id}`, {
             method: "PUT",
-            body: JSON.stringify({ type: "قضية", number: caseNumber, status: ProjectStatus.UNDER_REVIEW }),
+            body: JSON.stringify({ type: ProjectStatus.CASE, number: caseNumber, status: ProjectStatus.UNDER_REVIEW }),
         });
         
         const updated = res.data;

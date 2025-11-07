@@ -5,6 +5,9 @@ import { useAuth } from "@/Context/AuthContext";
 import EmployeeSelect from "@/Components/Common/EmployeeSelect";
 import ClientSelect from "@/Components/Common/ClientSelect";
 
+import ProjectTypes from '@/Common/Enums/ProjectStatus';
+import {t} from "i18next";
+
 const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
     const { apiFetch } = useAuth();
     
@@ -85,13 +88,13 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
                         </div>
                         
                         <div>
-                            <label className="block text-sm">نوع المشروع</label>
+                            <label className="block text-sm">{t("projectType")}</label>
                             <select name="type" required className="w-full p-2 border rounded-lg">
-                                <option value="قضية">قضية</option>
-                                <option value="استشارة">استشارة</option>
-                                <option value="مطالبة">مطالبة</option>
-                                <option value="وكالة">وكالة</option>
-                                <option value="احتياجات مكتب">احتياجات مكتب</option>
+                                <option value={ProjectTypes.CASE}>{ProjectTypes.CASE}</option>
+                                <option value={ProjectTypes.CONSULTATION}>{ProjectTypes.CONSULTATION}</option>
+                                <option value={ProjectTypes.CLAIM}>{ProjectTypes.CLAIM}</option>
+                                <option value={ProjectTypes.AGENCY}>{ProjectTypes.AGENCY}</option>
+                                <option value={ProjectTypes.OFFICE_NEEDS}>{ProjectTypes.OFFICE_NEEDS}</option>
                             </select>
                         </div>
                         

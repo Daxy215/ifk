@@ -59,6 +59,7 @@
     "activate": "Activate Case",
     "viewTasks": "View Tasks",
     "editProject": "Edit Project",
+    "projectType": "Project Type",
     
     "status": {
       "active": "Active 🟡",

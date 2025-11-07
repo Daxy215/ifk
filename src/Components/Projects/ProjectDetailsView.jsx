@@ -3,7 +3,7 @@ import { ArrowRight, CheckCircle, Plus, FileText, Info, Paperclip } from 'lucide
 import CountdownTimer from '../Modals/CountdownTimer';
 import StatusBadge from '../Common/StatusBadge';
 import TaskStatus from '@/Components/Common/TaskStatus';
-import ProjectStatus from "../Common/ProjectStatus";
+import ProjectStatus from "../Common/Enums/ProjectStatus";
 
 const ProjectDetailsView = ({
                                 selectedProject,

@@ -5,6 +5,8 @@ import { useAuth } from "@/Context/AuthContext";
 
 import EmployeeSelect from '../Common/EmployeeSelect';
 import ClientSelect from "@/Components/Common/ClientSelect";
+import ProjectTypes from "../Common/Enums/ProjectTypes";
+import {t} from "i18next";
 
 const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projectToEdit, handleAddNewClient }) => {
     const {apiFetch} = useAuth();
@@ -74,7 +76,7 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
                         </div>
                         
                         <div>
-                            <label className="block text-sm">نوع المشروع</label>
+                            <label className="block text-sm">{t("projects.projectType")}</label>
                             <select
                                 name="type"
                                 required
@@ -83,12 +85,11 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
                                 onInvalid={(e) => e.target.setCustomValidity("الرجاء اختيار نوع المشروع")}
                                 onInput={(e) => e.target.setCustomValidity("")}
                             >
-                                <option value="قضية">قضية</option>
-                                <option value="استشارة">استشارة</option>
-                                <option value="مطالبة">مطالبة</option>
-                                <option value="وكالة">وكالة</option>
-                                <option value="احتياجات مكتب">احتياجات مكتب</option>
-                                <option value="مسودة قضية">مسودة قضية</option>
+                                <option value={ProjectTypes.CASE}>{ProjectTypes.CASE}</option>
+                                <option value={ProjectTypes.CONSULTATION}>{ProjectTypes.CONSULTATION}</option>
+                                <option value={ProjectTypes.CLAIM}>{ProjectTypes.CLAIM}</option>
+                                <option value={ProjectTypes.AGENCY}>{ProjectTypes.AGENCY}</option>
+                                <option value={ProjectTypes.OFFICE_NEEDS}>{ProjectTypes.OFFICE_NEEDS}</option>
                             </select>
                         </div>
                         
