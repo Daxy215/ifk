@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+// BrowserRouter
+
 import { useTranslation } from "react-i18next";
 
 import Login from './Components/Auth/Login';
@@ -46,6 +48,9 @@ function App() {
                         path="/*"
                         element={isAuthenticated ? <MainApp /> : <Navigate to="/login" replace />}
                     />
+                    
+                    {/* Catch-all route */}
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Router>
         </div>
