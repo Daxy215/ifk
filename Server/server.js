@@ -155,6 +155,12 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal Server Error' });
 });
 
+app.use(express.static(path.join(__dirname, "../dist")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
 async function query(sql, params) {
     const client = await pool.connect();
     
@@ -248,7 +254,7 @@ app.post('/api/register', registerLimitter, async (req, res) => {
                 error: 'اسم المستخدم أو البريد الإلكتروني مستخدم من قبل'
             });
         }
-
+        
         const password_hash = await bcrypt.hash(password, 12);
         
         const ins = await query(
