@@ -5,7 +5,7 @@ import { useAuth } from "@/Context/AuthContext";
 
 import EmployeeSelect from '../Common/EmployeeSelect';
 import ClientSelect from "@/Components/Common/ClientSelect";
-import ProjectTypes from "../Common/Enums/ProjectTypes";
+import { ProjectTypes } from "../Common/Enums/ProjectTypes";
 import {t} from "i18next";
 
 const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projectToEdit, handleAddNewClient }) => {

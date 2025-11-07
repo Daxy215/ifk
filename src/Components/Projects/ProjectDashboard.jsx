@@ -7,7 +7,7 @@ import TaskStatus from '@/Components/Common/Enums/TaskStatus';
 import ProjectStatus from "@/Components/Common/Enums/ProjectStatus";
 
 import { t } from "i18next";
-import ProjectTypes from "../Common/Enums/ProjectTypes";
+import { ProjectTypes, getProjectType } from "../Common/Enums/ProjectTypes";
 
 const ProjectDashboard = ({
                               tasks,
@@ -29,29 +29,6 @@ const ProjectDashboard = ({
                               filteredTasks,
                               handleTaskStatusChange
                           }) => {
-    
-    const getProjectType = (project) => {
-        switch (project.type) {
-            case ProjectTypes.CASE: {
-                return t("projects.type.case");
-            }
-            case ProjectTypes.CONSULTATION: {
-                return t("projects.type.consultation");
-            }
-            case ProjectTypes.CLAIM: {
-                return t("projects.type.claim");
-            }
-            case ProjectTypes.AGENCY: {
-                return t("projects.type.agency");
-            }
-            case ProjectTypes.OFFICE_NEEDS: {
-                return t("projects.type.officeNeeds");
-            }
-            default: {
-                console.log("Unhandled; ", project.type);
-            }
-        }
-    }
     
     const getProjectStatus = (project) => {
         const baseClass = "px-2 py-1 text-xs font-semibold rounded-full";
@@ -271,7 +248,7 @@ const ProjectDashboard = ({
                             <tr key={task.task_id} className="border-b hover:bg-gray-50 cursor-pointer"
                                 onClick={() => viewProjectTasks(task.project_id)}>
                                 {/*{ (() => { console.log(task); return null; })() }*/}
-                                <td className="px-4 py-3 font-semibold">{task.projectType}</td>
+                                <td className="px-4 py-3 font-semibold">{getProjectType(task.projectType)}</td>
                                 <td className="px-4 py-3">{task.projectNumber || t('common.unknown')}</td>
                                 <td className="px-4 py-3">{task.clientName}</td>
                                 <td className="px-4 py-3 text-right">
