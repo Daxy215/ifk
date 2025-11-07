@@ -122,6 +122,20 @@
     "actions": "Actions",
     "edit": "Edit"
   },
+  "timer": {
+    "days": {
+      "one": "since {{count}} day",
+      "other": "since {{count}} days"
+    },
+    "hours": {
+      "one": "since {{count}} hour",
+      "other": "since {{count}} hours"
+    },
+    "minutes": {
+      "one": "since {{count}} minute",
+      "other": "since {{count}} minutes"
+    }
+  },
   "sidebar": {
     "title": "Management System",
     "dashboard": "Dashboard",

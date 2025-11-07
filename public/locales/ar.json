@@ -122,6 +122,20 @@
     "actions": "الإجراءات",
     "edit": "تعديل"
   },
+  "timer": {
+    "days": {
+      "one": "منذ {{count}} يوم",
+      "other": "منذ {{count}} أيام"
+    },
+    "hours": {
+      "one": "منذ {{count}} ساعة",
+      "other": "منذ {{count}} ساعات"
+    },
+    "minutes": {
+      "one": "منذ {{count}} دقيقة",
+      "other": "منذ {{count}} دقائق"
+    }
+  },
   "sidebar": {
     "title": "نظام الإدارة",
     "dashboard": "لوحة التحكم",

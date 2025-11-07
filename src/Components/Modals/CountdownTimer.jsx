@@ -47,18 +47,24 @@ const CountdownTimer = ({ startDate, durationDays, currentStatus, onTaskLate }) 
         return () => clearInterval(interval);
     }, [calculateDueDate, onTaskLate, isLate]);
     
-    const timeSince = (date) => {
+    const timeSince = (date, t) => {
         const seconds = Math.floor((new Date() - new Date(date)) / 1000);
-        let interval = seconds / 86400;
         
-        if (interval > 1) return `منذ ${Math.floor(interval)} يوم`;
+        let interval = seconds / 86400;
+        if (interval >= 1) {
+            const days = Math.floor(interval);
+            return t(days === 1 ? 'timeSince.days.one' : 'timeSince.days.other', { count: days });
+        }
         
         interval = seconds / 3600;
+        if (interval >= 1) {
+            const hours = Math.floor(interval);
+            return t(hours === 1 ? 'timeSince.hours.one' : 'timeSince.hours.other', { count: hours });
+        }
         
-        if (interval > 1) return `منذ ${Math.floor(interval)} ساعة`;
-        
-        return `منذ ${Math.floor(seconds / 60)} دقيقة`;
-    }
+        const minutes = Math.floor(seconds / 60);
+        return t(minutes === 1 ? 'timeSince.minutes.one' : 'timeSince.minutes.other', { count: minutes });
+    };
     
     return <div className={`text-xs ${isLate ? 'text-red-500 font-bold' : 'text-gray-700'}`}>
         <div>{timeLeft}</div>
