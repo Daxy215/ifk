@@ -60,6 +60,17 @@
     "viewTasks": "View Tasks",
     "editProject": "Edit Project",
     "projectType": "Project Type",
+
+    "newProject": {
+      "title": "Add a new project",
+      "description": "Project description",
+      "projectNumber": "Project number (if any)",
+      "clients": "Client",
+      "employee": "Project assignee",
+      "attachments": "Attached documents",
+      "cancel": "Cancel",
+      "save": "Save project"
+    },
     
     "type": {
       "case": "Case",

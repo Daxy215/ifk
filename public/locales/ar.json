@@ -61,6 +61,17 @@
     "editProject": "تعديل المشروع",
     "projectType": "نوع المشروع",
     
+    "newProject": {
+      "title": "إضافة مشروع جديد",
+      "description": "وصف المشروع",
+      "projectNumber": "رقم المشروع (إن وجد)",
+      "clients": "العميل",
+      "employee": "المكلف بالمشروع",
+      "attachments": "مستندات مرفقة",
+      "cancel": "إلغاء",
+      "save": "حفظ المشروع"
+    },
+    
     "type": {
       "case": "قضية",
       "consultation": "استشارة",

@@ -5,7 +5,7 @@ import { useAuth } from "@/Context/AuthContext";
 import EmployeeSelect from "@/Components/Common/EmployeeSelect";
 import ClientSelect from "@/Components/Common/ClientSelect";
 
-import { ProjectTypes } from '@/Components/Common/Enums/ProjectTypes';
+import { ProjectTypes, getProjectType } from '@/Components/Common/Enums/ProjectTypes';
 import {t} from "i18next";
 
 const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
@@ -74,7 +74,7 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
                 <div className="flex justify-between items-center mb-6">
-                    <h3 className="text-xl font-bold">إضافة مشروع جديد</h3>
+                    <h3 className="text-xl font-bold">{t("projects.newProjects.title")}</h3>
                     <button onClick={() => setShowNewProjectModal(false)} className="text-gray-500 hover:text-gray-800">
                         <X size={24} />
                     </button>
@@ -83,28 +83,28 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm">وصف المشروع</label>
+                            <label className="block text-sm">{t("projects.newProject.description")}</label>
                             <textarea name="name" required className="w-full p-2 border rounded-lg"></textarea>
                         </div>
                         
                         <div>
                             <label className="block text-sm">{t("projectType")}</label>
                             <select name="type" required className="w-full p-2 border rounded-lg">
-                                <option value={ProjectTypes.CASE}>{ProjectTypes.CASE}</option>
-                                <option value={ProjectTypes.CONSULTATION}>{ProjectTypes.CONSULTATION}</option>
-                                <option value={ProjectTypes.CLAIM}>{ProjectTypes.CLAIM}</option>
-                                <option value={ProjectTypes.AGENCY}>{ProjectTypes.AGENCY}</option>
-                                <option value={ProjectTypes.OFFICE_NEEDS}>{ProjectTypes.OFFICE_NEEDS}</option>
+                                <option value={ProjectTypes.CASE}>{getProjectType(ProjectTypes.CASE)}</option>
+                                <option value={ProjectTypes.CONSULTATION}>{getProjectType(ProjectTypes.CONSULTATION)}</option>
+                                <option value={ProjectTypes.CLAIM}>{getProjectType(ProjectTypes.CLAIM)}</option>
+                                <option value={ProjectTypes.AGENCY}>{getProjectType(ProjectTypes.AGENCY)}</option>
+                                <option value={ProjectTypes.OFFICE_NEEDS}>{getProjectType(ProjectTypes.OFFICE_NEEDS)}</option>
                             </select>
                         </div>
                         
                         <div>
-                            <label className="block text-sm">رقم المشروع (إن وجد)</label>
+                            <label className="block text-sm">{t("projects.newProject.projectNumber")}</label>
                             <input type="text" name="number" className="w-full p-2 border rounded-lg"/>
                         </div>
                         
                         <div>
-                            <label className="block text-sm">العميل</label>
+                            <label className="block text-sm">{t("projects.newProject.clients")}</label>
                             <ClientSelect
                                 ref={clientInputRef}
                                 value={clientId}
@@ -114,7 +114,7 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
                         </div>
                         
                         <div>
-                            <label className="block text-sm">المكلف بالمشروع</label>
+                            <label className="block text-sm">{t("projects.newProject.employee")}</label>
                             <EmployeeSelect
                                 ref={employeeInputRef}
                                 value={assigneeId}
@@ -123,7 +123,7 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
                         </div>
                         
                         <div>
-                            <label className="block text-sm">مستندات مرفقة</label>
+                            <label className="block text-sm">{t("projects.newProject.attachments")}</label>
                             <input type="file" name="attachments" multiple
                                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
                         </div>
@@ -131,11 +131,11 @@ const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
                     
                     <div className="mt-6 flex justify-end gap-4">
                         <button type="button" onClick={() => setShowNewProjectModal(false)} className="px-4 py-2 bg-gray-200 rounded-lg">
-                            إلغاء
+                            {t("projects.newProject.cancel")}
                         </button>
                         
                         <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-lg">
-                            حفظ المشروع
+                            {t("projects.newProject.save")}
                         </button>
                     </div>
                 </form>

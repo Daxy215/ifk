@@ -26,7 +26,7 @@ export const getProjectType = (projectType) => {
             return t("projects.type.officeNeeds");
         }
         default: {
-            console.log("Unhandled; ", projectType);
+            console.error("Unhandled; ", projectType);
         }
     }
 }
