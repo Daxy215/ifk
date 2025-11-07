@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect, useMemo } from 'react';
-import TaskStatus from '@/Components/Common/enus/TaskStatus';
+import TaskStatus from '@/Components/Common/Enums/TaskStatus';
 
 const CountdownTimer = ({ startDate, durationDays, currentStatus, onTaskLate }) => {
     const calculateDueDate = useMemo(() => {

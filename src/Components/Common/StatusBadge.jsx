@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { useTranslation } from 'react-i18next';
-import TaskStatus from '@/Components/Common/enums/TaskStatus';
+import TaskStatus from '@/Components/Common/Enums/TaskStatus';
 
 const StatusBadge = ({ status }) => {
     const { t } = useTranslation();
