@@ -21,8 +21,8 @@ const CountdownTimer = ({ startDate, durationDays, currentStatus, onTaskLate }) 
             if (!isLate) {
                 setIsLate(true);
                 setTimeLeft(TaskStatus.DELAYED);
-                        
-                if (currentStatus && ![TaskStatus.DELAYED,'مكتملة - للمراجعة','منتهية'].includes(currentStatus))
+                
+                if (currentStatus && ![TaskStatus.DELAYED,TaskStatus.REVIEW,TaskStatus.COMPLETED].includes(currentStatus))
                     onTaskLate();
             }
             
@@ -56,10 +56,10 @@ const CountdownTimer = ({ startDate, durationDays, currentStatus, onTaskLate }) 
         interval = seconds / 3600;
         
         if (interval > 1) return `منذ ${Math.floor(interval)} ساعة`;
-            
+        
         return `منذ ${Math.floor(seconds / 60)} دقيقة`;
     }
-        
+    
     return <div className={`text-xs ${isLate ? 'text-red-500 font-bold' : 'text-gray-700'}`}>
         <div>{timeLeft}</div>
         <div className="text-gray-400">{timeSince(startDate)}</div>

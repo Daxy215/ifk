@@ -61,6 +61,14 @@
     "editProject": "Edit Project",
     "projectType": "Project Type",
     
+    "type": {
+      "case": "Case",
+      "consultation": "Consultation",
+      "claim": "Claim",
+      "agency": "Agency",
+      "officeNeeds": "Office Needs"
+    },
+    
     "status": {
       "active": "Active 🟡",
       "draft": "Draft 📝",

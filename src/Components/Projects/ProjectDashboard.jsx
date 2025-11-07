@@ -7,6 +7,7 @@ import TaskStatus from '@/Components/Common/Enums/TaskStatus';
 import ProjectStatus from "@/Components/Common/Enums/ProjectStatus";
 
 import { t } from "i18next";
+import ProjectTypes from "../Common/Enums/ProjectTypes";
 
 const ProjectDashboard = ({
                               tasks,
@@ -29,23 +30,42 @@ const ProjectDashboard = ({
                               handleTaskStatusChange
                           }) => {
     
-    // TODO; Tf is this
+    const getProjectType = (project) => {
+        switch (project.type) {
+            case ProjectTypes.CASE: {
+                return t("projects.type.case");
+            }
+            case ProjectTypes.CONSULTATION: {
+                return t("projects.type.consultation");
+            }
+            case ProjectTypes.CLAIM: {
+                return t("projects.type.claim");
+            }
+            case ProjectTypes.AGENCY: {
+                return t("projects.type.agency");
+            }
+            case ProjectTypes.OFFICE_NEEDS: {
+                return t("projects.type.officeNeeds");
+            }
+        }
+    }
+    
     const getProjectStatus = (project) => {
         const baseClass = "px-2 py-1 text-xs font-semibold rounded-full";
         
         if (project.status === ProjectStatus.DRAFT) {
             return (
                 <span className={`${baseClass} bg-gray-400 text-gray-800`}>
-                {t("projects.status.draft")}
-            </span>
+                    {t("projects.status.draft")}
+                </span>
             );
         }
         
         if (project.status === ProjectStatus.CLOSED) {
             return (
                 <span className={`${baseClass} bg-green-200 text-green-800`}>
-                {t("projects.status.closed")}
-            </span>
+                    {t("projects.status.closed")}
+                </span>
             );
         }
         
@@ -58,15 +78,15 @@ const ProjectDashboard = ({
         if (hasActiveTask) {
             return (
                 <span className={`${baseClass} bg-yellow-400 text-yellow-800`}>
-                {t("projects.status.active")}
-            </span>
+                    {t("projects.status.active")}
+                </span>
             );
         }
         
         return (
             <span className={`${baseClass} bg-gray-800 text-white`}>
-            {t("projects.status.idle")}
-        </span>
+                {t("projects.status.idle")}
+            </span>
         );
     };
 
@@ -115,80 +135,80 @@ const ProjectDashboard = ({
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                     <table className="w-full text-sm text-right text-gray-600">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr>
-                            <th className="px-4 py-3">{t("projects.colType")}</th>
-                            <th className="px-4 py-3">{t("projects.colNumber")}</th>
-                            <th className="px-4 py-3">{t("projects.colClient")}</th>
-                            <th className="px-4 py-3">{t("projects.colDescription")}</th>
-                            <th className="px-4 py-3">{t("projects.colAssignee")}</th>
-                            <th className="px-4 py-3">{t("projects.colStatus")}</th>
-                            <th className="px-4 py-3">{t("projects.colProgress")}</th>
-                            <th className="px-4 py-3">{t("projects.colStart")}</th>
-                            <th className="px-4 py-3">{t("projects.colEnd")}</th>
-                        </tr>
+                            <tr>
+                                <th className="px-4 py-3">{t("projects.colType")}</th>
+                                <th className="px-4 py-3">{t("projects.colNumber")}</th>
+                                <th className="px-4 py-3">{t("projects.colClient")}</th>
+                                <th className="px-4 py-3">{t("projects.colDescription")}</th>
+                                <th className="px-4 py-3">{t("projects.colAssignee")}</th>
+                                <th className="px-4 py-3">{t("projects.colStatus")}</th>
+                                <th className="px-4 py-3">{t("projects.colProgress")}</th>
+                                <th className="px-4 py-3">{t("projects.colStart")}</th>
+                                <th className="px-4 py-3">{t("projects.colEnd")}</th>
+                            </tr>
                         </thead>
                         
                         <tbody>
-                        {filteredProjects.map(project => {
-                            const progress = getProjectProgress(project);
-                            
-                            return (
-                                <tr key={project.project_id} className="border-b hover:bg-gray-50">
-                                    <td className="px-4 py-3">{project.type}</td>
-                                    <td className="px-4 py-3">{project.number || t('common.unknown')}</td>
-                                    <td className="px-4 py-3">{project.client_name || t('common.unknown')}</td>
-                                    <td className="px-2.5 py-3 flex items-center gap-2">
-                                        <div className="tooltip-container">
-                                            <Info size={18} className="cursor-pointer text-gray-500"/>
-                                            <div className="tooltip">
-                                                {project.name}
+                            {filteredProjects.map(project => {
+                                const progress = getProjectProgress(project);
+                                
+                                return (
+                                    <tr key={project.project_id} className="border-b hover:bg-gray-50">
+                                        <td className="px-4 py-3">{getProjectType(project.type)}</td>
+                                        <td className="px-4 py-3">{project.number || t('common.unknown')}</td>
+                                        <td className="px-4 py-3">{project.client_name || t('common.unknown')}</td>
+                                        <td className="px-2.5 py-3 flex items-center gap-2">
+                                            <div className="tooltip-container">
+                                                <Info size={18} className="cursor-pointer text-gray-500"/>
+                                                <div className="tooltip">
+                                                    {project.name}
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-3">{project.assignee_name || t('common.unknown')}</td>
-                                    <td className="px-4 py-3">{getProjectStatus(project)}</td>
-                                    <td className="px-4 py-3">
-                                        <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                            <div className="bg-blue-600 h-2.5 rounded-full"
-                                                 style={{width: `${progress}%`}}></div>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        <CountdownTimer
-                                            startDate={project.start_at}
-                                        />
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        {project.closed_at ? <CountdownTimer
-                                            startDate={project.closed_at}
-                                        /> : t('common.unknown')}
-                                    </td>
-                                    
-                                    { /* Buttons */ }
-                                    <td className="px-4 py-3 flex items-center gap-2">
-                                        {!project.number && (
-                                            <button onClick={() => openActivateModal(project.project_id)}
-                                                    className="p-2 text-gray-500 hover:text-yellow-500"
-                                                    title={t("projects.activate")}>
-                                                <Star size={18}/>
-                                            </button>
-                                        )}
+                                        </td>
+                                        <td className="px-4 py-3">{project.assignee_name || t('common.unknown')}</td>
+                                        <td className="px-4 py-3">{getProjectStatus(project)}</td>
+                                        <td className="px-4 py-3">
+                                            <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                                <div className="bg-blue-600 h-2.5 rounded-full"
+                                                     style={{width: `${progress}%`}}></div>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <CountdownTimer
+                                                startDate={project.start_at}
+                                            />
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            {project.closed_at ? <CountdownTimer
+                                                startDate={project.closed_at}
+                                            /> : t('common.unknown')}
+                                        </td>
                                         
-                                        {project.number && (
-                                            <button onClick={() => viewProjectTasks(project.project_id)}
-                                                    className="p-2 text-gray-500 hover:text-green-600" title={t("projects.viewTasks")}>
-                                                <Eye size={18}/>
+                                        { /* Buttons */ }
+                                        <td className="px-4 py-3 flex items-center gap-2">
+                                            {!project.number && (
+                                                <button onClick={() => openActivateModal(project.project_id)}
+                                                        className="p-2 text-gray-500 hover:text-yellow-500"
+                                                        title={t("projects.activate")}>
+                                                    <Star size={18}/>
+                                                </button>
+                                            )}
+                                            
+                                            {project.number && (
+                                                <button onClick={() => viewProjectTasks(project.project_id)}
+                                                        className="p-2 text-gray-500 hover:text-green-600" title={t("projects.viewTasks")}>
+                                                    <Eye size={18}/>
+                                                </button>
+                                            )}
+                                            
+                                            <button onClick={() => handleEditProject(project.project_id)}
+                                                    className="p-2 text-gray-500 hover:text-blue-600" title={t("projects.editProject")}>
+                                                <Edit size={18}/>
                                             </button>
-                                        )}
-                                        
-                                        <button onClick={() => handleEditProject(project.project_id)}
-                                                className="p-2 text-gray-500 hover:text-blue-600" title={t("projects.editProject")}>
-                                            <Edit size={18}/>
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -232,17 +252,17 @@ const ProjectDashboard = ({
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                     <table className="w-full text-sm text-right text-gray-600">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-100">
-                        <tr>
-                            <th className="px-4 py-3">{t("tasks.colType")}</th>
-                            <th className="px-4 py-3">{t("tasks.colNumber")}</th>
-                            <th className="px-4 py-3">{t("tasks.colClient")}</th>
-                            <th className="px-4 py-3">{t("tasks.colDescription")}</th>
-                            <th className="px-4 py-3">{t("tasks.colAssignee")}</th>
-                            <th className="px-4 py-3">{t("tasks.colStatus")}</th>
-                            <th className="px-4 py-3">{t("tasks.colTimeRemaining")}</th>
-                        </tr>
+                            <tr>
+                                <th className="px-4 py-3">{t("tasks.colType")}</th>
+                                <th className="px-4 py-3">{t("tasks.colNumber")}</th>
+                                <th className="px-4 py-3">{t("tasks.colClient")}</th>
+                                <th className="px-4 py-3">{t("tasks.colDescription")}</th>
+                                <th className="px-4 py-3">{t("tasks.colAssignee")}</th>
+                                <th className="px-4 py-3">{t("tasks.colStatus")}</th>
+                                <th className="px-4 py-3">{t("tasks.colTimeRemaining")}</th>
+                            </tr>
                         </thead>
-
+                        
                         <tbody>
                         {filteredTasks.map(task => (
                             <tr key={task.task_id} className="border-b hover:bg-gray-50 cursor-pointer"
