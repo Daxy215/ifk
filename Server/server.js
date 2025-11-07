@@ -155,12 +155,6 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal Server Error' });
 });
 
-app.use(express.static(path.join(__dirname, "../dist")));
-
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
-
 async function query(sql, params) {
     const client = await pool.connect();
     
@@ -1038,6 +1032,12 @@ app.delete('/api/attachments/:id', requirePermission('edit_content'), async (req
         console.error(err);
         res.status(500).json({ error: 'خطأ في الخادم' });
     }
+});
+
+app.use(express.static(path.join(__dirname, "../dist")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 app.listen(VITE_SERVER_PORT, "0.0.0.0",() => {
