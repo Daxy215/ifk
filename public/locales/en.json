@@ -1,6 +1,11 @@
 {
   "common": {
-    "unknown": "N/A"
+    "unknown": "N/A",
+    
+    "errors": {
+      "invalidClient": "Please select a valid client",
+      "invalidEmployee": "Please select a valid employee"
+    }
   },
   "auth": {
     "requestFailed": "Request failed: {{status}}",

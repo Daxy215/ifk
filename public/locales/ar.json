@@ -1,6 +1,11 @@
 {
   "common": {
-    "unknown": "غير محدد"
+    "unknown": "غير محدد",
+    
+    "errors": {
+      "invalidClient": "الرجاء اختيار عميل صحيح",
+      "invalidEmployee": "الرجاء اختيار موظف صحيح"
+    }
   },
   "auth": {
     "requestFailed": "فشل الطلب: {{status}}",

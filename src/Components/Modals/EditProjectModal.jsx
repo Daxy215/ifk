@@ -24,7 +24,7 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
         const client = await resC.data;
         
         if (!client || client.client_id !== clientId) {
-            clientInputRef.current.setCustomValidity("الرجاء اختيار عميل صحيح");
+            clientInputRef.current.setCustomValidity(t("common.errors.invalidClient"));
             clientInputRef.current.reportValidity();
             
             return;
@@ -36,7 +36,7 @@ const EditProjectModal = ({ setShowEditProjectModal, handleUpdateProject, projec
         const employeeExists = employee && employee.employee_id === assigneeId;
         
         if (!employeeExists) {
-            employeeInputRef.current.setCustomValidity("الرجاء اختيار موظف صحيح");
+            employeeInputRef.current.setCustomValidity(t("common.errors.invalidEmployee"));
             employeeInputRef.current.reportValidity();
             
             return;
