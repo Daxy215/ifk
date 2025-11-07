@@ -8,8 +8,8 @@ export const ProjectTypes = Object.freeze({
     OFFICE_NEEDS    : 'OFFICE_NEEDS'    , // احتياجات مكتب
 });
 
-export const getProjectType = (project) => {
-    switch (project.type) {
+export const getProjectType = (projectType) => {
+    switch (projectType) {
         case ProjectTypes.CASE: {
             return t("projects.type.case");
         }
