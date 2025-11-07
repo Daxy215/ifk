@@ -5,7 +5,7 @@ import { useAuth } from "@/Context/AuthContext";
 import EmployeeSelect from "@/Components/Common/EmployeeSelect";
 import ClientSelect from "@/Components/Common/ClientSelect";
 
-import {ProjectTypes} from '@/Components/Common/Enums/ProjectStatus';
+import { ProjectTypes } from '@/Components/Common/Enums/ProjectTypes';
 import {t} from "i18next";
 
 const NewProjectModal = ({ setShowNewProjectModal, handleAddNewProject }) => {
