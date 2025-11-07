@@ -47,6 +47,9 @@ const ProjectDashboard = ({
             case ProjectTypes.OFFICE_NEEDS: {
                 return t("projects.type.officeNeeds");
             }
+            default: {
+                console.log("Unhandled; ", project.type);
+            }
         }
     }
     
