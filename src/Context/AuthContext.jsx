@@ -126,6 +126,8 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify(userData),
             });
             
+            console.log(response);
+            
             if (response.ok) {
                 const loginResult = await login({
                     email: userData.email,

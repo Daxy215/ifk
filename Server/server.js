@@ -244,16 +244,11 @@ app.post('/api/register', registerLimitter, async (req, res) => {
         );
         
         if (existing.rowCount > 0) {
-            const conflictFields = [];
-            
-            existing.rows.forEach(row => {
-                if (row.username === username) conflictFields.push('اسم المستخدم');
-                if (row.email === email) conflictFields.push('البريد الإلكتروني');
+            return res.status(400).json({
+                error: 'اسم المستخدم أو البريد الإلكتروني مستخدم من قبل'
             });
-            
-            return res.status(400).json({ error: `هذا ${conflictFields.join(' و ')} مستخدم بالفعل` });
         }
-        
+
         const password_hash = await bcrypt.hash(password, 12);
         
         const ins = await query(

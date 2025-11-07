@@ -24,6 +24,7 @@ const Register = () => {
         
         if (userData.password !== userData.confirmPassword) {
             showNotification(t('register.passwordMismatch'), true);
+            
             return;
         }
         
