@@ -3,8 +3,8 @@ import { Plus, Search, Info, Star, Eye, Edit } from 'lucide-react';
 
 import CountdownTimer from '../Modals/CountdownTimer';
 import StatusBadge from '../Common/StatusBadge';
-import TaskStatus from '@/Components/Common/TaskStatus';
-import ProjectStatus from "../Common/Enums/ProjectStatus";
+import TaskStatus from '@/Components/Common/enums/TaskStatus';
+import ProjectStatus from "../Common/Enums/enums/ProjectStatus";
 
 import { t } from "i18next";
 

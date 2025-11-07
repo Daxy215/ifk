@@ -2,8 +2,8 @@
 import { ArrowRight, CheckCircle, Plus, FileText, Info, Paperclip } from 'lucide-react';
 import CountdownTimer from '../Modals/CountdownTimer';
 import StatusBadge from '../Common/StatusBadge';
-import TaskStatus from '@/Components/Common/TaskStatus';
-import ProjectStatus from "../Common/Enums/ProjectStatus";
+import TaskStatus from '@/Components/Common/enums/TaskStatus';
+import ProjectStatus from '@/Components/Common/enums/ProjectStatus';
 
 const ProjectDetailsView = ({
                                 selectedProject,
