@@ -90,15 +90,12 @@ export default function EmployeeSelect({ ref, defaultVal, onChange }) {
         <div className="relative w-full" ref={containerRef}>
             <input
                 type="text"
-                /*required*/
-                placeholder="ابحث عن موظف..."
+                placeholder={t("employees.employeesSelection.inputHolder")}
                 className="w-full p-2 border rounded-lg"
                 ref={ref}
                 value={query}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                /*onInvalid={(e) => e.target.setCustomValidity("الرجاء اختيار موظف")}
-                onInput={(e) => e.target.setCustomValidity("")}*/
             />
             
             {filteredEmployees.length > 0 && (

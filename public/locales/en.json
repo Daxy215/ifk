@@ -113,7 +113,11 @@
     }
   },
   "employees": {
-    "title": "Employees"
+    "title": "Employees",
+    
+    "employeeSelection": {
+      "inputHolder": "Search for an employee.."
+    }
   },
   "clients": {
     "__comment":"Details",
@@ -136,7 +140,12 @@
     "phone": "Phone",
     "contactOfficer": "Contact Officer",
     "actions": "Actions",
-    "edit": "Edit"
+    "edit": "Edit",
+    
+    "clientSelection": {
+      "inputHolder": "Search for a client..",
+      "query": "Add a new client: {{query}}"
+    }
   },
   "timer": {
     "days": {

@@ -113,7 +113,11 @@
     }
   },
   "employees": {
-    "title": "الموظفين"
+    "title": "الموظفين",
+
+    "employeeSelection": {
+      "inputHolder": "ابحث عن موظف...",
+    }
   },
   "clients": {
     "__comment": "Details",
@@ -136,7 +140,12 @@
     "phone": "رقم الهاتف",
     "contactOfficer": "مسؤول الاتصال",
     "actions": "الإجراءات",
-    "edit": "تعديل"
+    "edit": "تعديل",
+
+    "clientSelection": {
+      "inputHolder": "ابحث عن عميل...",
+      "query": "إضافة عميل جديد: {{query}}"
+    }
   },
   "timer": {
     "days": {

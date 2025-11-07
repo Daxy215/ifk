@@ -1,6 +1,8 @@
 ﻿import { useState, useRef, useEffect } from "react";
 import { useAuth } from '../../Context/AuthContext'
 
+import { t } from 'i18next'
+
 export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNewClient }) {
     const [query, setQuery] = useState(defaultVal || "");
     const [filteredClients, setFilteredClients] = useState([]);
@@ -97,14 +99,12 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
             <input
                 type="text"
                 /*required*/
-                placeholder="ابحث عن عميل..."
+                placeholder={t("clients.clientSelection.inputHolder")}
                 className="w-full p-2 border rounded-lg"
                 ref={ref}
                 value={query}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                /*onInvalid={(e) => { console.log("Value; ", query, " ; ", e.target.value); e.target.setCustomValidity("الرجاء اختيار عميلss")}}
-                onInput={(e) => e.target.setCustomValidity("")}*/
             />
             
             {filteredClients.length > 0 && (
@@ -135,7 +135,7 @@ export default function ClientSelect({ ref, defaultVal, value, onChange, onAddNe
                             setSelectedId(null);
                         }}
                     >
-                        إضافة عميل جديد: "{query}"
+                        {t("clients.clientSelection.query")}
                     </button>
                 </div>
             )}
