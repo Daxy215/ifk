@@ -1,7 +1,8 @@
 ﻿import React, { useState, useEffect, useMemo } from 'react';
 import TaskStatus from '@/Components/Common/Enums/TaskStatus';
+import { useTranslation } from 'react-i18next';
 
-import t from 'i18next'
+const { t } = useTranslation();
 
 const CountdownTimer = ({ startDate, durationDays, currentStatus, onTaskLate }) => {
     const calculateDueDate = useMemo(() => {
