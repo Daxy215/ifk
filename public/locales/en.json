@@ -45,7 +45,7 @@
   },
   "projects": {
     "listTitle": "Project List",
-    "newProject": "New Project",
+    "newProjectBtn": "New Project",
     "searchPlaceholder": "Search for a project...",
     "filterActive": "All Active Projects",
     "filterActiveYellow": "Active 🟡",

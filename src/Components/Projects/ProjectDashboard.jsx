@@ -85,7 +85,7 @@ const ProjectDashboard = ({
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-bold text-gray-800">{t("projects.listTitle")}</h2>
                     <button onClick={() => setShowNewProjectModal(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                        <Plus size={20} /><span>{t("projects.newProject")}</span>
+                        <Plus size={20} /><span>{t("projects.newProjectBtn")}</span>
                     </button>
                 </div>
                 
