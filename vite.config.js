@@ -11,6 +11,7 @@ export default ({ mode }) => {
             sourcemap: true,
         },
         server: {
+            historyApiFallback: true, // fallback to index.html
             port: parseInt(env.VITE_PORT) || 3000,
             proxy: {
                 '/api': {
