@@ -364,11 +364,11 @@ const MainApp = () => {
             )
             .filter(p => {
                 console.log("so..; ", p.status)
+                if (projectFilter === 'all'     ) return p.status !== ProjectStatus.CLOSED;
+                if (projectFilter === 'active'  ) return p.status === ProjectStatus.UNDER_REVIEW && p.hasActiveTask;
+                if (projectFilter === 'inactive') return p.status === ProjectStatus.UNDER_REVIEW && !p.hasActiveTask;
+                if (projectFilter === 'draft'   ) return p.status === ProjectStatus.DRAFT;
                 if (projectFilter === 'archived') return p.status === ProjectStatus.CLOSED;
-                if (projectFilter === 'active') return p.status !== ProjectStatus.CLOSED;
-                if (projectFilter === 'draft') return p.status === ProjectStatus.DRAFT;
-                if (projectFilter === 'active_yellow') return p.status === ProjectStatus.UNDER_REVIEW && p.hasActiveTask;
-                if (projectFilter === 'inactive_black') return p.status === ProjectStatus.UNDER_REVIEW && !p.hasActiveTask;
                 
                 return true;
             });

@@ -45,11 +45,11 @@
   },
   "projects": {
     "listTitle": "قائمة المشاريع",
-    "newProject": "مشروع جديد",
+    "newProjectBtn": "مشروع جديد",
     "searchPlaceholder": "ابحث عن مشروع...",
-    "filterActive": "كل المشاريع النشطة",
-    "filterActiveYellow": "نشط 🟡",
-    "filterInactiveBlack": "خامل ⚫",
+    "filterAll": "كل المشاريع النشطة",
+    "filterActive": "نشط 🟡",
+    "filterInactive": "خامل ⚫",
     "filterDraft": "مسودة 📝",
     "filterArchived": "المؤرشفة",
     "colType": "نوع المشروع",

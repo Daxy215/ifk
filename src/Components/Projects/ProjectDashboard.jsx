@@ -103,9 +103,9 @@ const ProjectDashboard = ({
                     
                     { /* Sort by */ }
                     <select value={projectFilter} onChange={e => setProjectFilter(e.target.value)} className="p-2 border rounded-lg">
+                        <option value="all">{t("projects.filterAll")}</option>
                         <option value="active">{t("projects.filterActive")}</option>
-                        <option value="active_yellow">{t("projects.filterActiveYellow")}</option>
-                        <option value="inactive_black">{t("projects.filterInactiveBlack")}</option>
+                        <option value="inactive">{t("projects.filterInactive")}</option>
                         <option value="draft">{t("projects.filterDraft")}</option>
                         <option value="archived">{t("projects.filterArchived")}</option>
                     </select>
