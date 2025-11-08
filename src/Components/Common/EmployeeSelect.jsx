@@ -92,7 +92,7 @@ export default function EmployeeSelect({ ref, defaultVal, onChange }) {
         <div className="relative w-full" ref={containerRef}>
             <input
                 type="text"
-                placeholder={t("employees.employeesSelection.inputHolder")}
+                placeholder={t("employees.employeeSelection.inputHolder")}
                 className="w-full p-2 border rounded-lg"
                 ref={ref}
                 value={query}
