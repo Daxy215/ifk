@@ -363,6 +363,7 @@ const MainApp = () => {
                 p.clientName.toLowerCase().includes(projectSearch.toLowerCase())
             )
             .filter(p => {
+                console.log("so..; ", p.status)
                 if (projectFilter === 'archived') return p.status === ProjectStatus.CLOSED;
                 if (projectFilter === 'active') return p.status !== ProjectStatus.CLOSED;
                 if (projectFilter === 'draft') return p.status === ProjectStatus.DRAFT;
