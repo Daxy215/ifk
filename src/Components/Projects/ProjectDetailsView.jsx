@@ -49,7 +49,7 @@ const ProjectDetailsView = ({
                                 )}
                             </div>
                         </div>
-                        
+                         
                         {/*<div className="border-t my-4"></div>*/}
                         <div>
                             <h4 className="font-semibold mb-2">{t("projects.detailedView.projectAttachmentsTitle")}</h4>

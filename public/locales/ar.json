@@ -76,6 +76,19 @@
       "cancel": "إلغاء",
       "save": "حفظ المشروع"
     },
+
+    "detailedView": {
+      "backBtn": "العودة إلى المشاريع",
+      "closeBtn": "إغلاق المشروع",
+      "newBtn": "مهمة جديدة",
+      "projectAttachmentsTitle": "مرفقات المشروع",
+      "taskAttachmentsTitle": "مرفقات المهمة",
+      "attachments": "مرفقات",
+      "noAttachments": "لا توجد مرفقات",
+      "endTask": "إنهاء المهمة",
+      "confirmEndTask": "تأكيد الإنهاء",
+      "addAttachment": "إضافة مرفق"
+    },
     
     "type": {
       "case": "قضية",

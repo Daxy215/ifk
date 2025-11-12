@@ -76,20 +76,20 @@
       "cancel": "Cancel",
       "save": "Save project"
     },
-    
+
     "detailedView": {
-      "backBtn": "العودة إلى المشاريع",
-      "closeBtn": "إغلاق المشروع",
-      "newBtn": "مهمة جديدة",
-      "projectAttachmentsTitle": "مرفقات المشروع",
-      "taskAttachmentsTitle": "مرفقات المهمة",
-      "attachments": "مرفقات",
-      "noAttachments": "لا توجد مرفقات",
-      "endTask": "إنهاء المهمة",
-      "confirmEndTask": "تأكيد الإنهاء",
-      "addAttachment": "إضافة مرفق"
+      "backBtn": "Back to Projects",
+      "closeBtn": "Close Project",
+      "newBtn": "New Task",
+      "projectAttachmentsTitle": "Project Attachments",
+      "taskAttachmentsTitle": "Task Attachments",
+      "attachments": "Attachments",
+      "noAttachments": "No Attachments",
+      "endTask": "End Task",
+      "confirmEndTask": "Confirm Termination",
+      "addAttachment": "Add Attachment"
     },
-    
+
     "type": {
       "case": "Case",
       "consultation": "Consultation",
