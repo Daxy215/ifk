@@ -65,7 +65,7 @@
     "viewTasks": "View Tasks",
     "editProject": "Edit Project",
     "projectType": "Project Type",
-
+    
     "newProject": {
       "title": "Add a new project",
       "description": "Project description",
@@ -75,6 +75,19 @@
       "attachments": "Attached documents",
       "cancel": "Cancel",
       "save": "Save project"
+    },
+    
+    "detailedView": {
+      "backBtn": "العودة إلى المشاريع",
+      "closeBtn": "إغلاق المشروع",
+      "newBtn": "مهمة جديدة",
+      "projectAttachmentsTitle": "مرفقات المشروع",
+      "taskAttachmentsTitle": "مرفقات المهمة",
+      "attachments": "مرفقات",
+      "noAttachments": "لا توجد مرفقات",
+      "endTask": "إنهاء المهمة",
+      "confirmEndTask": "تأكيد الإنهاء",
+      "addAttachment": "إضافة مرفق"
     },
     
     "type": {
@@ -104,6 +117,7 @@
     "colAssignee": "Assignee",
     "colStatus": "Status",
     "colTimeRemaining": "Time Remaining",
+    "colProcedures": "Procedures",
     
     "status": {
       "active": "Active",

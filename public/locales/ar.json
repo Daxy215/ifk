@@ -104,6 +104,7 @@
     "colAssignee": "المكلف",
     "colStatus": "الحالة",
     "colTimeRemaining": "الوقت المتبقي",
+    "colProcedures": "الإجراءات",
     
     "status": {
       "active": "نشطة",
