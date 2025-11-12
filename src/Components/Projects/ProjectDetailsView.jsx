@@ -25,7 +25,7 @@ const ProjectDetailsView = ({
             {selectedProject ? (
                 <>
                     <button onClick={() => { setActiveView('dashboard'); setSelectedProjectId(null); }} className="flex items-center gap-2 mb-6 text-sm text-blue-600 hover:underline">
-                        <ArrowRight size={16} /><span>{t("projects.detailedVIew.backBtn")}</span>
+                        <ArrowRight size={16} /><span>{t("projects.detailedView.backBtn")}</span>
                     </button>
                     
                     <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
@@ -38,13 +38,13 @@ const ProjectDetailsView = ({
                             <div className="flex gap-2">
                                 {isProjectClosable && (
                                     <button onClick={() => handleCloseProject(selectedProject.project_id)} className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                                        <CheckCircle size={20} /><span>{t("projects.detailedVIew.closeBtn")}</span>
+                                        <CheckCircle size={20} /><span>{t("projects.detailedView.closeBtn")}</span>
                                     </button>
                                 )}
                                 
                                 {selectedProject.status !== ProjectStatus.CLOSED && (
                                     <button onClick={() => setShowNewTaskModal(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                                        <Plus size={20} /><span>{t("projects.detailedVIew.newBtn")}</span>
+                                        <Plus size={20} /><span>{t("projects.detailedView.newBtn")}</span>
                                     </button>
                                 )}
                             </div>
@@ -52,13 +52,13 @@ const ProjectDetailsView = ({
                         
                         {/*<div className="border-t my-4"></div>*/}
                         <div>
-                            <h4 className="font-semibold mb-2">{t("projects.detailedVIew.projectAttachmentsTitle")}</h4>
+                            <h4 className="font-semibold mb-2">{t("projects.detailedView.projectAttachmentsTitle")}</h4>
                             <div className="flex flex-wrap gap-2">
                                 {selectedProject.attachments && selectedProject.attachments.length > 0 ? (
                                     selectedProject.attachments.map((att, i) => (
                                         <button
                                             key={i}
-                                            onClick={() => viewAttachments(selectedProject.attachments, `:${t("projects.detailedVIew.attachments")} ${selectedProject.name}`)}
+                                            onClick={() => viewAttachments(selectedProject.attachments, `:${t("projects.detailedView.attachments")} ${selectedProject.name}`)}
                                             className="flex items-center gap-2 text-xs bg-gray-200 px-3 py-1 rounded-full hover:bg-gray-300"
                                         >
                                             {att.type === 'document' ? <FileText size={14} /> : <Info size={14} />}
@@ -66,7 +66,7 @@ const ProjectDetailsView = ({
                                         </button>
                                     ))
                                 ) : (
-                                    <p className="text-xs text-gray-500">{t("projects.detailedVIew.noAttachments")}</p>
+                                    <p className="text-xs text-gray-500">{t("projects.detailedView.noAttachments")}</p>
                                 )}
                                 
                                 {/* Task attachments */}
@@ -75,7 +75,7 @@ const ProjectDetailsView = ({
                                         ? task.attachments.map((att, i) => (
                                             <button
                                                 key={`task-${task.task_id}-${i}`}
-                                                onClick={() => viewAttachments(task.attachments, `:${t("projects.detailedVIew.taskAttachmentsTitle")} ${task.description}`)}
+                                                onClick={() => viewAttachments(task.attachments, `:${t("projects.detailedView.taskAttachmentsTitle")} ${task.description}`)}
                                                 className="flex items-center gap-2 text-xs bg-gray-100 px-3 py-1 rounded-full hover:bg-gray-200"
                                             >
                                                 {att.type === 'document' ? <FileText size={14} /> : <Info size={14} />}
