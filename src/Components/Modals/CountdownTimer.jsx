@@ -36,7 +36,7 @@ const CountdownTimer = ({ startDate, durationDays, currentStatus, onTaskLate }) 
         const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
         const days = Math.floor(total / (1000 * 60 * 60 * 24));
         
-        setTimeLeft(`${days}ي ${hours}س ${minutes}د ${seconds}ث`);
+        setTimeLeft(`${days}${t("timer.days.a")} ${hours}${t("timer.hours.a")} ${minutes}${t("timer.minutes.a")} ${seconds}${t("timer.seconds")}`);
     };
     
     useEffect(() => {

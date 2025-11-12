@@ -130,7 +130,7 @@
     "title": "الموظفين",
 
     "employeeSelection": {
-      "inputHolder": "ابحث عن موظف...",
+      "inputHolder": "ابحث عن موظف..."
     }
   },
   "clients": {
@@ -164,16 +164,20 @@
   "timer": {
     "days": {
       "one": "منذ {{count}} يوم",
-      "other": "منذ {{count}} أيام"
+      "other": "منذ {{count}} أيام",
+      "a": "ي"
     },
     "hours": {
       "one": "منذ {{count}} ساعة",
-      "other": "منذ {{count}} ساعات"
+      "other": "منذ {{count}} ساعات",
+      "a": "س"
     },
     "minutes": {
       "one": "منذ {{count}} دقيقة",
-      "other": "منذ {{count}} دقائق"
-    }
+      "other": "منذ {{count}} دقائق",
+      "a": "د"
+    },
+    "seconds": "ث"
   },
   "sidebar": {
     "title": "نظام الإدارة",

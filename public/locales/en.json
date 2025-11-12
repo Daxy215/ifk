@@ -76,7 +76,7 @@
       "cancel": "Cancel",
       "save": "Save project"
     },
-
+    
     "detailedView": {
       "backBtn": "Back to Projects",
       "closeBtn": "Close Project",
@@ -164,16 +164,20 @@
   "timer": {
     "days": {
       "one": "since {{count}} day",
-      "other": "since {{count}} days"
+      "other": "since {{count}} days",
+      "a": "d"
     },
     "hours": {
       "one": "since {{count}} hour",
-      "other": "since {{count}} hours"
+      "other": "since {{count}} hours",
+      "a": "h"
     },
     "minutes": {
       "one": "since {{count}} minute",
-      "other": "since {{count}} minutes"
-    }
+      "other": "since {{count}} minutes",
+      "a": "m"
+    },
+    "seconds": "s"
   },
   "sidebar": {
     "title": "Management System",
