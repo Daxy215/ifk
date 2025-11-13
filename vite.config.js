@@ -11,7 +11,7 @@ export default ({ mode }) => {
             sourcemap: true,
         },
         server: {
-            port: parseInt(env.VITE_PORT) || 3000,
+            port: parseInt(env.VITE_PORT),
             proxy: {
                 '/api': {
                     target: env.VITE_API_URL,
@@ -21,7 +21,6 @@ export default ({ mode }) => {
             },
             historyApiFallback: true,
         },
-        appType: 'spa',
         resolve: {
             alias: {
                 '@': path.resolve(__dirname, './src'),

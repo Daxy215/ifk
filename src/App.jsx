@@ -48,9 +48,6 @@ function App() {
                         path="/*"
                         element={isAuthenticated ? <MainApp /> : <Navigate to="/login" replace />}
                     />
-                    
-                    {/* Catch-all route */}
-                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Router>
         </div>
