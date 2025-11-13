@@ -14,7 +14,8 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
-const TaskStatus = require("../Shared/Enums/TaskStatus");
+const dotenv = require('dotenv');
+dotenv.config();
 
 /*const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');*/
@@ -679,7 +680,7 @@ app.get('/api/projects/:id/tasks', requirePermission('edit_content'), async (req
 app.post('/api/tasks', requirePermission('edit_content'), async (req, res) => {
     const { project_id, description, assignee_id, duration, status } = req.body;
     
-    const stat = status || TaskStatus.ACTIVE;
+    const stat = status;
     
     const r = await query(`
         INSERT INTO tasks (project_id, description, assignee_id, duration, status)
@@ -1034,15 +1035,11 @@ app.delete('/api/attachments/:id', requirePermission('edit_content'), async (req
     }
 });
 
-/*app.use(express.static(path.join(__dirname, "../dist")));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get("/!*", (req, res) => {
-    if (!req.path.startsWith('/api')) {
-        res.sendFile(path.join(__dirname, '../dist/index.html'));
-    } else {
-        res.status(404).json({ error: 'Not found' });
-    }
-});*/
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.listen(VITE_SERVER_PORT, "0.0.0.0",() => {
     console.log(`Running at http://127.0.0.1:${VITE_SERVER_PORT}`)

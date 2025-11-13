@@ -11,14 +11,17 @@ export default ({ mode }) => {
             sourcemap: true,
         },
         server: {
-            historyApiFallback: true, // fallback to index.html
             port: parseInt(env.VITE_PORT) || 3000,
             proxy: {
                 '/api': {
-                    target: env.VITE_API_URL || 'http://localhost:5000',
+                    target: env.VITE_API_URL,
+                    changeOrigin: true,
+                    secure: true
                 },
             },
+            historyApiFallback: true,
         },
+        appType: 'spa',
         resolve: {
             alias: {
                 '@': path.resolve(__dirname, './src'),
