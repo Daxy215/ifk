@@ -12,7 +12,7 @@ export default ({ mode }) => {
         },
         server: {
             port: parseInt(env.VITE_PORT) || 3000,
-            proxy: {
+            proxy: {6
                 '/api': {
                     target: env.VITE_API_URL,
                     changeOrigin: true,
